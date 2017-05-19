@@ -10,13 +10,15 @@ Implemented features :
 * Named entities extraction (buggy)
 * URLs extraction
 * Detection of the following silde types : 
-  * Introduction, 
+  * Introduction 
   * Conclusion
-  * Definition, 
-  * Example, 
-  * Table of contents,
+  * Definition 
+  * Example
+  * Table of contents
   * References
+
 Note : slide types can be added by editing the datatypes/types file.
+
 Not yet implemented :
 * Structure extraction
 
