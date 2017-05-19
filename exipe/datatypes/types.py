@@ -29,6 +29,7 @@ class Types:
 
 
 if __name__ == '__main__':
+    # TESTS
     for words in Types.LIST:
         print words
         for word in Types.LIST[words]:

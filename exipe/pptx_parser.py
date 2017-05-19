@@ -66,6 +66,8 @@ def parse_pptx(fileName):
     return presentation
 
 if __name__ == '__main__':
+    # TESTS
+    # Put the path of the file you want to test here
     pres = parse_pptx("/media/sf_Documents/fichiers_test2/GoogleSearch.pptx")
 
     for element in pres.root_section.subelements:
