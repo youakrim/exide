@@ -48,6 +48,10 @@ def parse_pptx(fileName):
                 continue
             for paragraph in shape.text_frame.paragraphs:
                 new_slide.body_text += "\n" + (paragraph.level * "\t") + paragraph.text
+                # On parcours les run à la recherche de texte en emphase
+                for run in paragraph.runs:
+                    if run.font.bold:
+                        new_slide.emphasized_text.append(run.text)
 
         # On cherche à typer la diapositive en fonction de son titre
         for type in Types.LIST:
@@ -63,6 +67,7 @@ def parse_pptx(fileName):
 
         # On cherche à récupérer les textes en emphase
 
+
     return presentation
 
 if __name__ == '__main__':
@@ -75,8 +80,13 @@ if __name__ == '__main__':
             print "<"+element.type+">"+element.title+"</"+element.type+">"
         else:
             print "<notype>"+element.title+"</notype>"
-        print "URL"
-        print element.urls
-        print "NE"
-        print element.named_entities
+        if len(element.urls) > 0:
+            print "URL"
+            print element.urls
+        if len(element.named_entities):
+            print "NE"
+            print element.named_entities
+        if len(element.emphasized_text) >0:
+            print "Emph"
+            print element.emphasized_text
     # print pres.root_section.get_text()
