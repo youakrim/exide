@@ -1,14 +1,14 @@
 # exipe2
 
-Exipe is an API for information extraction from presentation documents.
+Exipe is an API for information retrieval from presentation documents.
 
 The API is currently in developement and bugs are likely to occur.
 
 ### Implemented features : 
-* Slide title extraction
-* Slide body text extraction
-* Named entities extraction (unaccurate)
-* Emphasized text extraction (only bold texts)
+* Slide title retrieval
+* Slide body text retrieval
+* Named entities recognition (unaccurate)
+* Emphasized text retrieval (only bold texts)
 * URLs extraction
 * Detection of the following silde types : 
   * Introduction 
