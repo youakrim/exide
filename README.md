@@ -7,10 +7,10 @@ The API is currently in developement and bugs are likely to occur.
 ### Implemented features : 
 * Slide title retrieval
 * Slide body text retrieval
-* Named entities recognition (unaccurate)
-* Emphasized text retrieval (only bold texts)
-* URLs extraction
-* Detection of the following silde types : 
+* Named-entities recognition (unaccurate)
+* Emphasized text recognition (only bold texts)
+* URLs recognition
+* Recognition of the following silde types : 
   * Introduction 
   * Conclusion
   * Definition 
