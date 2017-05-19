@@ -13,5 +13,5 @@ Implemented features :
 Not yet implemented :
 * Structure extraction
 
-For now the API works only with Office Open XML Presentation files (PPTX). It uses python-pptx and NLTK.
-Documentation is not written.
+For now the API works only with Office Open XML Presentation files (PPTX). It uses python-pptx and NLTK librairies.
+Documentation is not yet written.
