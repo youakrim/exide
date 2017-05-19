@@ -11,7 +11,7 @@ Implemented features :
 * URLs extraction
 
 Not yet implemented :
-*Structure extraction
+* Structure extraction
 
 For now the API works only with Office Open XML Presentation files (PPTX). It uses python-pptx and NLTK.
 Documentation is not written.
