@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 class Section:
+	#Section
 	def __init__(self, title):
 		self.subelements = []
 		self.title = title

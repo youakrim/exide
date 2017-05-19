@@ -9,7 +9,7 @@ class Types:
     file = io.open(os.path.join(__location__, "types"), 'r', encoding='utf-8')
     file_content = file.read()
     lines = file_content.split("\n")
-
+    #r
     while len(lines)>0:
         # si la ligne est d un nouveau type alors on créer un indice dans le dict
         if lines[0].startswith("###") and lines[0].endswith("###"):

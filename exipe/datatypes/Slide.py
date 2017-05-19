@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 class Slide:
+    #Slide
     def __init__(self):
         self.title = ""
         self.body_text = ""

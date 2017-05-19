@@ -3,6 +3,6 @@
 
 class Presentation:
 
-	def __init__(self, section):
+	def __init__(self , section):
 		self.root_section = section
 

@@ -60,7 +60,7 @@ def parse_pptx(fileName):
 
         # On cherche à récupérer les entités nommées
         new_slide.named_entities = get_continuous_chunks(new_slide.body_text.encode('ascii', 'ignore'))
-
+        #
         # On cherche à récupérer les textes en emphase
 
     return presentation
