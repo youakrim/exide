@@ -7,7 +7,7 @@ The API is currently in developement and bugs are likely to occur.
 ### Implemented features : 
 * Slide title extraction
 * Slide body text extraction
-* Named entities extraction (buggy)
+* Named entities extraction (unaccurate)
 * URLs extraction
 * Detection of the following silde types : 
   * Introduction 
