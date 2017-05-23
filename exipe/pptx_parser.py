@@ -93,18 +93,26 @@ def matches_statistics(run, statistics):
     if run_font_ratio < 0.5:
         return False
 
-    # Attention ! Global au run... Très imprécis
-    # TODO
-    text_case_ratio = float(statistics["text-case"][get_case(run)])/float(total_run_count(statistics["text-case"]))
-    if text_case_ratio < 0.5:
-        return False
-
     color_ratio = float(statistics["colors"][get_color(run)])/float(total_run_count(statistics["colors"]))
     if color_ratio < 0.5:
         return False
 
     font_size_ratio = float(statistics["font-size"][get_font_size(run)])/float(total_run_count(statistics["font-size"]))
     if font_size_ratio < 0.5:
+        return False
+    return True
+
+#Strings with different case
+def get_case_emphasized_terms(text, statistics):
+    case_emphasized_terms = []
+    for word in text.split(" "):
+        if not matches_case_statistics(word, statistics):
+            case_emphasized_terms.append(word)
+    return case_emphasized_terms
+
+def matches_case_statistics(word, statistics):
+    text_case_ratio = float(statistics["text-case"][get_case(word)]) / float(total_run_count(statistics["text-case"]))
+    if text_case_ratio < 0.5:
         return False
     return True
 
@@ -118,8 +126,8 @@ def get_font_name(run):
         return run.font.name
     return "default"
 
-def get_case(run):
-    if run.text.isupper():
+def get_case(word):
+    if word.isupper():
         return "uppercase"
     return "default"
 
@@ -144,6 +152,7 @@ def get_emphasized_terms(list_of_runs):
     for run in list_of_runs:
         if not matches_statistics(run, statistics):
             emphasized_terms.append(run.text)
+        emphasized_terms += get_case_emphasized_terms(run.text, statistics)
     return emphasized_terms
 
 
@@ -176,7 +185,7 @@ def parse_pptx(fileName):
                 new_slide.body_text += "\n" + (paragraph.level * "\t") + paragraph.text
                 run_list+=paragraph.runs
 
-        print get_emphasized_terms(run_list)
+        new_slide.emphasized_text = get_emphasized_terms(run_list)
 
         # On cherche à typer la diapositive en fonction de son titre
         for type in Types.LIST:
