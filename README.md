@@ -1,12 +1,12 @@
 # exipe2
 
-Exipe is a Python API for information retrieval from presentation documents.
+Exipe is a Python API for information extraction from presentation documents.
 
 The API is currently in developement and bugs are likely to occur.
 
 ### Implemented features : 
-* Slide title retrieval
-* Slide body text retrieval
+* Slide title extraction
+* Slide body text extraction
 * Named-entities recognition (unaccurate)
 * Emphasized text recognition
 * URLs recognition
