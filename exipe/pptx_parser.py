@@ -24,6 +24,129 @@ def get_continuous_chunks(text):
                 continue
     return continuous_chunk
 
+def get_text_statistics(list_of_runs):
+    # On initialise les varaiables statistiques
+    # We set the statistics variables
+    font_list = {"default": 0}
+    color_list = {"default": 0}
+    font_size_list = {"default": 0}
+    boldness_list = {"bold": 0, "default": 0}
+    underlined_list = {"underlined": 0, "default": 0}
+    text_case_list = {"uppercase": 0, "default": 0}
+
+    for run in list_of_runs:
+        # Removing the tiny strings: ? , ; : /...
+        if len(run.text)>2:
+            # On récupère le nom de la police
+            # We extract the font name
+            if get_font_name(run) not in font_list:
+                font_list[get_font_name(run)] = 1
+            else:
+                font_list[get_font_name(run)] += 1
+
+            # We extract the text color
+            if get_color(run) not in color_list:
+                color_list[get_color(run)] = 1
+            else:
+                color_list[get_color(run)] += 1
+
+            # We extract the font size
+            if get_font_size(run) not in font_size_list:
+                font_size_list[get_font_size(run)] = 1
+            else:
+                font_size_list[get_font_size(run)] += 1
+
+            # We extract the text boldness
+            if run.font.bold:
+                boldness_list["bold"] += 1
+            else:
+                boldness_list["default"] += 1
+
+            # We extract underlining
+            if run.font.underline:
+                underlined_list["underlined"] += 1
+            else:
+                underlined_list["default"] += 1
+
+            # We extract text case (by word)
+            for word in run.text.split(" "):
+                if len(word) > 2:
+                    if word.isupper():
+                        text_case_list["uppercase"] += 1
+                    else:
+                        text_case_list["default"] += 1
+
+    return {"fonts":font_list, "colors":color_list, "boldness":boldness_list, "underlining":underlined_list, "font-size": font_size_list, "text-case": text_case_list}
+
+# Pré-condition : le run doit faire partie du corpus d'apprentissage des statistiques et les statistiques doivent avoir un format valides
+def matches_statistics(run, statistics):
+    # On considère qu'un run correspond aux statistiques si il est conforme à plus de la moitié de la mise en forme
+    underlining_ratio = float(statistics["underlining"]["underlined"])/float(statistics["underlining"]["default"]+statistics["underlining"]["underlined"])
+    if run.font.underline and underlining_ratio < 0.5:
+        return False
+
+    boldness_ratio = float(statistics["boldness"]["bold"])/float(statistics["boldness"]["bold"]+statistics["boldness"]["default"])
+    if run.font.bold and boldness_ratio < 0.5:
+        return False
+
+    run_font_ratio = float(statistics["fonts"][get_font_name(run)])/float(total_run_count(statistics["fonts"]))
+    if run_font_ratio < 0.5:
+        return False
+
+    # Attention ! Global au run... Très imprécis
+    # TODO
+    text_case_ratio = float(statistics["text-case"][get_case(run)])/float(total_run_count(statistics["text-case"]))
+    if text_case_ratio < 0.5:
+        return False
+
+    color_ratio = float(statistics["colors"][get_color(run)])/float(total_run_count(statistics["colors"]))
+    if color_ratio < 0.5:
+        return False
+
+    font_size_ratio = float(statistics["font-size"][get_font_size(run)])/float(total_run_count(statistics["font-size"]))
+    if font_size_ratio < 0.5:
+        return False
+    return True
+
+def get_font_size(run):
+    if run.font.size is not None:
+        return run.font.size
+    return "default"
+
+def get_font_name(run):
+    if run.font.name is not None:
+        return run.font.name
+    return "default"
+
+def get_case(run):
+    if run.text.isupper():
+        return "uppercase"
+    return "default"
+
+def get_color(run):
+    if run.font.color.type is not None:
+        # print run.font.color.type
+        if "RGB" in str(run.font.color.type):
+                return run.font.color.rgb
+        elif "SCHEME" in str(run.font.color.type):
+            return "default"
+    return "default"
+
+def total_run_count(statistic):
+    count = 0
+    for value in statistic:
+        count+=statistic[value]
+    return count
+
+def get_emphasized_terms(list_of_runs):
+    statistics = get_text_statistics(list_of_runs)
+    emphasized_terms = []
+    for run in list_of_runs:
+        if not matches_statistics(run, statistics):
+            emphasized_terms.append(run.text)
+    return emphasized_terms
+
+
 def parse_pptx(fileName):
     # On créé la section racine qui va contenir tout les éléments : diapositives, autres sections
     presentation_title = "Root section"
@@ -37,21 +160,23 @@ def parse_pptx(fileName):
     prs = pptx.Presentation(file)
 
     for slide in prs.slides:
+
         new_slide = Slide()
         if slide.shapes.title is not None:
             new_slide.title = slide.shapes.title.text
         else:
             new_slide.title = "Untitled"
+
+        run_list = []
         # On récupère le texte du corps de la diapositive
         for shape in slide.shapes:
             if not shape.has_text_frame:
                 continue
             for paragraph in shape.text_frame.paragraphs:
                 new_slide.body_text += "\n" + (paragraph.level * "\t") + paragraph.text
-                # On parcours les run à la recherche de texte en emphase
-                for run in paragraph.runs:
-                    if run.font.bold or run.font.underline or run.text.isupper():
-                        new_slide.emphasized_text.append(run.text)
+                run_list+=paragraph.runs
+
+        print get_emphasized_terms(run_list)
 
         # On cherche à typer la diapositive en fonction de son titre
         for type in Types.LIST:
@@ -68,22 +193,22 @@ def parse_pptx(fileName):
 
         my_sent = "My name is Jacob Perkins."
         parse_tree = ne_chunk(tag.pos_tag(word_tokenize(my_sent)), binary=True)  # POS tagging before chunking!
-        print parse_tree
+        # print parse_tree
         named_entities = []
 
         for t in parse_tree.subtrees():
-            print t
+            #print t
             if t.label() == 'NE':
-                print t
+                #print t
                 named_entities.append(t)
                 # named_entities.append(list(t))  # if you want to save a list of tagged words instead of a tree
-        print named_entities
+        # print named_entities
     return presentation
 
 if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
-    pres = parse_pptx("/media/sf_Documents/fichiers_test2/cours-cartes_conceptuelles.pptx")
+    pres = parse_pptx("/media/sf_Documents/fichiers_test2/presentation-test.pptx")
 
     for element in pres.root_section.subelements:
         if element.type is not None:
