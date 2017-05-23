@@ -29,7 +29,7 @@ def get_text_statistics(list_of_runs):
     # We set the statistics variables
     font_list = {"default": 0}
     color_list = {"default": 0}
-    font_size_list = {"default": 0}
+    font_size_list = {"default": 0} # [(62550,12)]
     boldness_list = {"bold": 0, "default": 0}
     underlined_list = {"underlined": 0, "default": 0}
     text_case_list = {"uppercase": 0, "default": 0}
@@ -77,6 +77,7 @@ def get_text_statistics(list_of_runs):
                         text_case_list["default"] += 1
 
     return {"fonts":font_list, "colors":color_list, "boldness":boldness_list, "underlining":underlined_list, "font-size": font_size_list, "text-case": text_case_list}
+
 def statistics_noise_reduction(statistics):
     #TODO
     fonts_to_check = statistics["fonts"][:]
@@ -89,8 +90,9 @@ def statistics_noise_reduction(statistics):
             if relative_uncertainty(font_A, fonts_to_check[0])<5:
                 font_group.append(fonts_to_check[0])
                 fonts_to_check.remove(fonts_to_check[0])
-        else:
-            break
+            else:
+                break
+        font_groups.append(font_group)
     return False
 
 def relative_uncertainty(a,b):
@@ -257,6 +259,9 @@ def get_runs(slide):
             run_list += paragraph.runs
     return run_list
 
+def structure_extraction(section):
+    #TODO
+    pass
 
 if __name__ == '__main__':
     # TESTS 2
