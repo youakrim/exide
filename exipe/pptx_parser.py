@@ -171,36 +171,25 @@ def parse_pptx(fileName):
     for slide in prs.slides:
 
         new_slide = Slide()
-        if slide.shapes.title is not None:
-            new_slide.title = slide.shapes.title.text
-        else:
-            new_slide.title = "Untitled"
+        new_slide.title = get_title(slide)
 
-        run_list = []
         # On récupère le texte du corps de la diapositive
-        for shape in slide.shapes:
-            if not shape.has_text_frame:
-                continue
-            for paragraph in shape.text_frame.paragraphs:
-                new_slide.body_text += "\n" + (paragraph.level * "\t") + paragraph.text
-                run_list+=paragraph.runs
+        new_slide.text = get_text(slide)
 
-        new_slide.emphasized_text = get_emphasized_terms(run_list)
+        new_slide.emphasized_text = get_emphasized_terms(get_runs(slide))
 
         # On cherche à typer la diapositive en fonction de son titre
-        for type in Types.LIST:
-            if any(word in new_slide.title.lower() for word in Types.LIST[type]):
-                new_slide.type = type
+        new_slide.type = get_slide_type(new_slide)
 
         # On cherche à récupérer les URLs
-        new_slide.urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', new_slide.body_text)
+        new_slide.urls = get_urls(new_slide.text)
         root_section.subelements.append(new_slide)
 
         # On cherche à récupérer les entités nommées
-        new_slide.named_entities = get_continuous_chunks(new_slide.title.encode('ascii', 'ignore'))
-        new_slide.named_entities += get_continuous_chunks(new_slide.body_text.encode('ascii', 'ignore'))
+        new_slide.named_entities = get_named_entities(new_slide.title)
+        new_slide.named_entities += get_named_entities(new_slide.text)
 
-        my_sent = "My name is Jacob Perkins."
+        my_sent = "My name is Jack Tester."
         parse_tree = ne_chunk(tag.pos_tag(word_tokenize(my_sent)), binary=True)  # POS tagging before chunking!
         # print parse_tree
         named_entities = []
@@ -214,23 +203,57 @@ def parse_pptx(fileName):
         # print named_entities
     return presentation
 
+def get_urls(text):
+   return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+
+def get_slide_type(slide):
+    for type in Types.LIST:
+        if any(word in slide.title.lower() for word in Types.LIST[type]):
+            return type
+    return "notype"
+
+def get_named_entities(text):
+    return get_continuous_chunks(text.encode('ascii', 'ignore'))
+
+def get_title(slide):
+    if slide.shapes.title is not None:
+        return slide.shapes.title.text
+    return "Untitled"
+
+def get_text(slide):
+    text=""
+    for shape in slide.shapes.placeholders:
+        if slide.shapes.title.shape_id != shape.shape_id:
+            if not shape.has_text_frame:
+                continue
+            for paragraph in shape.text_frame.paragraphs:
+                text += "\n" + (paragraph.level * "\t") + paragraph.text
+    return text
+
+def get_runs(slide):
+    run_list = []
+    for shape in slide.shapes:
+        if not shape.has_text_frame:
+            continue
+        for paragraph in shape.text_frame.paragraphs:
+            run_list += paragraph.runs
+    return run_list
+
+
 if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
     pres = parse_pptx("/media/sf_Documents/fichiers_test2/presentation-test.pptx")
 
     for element in pres.root_section.subelements:
-        if element.type is not None:
-            print "\n<"+element.type+">"+element.title+"</"+element.type+">"
-        else:
-            print "\n<notype>"+element.title+"</notype>"
+        print "\nSlide title: "+element.title+" ["+element.type+"]"
         if len(element.urls) > 0:
-            print "URL"
+            print "URLs"
             print element.urls
         if len(element.named_entities):
-            print "NE"
+            print "Named Entities"
             print element.named_entities
-        if len(element.emphasized_text) >0:
-            print "Emph"
+        if len(element.emphasized_text) > 0:
+            print "Emphasized"
             print element.emphasized_text
-    # print pres.root_section.get_text()
+        print element.text

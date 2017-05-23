@@ -12,10 +12,11 @@ class Section:
 	def get_named_entities(self, ):
 		pass
 
-	def get_text(self, ):
+	@property
+	def text(self, ):
 		text = ""
 		for element in self.subelements:
-			text+=element.get_text()
+			text+=element.text
 		return text
 
 	def get_slides_of_type(self, ):

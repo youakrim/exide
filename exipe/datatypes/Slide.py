@@ -4,7 +4,7 @@
 class Slide:
     def __init__(self):
         self.title = ""
-        self.body_text = ""
+        self.text = ""
         self.type = None
         self.emphasized_text = []
         self.named_entities = []
@@ -19,5 +19,3 @@ class Slide:
     def get_urls(self, ):
         pass
 
-    def get_text(self):
-        return self.body_text
