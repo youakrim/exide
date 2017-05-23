@@ -77,6 +77,24 @@ def get_text_statistics(list_of_runs):
                         text_case_list["default"] += 1
 
     return {"fonts":font_list, "colors":color_list, "boldness":boldness_list, "underlining":underlined_list, "font-size": font_size_list, "text-case": text_case_list}
+def statistics_noise_reduction(statistics):
+    #TODO
+    fonts_to_check = statistics["fonts"][:]
+    font_groups = []
+    while len(fonts_to_check) > 0:
+        font_A = fonts_to_check[0]
+        font_group = [font_A]
+        fonts_to_check.remove(font_A)
+        while len(fonts_to_check) > 0:
+            if relative_uncertainty(font_A, fonts_to_check[0])<5:
+                font_group.append(fonts_to_check[0])
+                fonts_to_check.remove(fonts_to_check[0])
+        else:
+            break
+    return False
+
+def relative_uncertainty(a,b):
+    return (abs(a-b)/(a))*100
 
 # Pré-condition : le run doit faire partie du corpus d'apprentissage des statistiques et les statistiques doivent avoir un format valides
 def matches_statistics(run, statistics):
