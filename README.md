@@ -8,7 +8,7 @@ The API is currently in developement and bugs are likely to occur.
 * Slide title retrieval
 * Slide body text retrieval
 * Named-entities recognition (unaccurate)
-* Emphasized text recognition (only bold texts)
+* Emphasized text recognition
 * URLs recognition
 * Recognition of the following silde types : 
   * Introduction 
