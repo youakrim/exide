@@ -1,6 +1,6 @@
 # exipe2
 
-Exipe is an API for information retrieval from presentation documents.
+Exipe is a Python API for information retrieval from presentation documents.
 
 The API is currently in developement and bugs are likely to occur.
 
