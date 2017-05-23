@@ -4,7 +4,7 @@ from exipe.datatypes.Section import Section
 from exipe.datatypes.Slide import Slide
 from exipe.datatypes.types import Types
 import pptx,re
-from nltk import ne_chunk, pos_tag, word_tokenize
+from nltk import ne_chunk, pos_tag, word_tokenize, sent_tokenize, ne_chunk_sents, tag
 from nltk.tree import Tree
 
 def get_continuous_chunks(text):
@@ -50,7 +50,7 @@ def parse_pptx(fileName):
                 new_slide.body_text += "\n" + (paragraph.level * "\t") + paragraph.text
                 # On parcours les run à la recherche de texte en emphase
                 for run in paragraph.runs:
-                    if run.font.bold:
+                    if run.font.bold or run.font.underline or run.text.isupper():
                         new_slide.emphasized_text.append(run.text)
 
         # On cherche à typer la diapositive en fonction de son titre
@@ -63,23 +63,33 @@ def parse_pptx(fileName):
         root_section.subelements.append(new_slide)
 
         # On cherche à récupérer les entités nommées
-        new_slide.named_entities = get_continuous_chunks(new_slide.body_text.encode('ascii', 'ignore'))
+        new_slide.named_entities = get_continuous_chunks(new_slide.title.encode('ascii', 'ignore'))
+        new_slide.named_entities += get_continuous_chunks(new_slide.body_text.encode('ascii', 'ignore'))
 
-        # On cherche à récupérer les textes en emphase
+        my_sent = "My name is Jacob Perkins."
+        parse_tree = ne_chunk(tag.pos_tag(word_tokenize(my_sent)), binary=True)  # POS tagging before chunking!
+        print parse_tree
+        named_entities = []
 
-
+        for t in parse_tree.subtrees():
+            print t
+            if t.label() == 'NE':
+                print t
+                named_entities.append(t)
+                # named_entities.append(list(t))  # if you want to save a list of tagged words instead of a tree
+        print named_entities
     return presentation
 
 if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
-    pres = parse_pptx("/media/sf_Documents/fichiers_test2/GoogleSearch.pptx")
+    pres = parse_pptx("/media/sf_Documents/fichiers_test2/cours-cartes_conceptuelles.pptx")
 
     for element in pres.root_section.subelements:
         if element.type is not None:
-            print "<"+element.type+">"+element.title+"</"+element.type+">"
+            print "\n<"+element.type+">"+element.title+"</"+element.type+">"
         else:
-            print "<notype>"+element.title+"</notype>"
+            print "\n<notype>"+element.title+"</notype>"
         if len(element.urls) > 0:
             print "URL"
             print element.urls
