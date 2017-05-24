@@ -3,7 +3,7 @@ from exipe.datatypes.Presentation import Presentation
 from exipe.datatypes.Section import Section
 from exipe.datatypes.Slide import Slide
 from exipe.datatypes.types import Types
-import pptx,re
+import pptx,re, os
 from nltk import ne_chunk, pos_tag, word_tokenize, sent_tokenize, ne_chunk_sents, tag
 from nltk.tree import Tree
 
@@ -261,12 +261,14 @@ def get_runs(slide):
 
 def structure_extraction(section):
     #TODO
+
     pass
 
 if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
-    pres = parse_pptx("/media/sf_Documents/fichiers_test2/presentation-test.pptx")
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/"
+    pres = parse_pptx(os.path.join(__location__, "presentation-test.pptx"))
 
     for element in pres.root_section.subelements:
         print "\nSlide title: "+element.title+" ["+element.type+"]"
