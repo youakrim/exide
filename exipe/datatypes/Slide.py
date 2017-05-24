@@ -5,7 +5,7 @@ class Slide:
     def __init__(self):
         self.title = ""
         self.text = ""
-        self.type = None
+        self.type = "notype"
         self.emphasized_text = []
         self.named_entities = []
         self.urls = []

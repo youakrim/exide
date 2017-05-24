@@ -243,7 +243,7 @@ def get_title(slide):
 def get_text(slide):
     text=""
     for shape in slide.shapes.placeholders:
-        if slide.shapes.title.shape_id != shape.shape_id:
+        if slide.shapes.title is not None and slide.shapes.title.shape_id != shape.shape_id:
             if not shape.has_text_frame:
                 continue
             for paragraph in shape.text_frame.paragraphs:
@@ -267,7 +267,7 @@ def structure_extraction(section):
 if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
-    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/"
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/pptx"
     pres = parse_pptx(os.path.join(__location__, "presentation-test.pptx"))
 
     for element in pres.root_section.subelements:
