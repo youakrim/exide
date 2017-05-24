@@ -7,43 +7,42 @@ from exipe.odp_element_parsers.utils import namespace
 
 class SlideParser(object):
 
-    TABLE_OF_CONTENTS_STRINGS = ("plan", "sommaire", "table des matières")
-    CONCLUSION_STRINGS = ("conclu", "synthese", "resum")
-    INTRODUCTION_STRINGS = ("intro", "présentation", "préambule")
-    EXAMPLE_STRINGS = ("ex ", "ex.", "ex:", "exem", "examp", "eg ", "e. g.", "e.g.")
-    REFERENCES_STRINGS = ("references", "biblio", "références", "refs", "sources", "liens")
-    DEFINITION_STRINGS = ("def", "déf")
-
     def __init__(self, XMLSlideObject, number, presentationParser):
+        self.presentation = presentationParser
         self.bodyText = self.parseText(XMLSlideObject)
         self.title = self.parseTitle(XMLSlideObject)
-        self.presentation = presentationParser
         self.number = number
+
+    def get_style_by_id(self, style_id):
+        return self.presentation.get_style_by_id(style_id)
 
     def parseText(self, XMLSlideObject):
         text = []
         # On récupère d'abord les paragraphes dont la classe de l'élément draw parent est outline
         for frame in XMLSlideObject.findall(".//draw:frame", XMLSlideObject.nsmap):
             for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
-                style = ""
+                style = None
                 if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
+                    style_id = textF.get(namespace(textF)+"style-name")
+                    style = self.get_style_by_id(style_id)
 
                 if textF.text is not None:
                     text.append(TextParser(textF, "outline", style, self))
 
             for textF in frame.findall(".//text:span", XMLSlideObject.nsmap):
-                style = ""
+                style = None
                 if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
+                    style_id = textF.get(namespace(textF)+"style-name")
+                    style = self.get_style_by_id(style_id)
 
                 if textF.text is not None:
                     text.append(TextParser(textF, "outline", style, self))
 
             for textF in frame.findall(".//text:text", XMLSlideObject.nsmap):
-                style = ""
+                style = None
                 if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
+                    style_id = textF.get(namespace(textF)+"style-name")
+                    style = self.get_style_by_id(style_id)
 
                 if textF.text is not None:
                     text.append(TextParser(textF, "outline", style, self))
@@ -57,16 +56,19 @@ class SlideParser(object):
         if titleFrame is not None:
             # On cherche le paragraphe qui contiendrait le titre
             for textF in titleFrame.findall(".//text:p", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
+                style = None
+                if textF.get(namespace(textF) + "style-name") is not None:
+                    style_id = textF.get(namespace(textF) + "style-name")
+                    style = self.get_style_by_id(style_id)
+
                 if textF.text is not None:
                     title.append(TextParser(textF, "title", style, self))
             # On cherche le span qui contiendrait le titre
             for textF in titleFrame.findall(".//text:span", XMLSlideObject.nsmap):
-                style = ""
+                style = None
                 if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
+                    style_id = textF.get(namespace(textF)+"style-name")
+                    style = self.get_style_by_id(style_id)
                 if textF.text is not None:
                     title.append(TextParser(textF, "title", style, self))
         return title

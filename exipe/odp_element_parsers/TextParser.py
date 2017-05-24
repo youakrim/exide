@@ -5,11 +5,17 @@ class TextParser(object):
     """docstring for TextParser"""
     EXAMPLE_STRINGS = ("ex ", "ex.", "ex:", "exemple", "eg ", "e. g.", "e.g.")
 
-    def __init__(self, XMLTextObject, pseudoType, style_id, slide):
+    def __init__(self, XMLTextObject, pseudoType, style, slide):
         self.content = self.getContent(XMLTextObject)
         self.slide = slide
-        self.style_id = style_id
+        self.style = style
         self.pseudoType = pseudoType
+        if style is not None:
+            print style.font_color
+            print style.font_family
+            print style.font_weight
+        else:
+            print None
 
     def getContent(self, XMLTextObject):
         if XMLTextObject.text is not None:

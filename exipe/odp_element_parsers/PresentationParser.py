@@ -4,13 +4,15 @@
 from exipe.odp_element_parsers.SlideParser import SlideParser
 from exipe.odp_element_parsers.StyleGroup import StyleGroup
 from exipe.odp_element_parsers.StyleParser import StyleParser
+from exipe.odp_element_parsers.utils import namespace
 
 
 class PresentationParser(object):
 
     def __init__(self, XMLPresentationObject):
+        self.styles = self.parseStyles(XMLPresentationObject)
+        print self.styles
         self.slides = self.parseSlides(XMLPresentationObject)
-        #self.styles = self.parseStyles(XMLPresentationObject)
         #self.styleGroups = self.mergeSimilarStyles()
 
     # On cherche à extraire les texte d'un certain style
@@ -34,8 +36,19 @@ class PresentationParser(object):
     def parseStyles(self, XMLPresentationObject):
         styles = []
         for style in XMLPresentationObject.findall(".//fontspec", XMLPresentationObject.nsmap):
-            nouveau_style = StyleParser(style, self)
+            type="fontspec"
+            nouveau_style = StyleParser(style.attrib["id"], type, style, self)
             if nouveau_style.countOccurences() > 0:
+                styles.append(nouveau_style)
+        print "text-properties"
+        for XMLStyle in XMLPresentationObject.findall(".//style:style", XMLPresentationObject.nsmap):
+            if namespace(XMLStyle)+"name" in XMLStyle.attrib:
+                id = XMLStyle.attrib[namespace(XMLStyle)+"name"]
+            else:
+                id=""
+            for textProperties in XMLStyle.findall(".//style:text-properties", XMLPresentationObject.nsmap):
+                type = "text-properties"
+                nouveau_style = StyleParser(id, type, textProperties, self)
                 styles.append(nouveau_style)
         return styles
 

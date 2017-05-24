@@ -53,6 +53,7 @@ def parse_odp(file_path):
     pres = Presentation(root_section)
 
     return pres
+
 if __name__ == '__main__':
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/odp"
     pres = parse_odp(os.path.join(__location__, "presentation-test-pptx.odp"))
