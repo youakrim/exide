@@ -40,34 +40,6 @@ def parse_odp(file_path):
 
     presPars = PresentationParser(root)
 
-    for slide in presPars.getExampleSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-    print("\n")
-    for slide in presPars.getConclusionSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-    print("\n")
-
-    for slide in presPars.getToCSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-    print("\n")
-
-    for slide in presPars.getIntroductionSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-    print("\n")
-
-    for slide in presPars.getReferencesSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-    print("\n")
-
-    for slide in presPars.getDefinitionSlides():
-        for p in slide.title:
-            print("Slide", slide.number, p.content)
-
     # On créé une section racine
     root_section = Section("Root section")
 

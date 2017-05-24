@@ -17,5 +17,22 @@ class TextParser(object):
         else:
             return ""
 
-    def isAnExample(self):
-        return self.content.lower().startswith(self.EXAMPLE_STRINGS)
+    @property
+    def bold(self):
+        pass
+
+    @property
+    def underlined(self):
+        pass
+
+    @property
+    def font_family(self):
+        pass
+
+    @property
+    def font_size(self):
+        pass
+
+    @property
+    def color(self):
+        pass

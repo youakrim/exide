@@ -23,7 +23,7 @@ class SlideParser(object):
     def parseText(self, XMLSlideObject):
         text = []
         # On récupère d'abord les paragraphes dont la classe de l'élément draw parent est outline
-        for frame in XMLSlideObject.findall(".//draw:frame[@presentation:class='outline']", XMLSlideObject.nsmap):
+        for frame in XMLSlideObject.findall(".//draw:frame", XMLSlideObject.nsmap):
             for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
                 style = ""
                 if textF.get(namespace(textF)+"style-name") is not None:
@@ -47,56 +47,7 @@ class SlideParser(object):
 
                 if textF.text is not None:
                     text.append(TextParser(textF, "outline", style, self))
-        # On récupère ensuite les paragraphes dont l'éléments draw frame parent est de classe notes
-        for frame in XMLSlideObject.findall(".//draw:frame[@presentation:class='notes']", XMLSlideObject.nsmap):
-            for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
 
-                if textF.text is not None:
-                    text.append(TextParser(textF, "notes", style, self))
-
-            for textF in frame.findall(".//text:span", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
-
-                if textF.text is not None:
-                    text.append(TextParser(textF, "notes", style, self))
-
-            for textF in frame.findall(".//text:text", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
-
-                if textF.text is not None:
-                    text.append(TextParser(textF, "notes", style, self))
-
-        for frame in XMLSlideObject.findall(".//draw:frame[@presentation:class='text']", XMLSlideObject.nsmap):
-            for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
-
-                if textF.text is not None:
-                    text.append(TextParser(textF, "text", style, self))
-
-            for textF in frame.findall(".//text:span", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
-
-                if textF.text is not None:
-                    text.append(TextParser(textF, "text", style, self))
-
-            for textF in frame.findall(".//text:text", XMLSlideObject.nsmap):
-                style = ""
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style = textF.get(namespace(textF)+"style-name")
-
-                if textF.text is not None:
-                    text.append(TextParser(textF, "text", style, self))
         return text
 
     def parseTitle(self, XMLSlideObject):
@@ -119,73 +70,6 @@ class SlideParser(object):
                 if textF.text is not None:
                     title.append(TextParser(textF, "title", style, self))
         return title
-
-    def isAnExample(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if p.isAnExample() or any(word in p.content.lower() for word in self.EXAMPLE_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                if text.isAnExample():
-                    return True
-        return False
-
-    def isAToC(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if any(word in p.content.lower() for word in self.TABLE_OF_CONTENTS_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                return any(word in text.content.lower() for word in self.TABLE_OF_CONTENTS_STRINGS)
-        return False
-
-    def isAConclusion(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if any(word in p.content.lower() for word in self.CONCLUSION_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                return any(word in text.content.lower() for word in self.CONCLUSION_STRINGS)
-        return False
-
-    def isAnIntroduction(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if any(word in p.content.lower() for word in self.INTRODUCTION_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                return any(word in text.content.lower() for word in self.INTRODUCTION_STRINGS)
-        return False
-
-    def isReferences(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if any(word in p.content.lower() for word in self.REFERENCES_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                return any(word in text.content.lower() for word in self.REFERENCES_STRINGS)
-        return False
-
-    def isADefinition(self):
-        if len(self.title) >0:
-            for p in self.title:
-                if any(word in p.content.lower() for word in self.DEFINITION_STRINGS):
-                    return True
-            return False
-        else:
-            for text in self.bodyText:
-                return any(word in text.content.lower() for word in self.DEFINITION_STRINGS)
-        return False
 
     # On cherche à extraire les textes d'un certain style
     def getTextsByStyleId(self, styleID):
