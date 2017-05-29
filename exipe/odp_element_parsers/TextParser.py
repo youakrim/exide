@@ -1,5 +1,11 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
+'''
+            print style.font_color
+            print style.font_family
+            print style.font_weight
+            print style.font_size'''
+
 
 class TextParser(object):
 
@@ -26,19 +32,27 @@ class TextParser(object):
     @property
     def underlined(self):
         #TODO
-        pass
+        return ""
 
     @property
     def font_family(self):
-        #TODO
+        if self.style is not None:
+            return self.style.font_family
+        else:
+            return "default"
         pass
 
     @property
     def font_size(self):
-        #TODO
-        pass
+        if self.style is not None:
+            return self.style.font_size
+        else:
+            return "default"
 
     @property
     def color(self):
-        #TODO
+        if self.style is not None:
+            return self.style.font_color
+        else:
+            return "default"
         pass
