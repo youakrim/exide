@@ -2,7 +2,6 @@
 #-*- coding: utf-8 -*-
 
 from exipe.odp_element_parsers.SlideParser import SlideParser
-from exipe.odp_element_parsers.StyleGroup import StyleGroup
 from exipe.odp_element_parsers.StyleParser import StyleParser
 from exipe.odp_element_parsers.utils import namespace
 
@@ -11,7 +10,6 @@ class PresentationParser(object):
 
     def __init__(self, XMLPresentationObject):
         self.styles = self.parseStyles(XMLPresentationObject)
-        print self.styles
         self.slides = self.parseSlides(XMLPresentationObject)
         #self.styleGroups = self.mergeSimilarStyles()
 
@@ -40,7 +38,6 @@ class PresentationParser(object):
             nouveau_style = StyleParser(style.attrib["id"], type, style, self)
             if nouveau_style.countOccurences() > 0:
                 styles.append(nouveau_style)
-        print "text-properties"
         for XMLStyle in XMLPresentationObject.findall(".//style:style", XMLPresentationObject.nsmap):
             if namespace(XMLStyle)+"name" in XMLStyle.attrib:
                 id = XMLStyle.attrib[namespace(XMLStyle)+"name"]

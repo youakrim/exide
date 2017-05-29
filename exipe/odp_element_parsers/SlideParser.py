@@ -9,8 +9,8 @@ class SlideParser(object):
 
     def __init__(self, XMLSlideObject, number, presentationParser):
         self.presentation = presentationParser
-        self.bodyText = self.parseText(XMLSlideObject)
-        self.title = self.parseTitle(XMLSlideObject)
+        self.text_parsers = self.parseText(XMLSlideObject)
+        self.title_parsers = self.parseTitle(XMLSlideObject)
         self.number = number
 
     def get_style_by_id(self, style_id):
@@ -77,33 +77,33 @@ class SlideParser(object):
     def getTextsByStyleId(self, styleID):
         texts = []
         # On parcourt les textes et pour chaque texte, on vérifie si il a le style recherché
-        for text in self.text:
+        for text in self.text_parsers:
             if text.style_id == styleID:
                 texts.append(text)
         return texts
 
     def mergeSameLineTexts(self):
-        input_texts = self.text
+        input_texts = self.text_parsers
         output_text=[]
         for text in input_texts:
             input_texts.remove(text)
             for text2 in input_texts:
                 if text.top == text2.top and text.style_id == text2.style_id:
                     input_texts.remove(text2)
-                    text.content+=text2.content
+                    text.text+=text2.text
             output_text.append(text)
         return output_text
 
     @property
     def text(self):
         text=""
-        for tp in self.bodyText:
-            text+="\n"+tp.content
+        for tp in self.text_parsers:
+            text+="\n"+tp.text
         return text
 
     @property
-    def title_text(self):
+    def title(self):
         text=""
-        for tp in self.title:
-            text+=tp.content
+        for tp in self.title_parsers:
+            text+=tp.text
         return text

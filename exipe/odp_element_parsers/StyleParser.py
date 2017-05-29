@@ -10,7 +10,6 @@ class StyleParser(object):
         self.xml_style = XMLStyleObject
         self.type = type
         self.id = id
-        print id
         self.presentation = presentation
 
     @property

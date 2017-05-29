@@ -12,6 +12,7 @@ from exipe.datatypes.Section import Section
 from exipe.datatypes.Presentation import Presentation
 from exipe.datatypes.Slide import Slide
 from exipe.odp_element_parsers.PresentationParser import PresentationParser
+from parser_utils import *
 
 
 
@@ -39,20 +40,7 @@ def parse_odp(file_path):
     shutil.rmtree(path_to_unzipped)
 
     presPars = PresentationParser(root)
-
-    # On créé une section racine
-    root_section = Section("Root section")
-
-    # On ajoute des slides à cette section
-    for slideParser in presPars.slides:
-        slideTmp = Slide()
-        slideTmp.title = slideParser.title_text
-        slideTmp.text = slideParser.text
-        root_section.subelements.append(slideTmp)
-    # On créé une présentation à partir de la section racine
-    pres = Presentation(root_section)
-
-    return pres
+    return parse(presPars)
 
 if __name__ == '__main__':
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/odp"
