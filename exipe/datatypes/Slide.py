@@ -1,21 +1,13 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 
 class Slide:
     def __init__(self):
-        self.title = ""
+        self.title = "Untitled"
         self.text = ""
         self.type = "notype"
         self.emphasized_text = []
-        self.named_entities = []
         self.urls = []
-
-    def get_emphasized_text(self, ):
-        pass
-
-    def get_named_entities(self, ):
-        pass
-
-    def get_urls(self, ):
-        pass
-
+        self.named_entities = []
+        self.id = ""

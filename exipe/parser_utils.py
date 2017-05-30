@@ -3,10 +3,10 @@ from nltk import ne_chunk, re
 from nltk import ne_chunk, pos_tag, word_tokenize, sent_tokenize, ne_chunk_sents, tag
 from nltk.tree import Tree
 
-from exipe.datatypes.Presentation import Presentation
 from exipe.datatypes.Section import Section
 from exipe.datatypes.Slide import Slide
 from exipe.datatypes.types import Types
+from exipe.datatypes.Presentation import Presentation
 
 
 def get_continuous_chunks(text):

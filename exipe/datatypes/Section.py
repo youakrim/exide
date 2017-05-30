@@ -1,31 +1,37 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-
 class Section:
 	def __init__(self, title):
-		self.subelements = []
 		self.title = title
+		self.subelements = []
+		self.level = 0
+		self.toc_slide_id = None
 
-	def get_emphasized_text(self):
+	def emphasized_text(self, ):
 		pass
 
-	def get_named_entities(self, ):
+	def named_entities(self, ):
 		pass
 
-	@property
 	def text(self, ):
-		text = ""
-		for element in self.subelements:
-			text+=element.text
-		return text
-
-	def get_slides_of_type(self, ):
 		pass
 
-	def get_urls(self, ):
+	def urls(self, ):
 		pass
 
-	def get_slides(self, ):
+	def slides(self, ):
+		pass
+
+	def outline(self, ):
+		pass
+
+	def get_slides_of_type(self, type):
+		pass
+
+	def get_slides_by_keyword(self, keyword):
+		pass
+
+	def get_slides_by_title(self, title):
 		pass
 
