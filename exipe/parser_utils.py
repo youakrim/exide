@@ -1,4 +1,7 @@
 #-*- coding: utf-8 -*-
+import io
+import os, copy
+
 from nltk import ne_chunk, re
 from nltk import ne_chunk, pos_tag, word_tokenize, sent_tokenize, ne_chunk_sents, tag
 from nltk.tree import Tree
@@ -163,8 +166,10 @@ def get_emphasized_terms(list_of_text_parsers):
         emphasized_terms += get_case_emphasized_terms(tp.text, statistics)
     return emphasized_terms
 
+
 def get_urls(text):
    return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+
 
 def get_slide_type(slide):
     for type in Types.LIST:
@@ -175,13 +180,15 @@ def get_slide_type(slide):
 def get_named_entities(text):
     return get_continuous_chunks(text.encode('ascii', 'ignore'))
 
+
 def get_title(slide):
     if slide.shapes.title is not None:
         return slide.shapes.title.text
     return "Untitled"
 
+
 def get_text(slide):
-    text=""
+    text = ""
     for shape in slide.shapes.placeholders:
         if slide.shapes.title is not None:
             if slide.shapes.title.shape_id != shape.shape_id:
@@ -198,15 +205,102 @@ def get_text(slide):
     return text
 
 
-
 def structure_extraction(section):
-    #TODO
+    # We start by regrouping slides with similar titles
+    current_section = None
+    new_tree = Section(section.title)
+    for i in range(1,len(section.slides)):
+        if current_section is not None and title_similarity(section.slides[i-1].title, section.slides[i].title) > 0.7:
+            current_section.subelements.append(section.slides[i])
+        elif current_section is None and title_similarity(section.slides[i-1].title, section.slides[i].title) > 0.7:
+            current_section = Section(section.slides[i-1].title)
+            current_section.subelements.append(section.slides[i - 1])
+            current_section.subelements.append(section.slides[i])
+        elif current_section is not None:
+            new_tree.subelements.append(copy.copy(current_section))
+            current_section = None
+        else:
+            new_tree.subelements.append(section.slides[i-1])
+    if current_section is not None:
+        new_tree.subelements.append(copy.copy(current_section))
+    else:
+        new_tree.subelements.append(section.slides[len(section.slides)-1])
+    # We then try to recognize section headers and create new section
+    new_new_tree = Section(new_tree.title)
+    element_list = new_tree.subelements[:]
+    i = 0
+    while len(element_list) > 0:
+        if is_section_header(element_list[0]):
+            current_section = Section(element_list[i].title)
+            element_list.remove(element_list[0])
+            while len(element_list) > 0:
+                if is_section_header(element_list[0]):
+                    break
+                else:
+                    current_section.subelements.append(element_list[0])
+                    element_list.remove(element_list[0])
+            new_new_tree.subelements.append(copy.copy(current_section))
+        else:
+            new_new_tree.subelements.append(element_list[0])
+            element_list.remove(element_list[0])
 
-    pass
+
+
+    return new_new_tree
+
+
+
+def title_similarity(title_1, title_2):
+    str1 = stopwords_removal(title_1, "fr").lower().split()
+    str2 = stopwords_removal(title_2, "fr").lower().split()
+    return float(sum(levenshtein(word2, word1) == 0 or ((float(max(len(word1), len(word2))-levenshtein(word2, word1))/max(len(word1), len(word2))) > 0.7) for word2 in str1 for word1 in str2))/max(len(str1), len(str2))
+
+def is_section_header(slide):
+    return get_slide_type(slide) == "sectionheader"
+
+def levenshtein(s1, s2):
+    if len(s1) < len(s2):
+        return levenshtein(s2, s1)
+
+    # len(s1) >= len(s2)
+    if len(s2) == 0:
+        return len(s1)
+
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[
+                             j + 1] + 1  # j+1 instead of j since previous_row and current_row are one character longer
+            deletions = current_row[j] + 1  # than s2
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+
+    return previous_row[-1]
+
+
+def stopwords_removal(string, language):
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/dict/"
+    path = os.path.join(__location__, "sw_"+language);
+
+    string_without_numbers = ''.join([i for i in string if i.isalpha()])
+    try:
+        file = io.open(path, 'r', encoding='utf-8')
+    except:
+        print "Error : missing stopword file for "+language+" in"+__location__
+    file_content = file.read()
+    stopwords = file_content.split("\n")
+    stringwords = string_without_numbers.split()
+    resultwords = [word for word in stringwords if word.lower() not in stopwords]
+    result = ' '.join(resultwords)
+
+    return result
+
 
 def parse(presentation_parser):
     # On créé la section racine qui va contenir tout les éléments : diapositives, autres sections
-    presentation_title = "Root section"
+    presentation_title = presentation_parser.slides[0].title
     root_section = Section(presentation_title)
     # On peut maintenant créer la présentation
     presentation = Presentation(root_section)
@@ -231,16 +325,7 @@ def parse(presentation_parser):
         new_slide.named_entities = get_named_entities(new_slide.title)
         new_slide.named_entities += get_named_entities(new_slide.text)
 
-        my_sent = "My name is Jack Tester."
-        parse_tree = ne_chunk(tag.pos_tag(word_tokenize(my_sent)), binary=True)  # POS tagging before chunking!
-        # print parse_tree
         named_entities = []
 
-        for t in parse_tree.subtrees():
-            #print t
-            if t.label() == 'NE':
-                #print t
-                named_entities.append(t)
-                # named_entities.append(list(t))  # if you want to save a list of tagged words instead of a tree
-        # print named_entities
+    presentation.root_section = structure_extraction(root_section)
     return presentation

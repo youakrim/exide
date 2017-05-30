@@ -1,37 +1,79 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+from exipe.datatypes.Slide import Slide
+
 
 class Section:
-	def __init__(self, title):
-		self.title = title
-		self.subelements = []
-		self.level = 0
-		self.toc_slide_id = None
+    def __init__(self, title):
+        self.title = title
+        self.subelements = []
+        self.level = 0
+        self.toc_slide_id = None
+        self.type="section"
 
-	def emphasized_text(self, ):
-		pass
+    @property
+    def emphasized_text(self, ):
+        emphasized_texts = []
+        for element in self.subelements:
+            emphasized_texts+=element.emphasized_text
+        return emphasized_texts
 
-	def named_entities(self, ):
-		pass
+    @property
+    def named_entities(self, ):
+        ne = []
+        for element in self.subelements:
+            ne+=element.named_entities
+        return ne
 
-	def text(self, ):
-		pass
+    @property
+    def text(self, ):
+        text = ""
+        for element in self.subelements:
+            text+=element.text
+        return text
 
-	def urls(self, ):
-		pass
+    @property
+    def urls(self, ):
+        urls = []
+        for element in self.subelements:
+            urls+=element.urls
+        return urls
 
-	def slides(self, ):
-		pass
+    @property
+    def slides(self):
+        slides = []
+        for element in self.subelements:
+            if isinstance(element, Slide):
+                slides.append(element)
+        return slides
 
-	def outline(self, ):
-		pass
+    @property
+    def sections(self):
+        sections = []
+        for element in self.subelements:
+            if isinstance(element, Section):
+                sections.append(element)
+        return sections
 
-	def get_slides_of_type(self, type):
-		pass
+    @property
+    def outline(self):
+        outline = "- "+self.title+"\n"
+        for element in self.subelements:
+            if isinstance(element, Section):
+                for line in element.outline.split("\n"):
+                    outline += "\t"+line+"\n"
+            else:
+                outline+="\t- "+element.title+"\n"
+        return outline
 
-	def get_slides_by_keyword(self, keyword):
-		pass
 
-	def get_slides_by_title(self, title):
-		pass
 
+
+    def get_slides_of_type(self, type):
+        pass
+
+    def get_slides_by_keyword(self, keyword):
+        pass
+
+    def get_slides_by_title(self, title):
+        pass

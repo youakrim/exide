@@ -43,18 +43,8 @@ def parse_odp(file_path):
     return parse(presPars)
 
 if __name__ == '__main__':
-    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/odp"
-    pres = parse_odp(os.path.join(__location__, "presentation-test-pptx.odp"))
 
-    for element in pres.root_section.subelements:
-        print "\nSlide title: " + element.title + " [" + element.type + "]"
-        if len(element.urls) > 0:
-            print "URLs"
-            print element.urls
-        if len(element.named_entities):
-            print "Named Entities"
-            print element.named_entities
-        if len(element.emphasized_text) > 0:
-            print "Emphasized"
-            print element.emphasized_text
-        print element.text
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/odp"
+    pres = parse_odp(os.path.join(__location__, "presentation-test-sections-odp.odp"))
+
+    print pres.root_section.outline
