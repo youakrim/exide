@@ -18,34 +18,34 @@ class SlideParser(object):
 
     def parseText(self, XMLSlideObject):
         text = []
-        # On récupère d'abord les paragraphes dont la classe de l'élément draw parent est outline
         for frame in XMLSlideObject.findall(".//draw:frame", XMLSlideObject.nsmap):
-            for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
-                style = None
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style_id = textF.get(namespace(textF)+"style-name")
-                    style = self.get_style_by_id(style_id)
+            if frame not in XMLSlideObject.findall(".//draw:frame[@presentation:class='title']", XMLSlideObject.nsmap):
+                for textF in frame.findall(".//text:p", XMLSlideObject.nsmap):
+                    style = None
+                    if textF.get(namespace(textF)+"style-name") is not None:
+                        style_id = textF.get(namespace(textF)+"style-name")
+                        style = self.get_style_by_id(style_id)
 
-                if textF.text is not None:
-                    text.append(TextParser(textF, "outline", style, self))
+                    if textF.text is not None:
+                        text.append(TextParser(textF, style, self))
 
-            for textF in frame.findall(".//text:span", XMLSlideObject.nsmap):
-                style = None
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style_id = textF.get(namespace(textF)+"style-name")
-                    style = self.get_style_by_id(style_id)
+                for textF in frame.findall(".//text:span", XMLSlideObject.nsmap):
+                    style = None
+                    if textF.get(namespace(textF)+"style-name") is not None:
+                        style_id = textF.get(namespace(textF)+"style-name")
+                        style = self.get_style_by_id(style_id)
 
-                if textF.text is not None:
-                    text.append(TextParser(textF, "outline", style, self))
+                    if textF.text is not None:
+                        text.append(TextParser(textF, style, self))
 
-            for textF in frame.findall(".//text:text", XMLSlideObject.nsmap):
-                style = None
-                if textF.get(namespace(textF)+"style-name") is not None:
-                    style_id = textF.get(namespace(textF)+"style-name")
-                    style = self.get_style_by_id(style_id)
+                for textF in frame.findall(".//text:text", XMLSlideObject.nsmap):
+                    style = None
+                    if textF.get(namespace(textF)+"style-name") is not None:
+                        style_id = textF.get(namespace(textF)+"style-name")
+                        style = self.get_style_by_id(style_id)
 
-                if textF.text is not None:
-                    text.append(TextParser(textF, "outline", style, self))
+                    if textF.text is not None:
+                        text.append(TextParser(textF, style, self))
 
         return text
 
@@ -62,7 +62,7 @@ class SlideParser(object):
                     style = self.get_style_by_id(style_id)
 
                 if textF.text is not None:
-                    title.append(TextParser(textF, "title", style, self))
+                    title.append(TextParser(textF, style, self))
             # On cherche le span qui contiendrait le titre
             for textF in titleFrame.findall(".//text:span", XMLSlideObject.nsmap):
                 style = None
@@ -70,7 +70,7 @@ class SlideParser(object):
                     style_id = textF.get(namespace(textF)+"style-name")
                     style = self.get_style_by_id(style_id)
                 if textF.text is not None:
-                    title.append(TextParser(textF, "title", style, self))
+                    title.append(TextParser(textF, style, self))
         return title
 
     # On cherche à extraire les textes d'un certain style

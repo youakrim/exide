@@ -33,7 +33,7 @@ def get_text_statistics(list_of_text_parsers):
     color_list = {"default": 0}
     font_size_list = {"default": 0} # [(62550,12)]
     boldness_list = {"bold": 0, "default": 0}
-    underlined_list = {"underlined": 0, "default": 0}
+    underlined_list = {"default": 0}
     text_case_list = {"uppercase": 0, "default": 0}
 
     for tp in list_of_text_parsers:
@@ -65,10 +65,10 @@ def get_text_statistics(list_of_text_parsers):
                 boldness_list[tp.font_weight] += 1
 
             # We extract underlining
-            if tp.underlined:
-                underlined_list["underlined"] += 1
+            if tp.underlined not in underlined_list:
+                underlined_list[tp.underlined] = 1
             else:
-                underlined_list["default"] += 1
+                underlined_list[tp.underlined] += 1
 
             # We extract text case (by word)
             for word in tp.text.split(" "):
@@ -103,8 +103,8 @@ def relative_uncertainty(a,b):
 # Pré-condition : le text_parser doit faire partie du corpus d'apprentissage des statistiques et les statistiques doivent avoir un format valides
 def matches_statistics(tp, statistics):
     # On considère qu'un text_parser correspond aux statistiques si il est conforme à plus de la moitié de la mise en forme
-    underlining_ratio = float(statistics["underlining"]["underlined"])/float(statistics["underlining"]["default"]+statistics["underlining"]["underlined"])
-    if tp.underlined and underlining_ratio < 0.5:
+    tp_underlining_ratio = float(statistics["underlining"][tp.underlined])/float(total_text_parser_count(statistics["underlining"]))
+    if tp_underlining_ratio < 0.5:
         return False
 
     tp_boldness_ratio = float(statistics["boldness"][tp.font_weight])/float(total_text_parser_count(statistics["boldness"]))
@@ -120,7 +120,7 @@ def matches_statistics(tp, statistics):
         return False
 
     font_size_ratio = float(statistics["font-size"][tp.font_size])/float(total_text_parser_count(statistics["font-size"]))
-    if font_size_ratio < 0.5:
+    if font_size_ratio < 0.3:
         return False
     return True
 

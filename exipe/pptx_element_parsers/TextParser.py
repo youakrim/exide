@@ -24,7 +24,9 @@ class TextParser(object):
 
     @property
     def underlined(self):
-        return self.pptx_objet.font.underline
+        if self.pptx_objet.font.underline:
+            return "underlined"
+        return "default"
 
     @property
     def font_family(self):

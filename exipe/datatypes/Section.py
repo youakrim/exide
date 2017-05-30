@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
+
 class Section:
 	def __init__(self, title):
 		self.subelements = []

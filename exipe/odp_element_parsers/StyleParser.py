@@ -68,3 +68,16 @@ class StyleParser(object):
                 return ""
         return ""
 
+    @property
+    def underlined(self):
+        if self.type == "fontspec":
+            if "underline" in self.xml_style.attrib:
+                return self.xml_style.attrib["underline"]
+            else:
+                return "default"
+        elif self.type == "text-properties":
+            if namespace(self.xml_style)+"text-underline-style" in  self.xml_style.attrib:
+                return self.xml_style.attrib[namespace(self.xml_style)+"text-underline-style"]
+            else:
+                return "default"
+        return ""
