@@ -1,24 +1,15 @@
 #-*- coding: utf-8 -*-
 
-import getopt
-import os
-import sys
 import uuid
 
 import shutil, zipfile
 from lxml import etree
-
-from exipe.datatypes.Section import Section
-from exipe.datatypes.Presentation import Presentation
-from exipe.datatypes.Slide import Slide
 from exipe.odp_element_parsers.PresentationParser import PresentationParser
 from parser_utils import *
 
 
 
 def parse_odp(file_path):
-    inputfile_name, inputfile_extension = os.path.splitext(file_path)
-    inputfile_name = os.path.basename(file_path)
     inputfile_directory = os.path.dirname(file_path)
 
     unique_id = uuid.uuid4()
