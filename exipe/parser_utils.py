@@ -258,8 +258,7 @@ def title_similarity(title_1, title_2):
     return float(sum(levenshtein(word2, word1) == 0 or ((float(max(len(word1), len(word2))-levenshtein(word2, word1))/max(len(word1), len(word2))) > 0.7) for word2 in str1 for word1 in str2))/max(len(str1), len(str2))
 
 def is_section_header(slide):
-    return len(slide.text.split(" ")) < 5
-    return slide.type == "sectionheader"
+    return slide.type == "sectionheader" or len(slide.text.split(" ")) < 5
 
 def section_level(slide):
     return 0

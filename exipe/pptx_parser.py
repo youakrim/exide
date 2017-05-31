@@ -21,6 +21,6 @@ if __name__ == '__main__':
     # TESTS 2
     # Put the path of the file you want to test here
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/pptx"
-    pres = parse_pptx(os.path.join(__location__, "analyse_financière_cours_1_-_lundi_19_septembre_vf.pptx"))
+    pres = parse_pptx(os.path.join(__location__, "presentation-test-sections.pptx"))
 
     print pres.root_section.outline
