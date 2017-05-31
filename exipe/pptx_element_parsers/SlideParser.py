@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from exipe.pptx_element_parsers.TextParser import TextParser
+from pptx_element_parsers.TextParser import TextParser
 
 class SlideParser(object):
 

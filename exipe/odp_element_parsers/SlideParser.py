@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from exipe.odp_element_parsers.TextParser import TextParser
-from exipe.odp_element_parsers.utils import namespace
+from odp_element_parsers.TextParser import TextParser
+from odp_element_parsers.utils import namespace
 
 
 class SlideParser(object):

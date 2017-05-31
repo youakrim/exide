@@ -2,11 +2,11 @@
 import os,io
 
 
-class Types:
+class SlideTypes:
     LIST = dict()
 
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    file = io.open(os.path.join(__location__, "types"), 'r', encoding='utf-8')
+    file = io.open(os.path.join(__location__, "types_dict"), 'r', encoding='utf-8')
     file_content = file.read()
     lines = file_content.split("\n")
     while len(lines)>0:

@@ -7,5 +7,5 @@ setup(name='Exipe',
       author_email='yanis.ouakrim@etu.univ-nantes.fr',
       url='https://www.python.org/sigs/distutils-sig/',
       packages=['exipe', 'exipe.datatypes'],
-      install_requires=['python-pptx', 'nltk']
+      install_requires=['python-pptx', 'nltk', 'zipfile']
       )

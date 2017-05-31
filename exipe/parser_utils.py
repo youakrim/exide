@@ -6,10 +6,10 @@ from nltk import ne_chunk, re
 from nltk import ne_chunk, pos_tag, word_tokenize, sent_tokenize, ne_chunk_sents, tag
 from nltk.tree import Tree
 
-from exipe.datatypes.Section import Section
-from exipe.datatypes.Slide import Slide
-from exipe.datatypes.types import Types
-from exipe.datatypes.Presentation import Presentation
+from datatypes.Section import Section
+from datatypes.Slide import Slide
+from datatypes.SlideTypes import SlideTypes
+from datatypes.Presentation import Presentation
 
 
 def get_continuous_chunks(text):
@@ -161,9 +161,10 @@ def get_emphasized_terms(list_of_text_parsers):
     statistics = get_text_statistics(list_of_text_parsers)
     emphasized_terms = []
     for tp in list_of_text_parsers:
-        if not matches_statistics(tp, statistics):
-            emphasized_terms.append(tp.text)
-        emphasized_terms += get_case_emphasized_terms(tp.text, statistics)
+        if len(tp.text)>2:
+            if not matches_statistics(tp, statistics):
+                emphasized_terms.append(tp.text)
+            emphasized_terms += get_case_emphasized_terms(tp.text, statistics)
     return emphasized_terms
 
 
@@ -174,8 +175,8 @@ def get_urls(text):
 def get_slide_type(slide):
     if slide.layout is not None and slide.layout == slide.presentation.pptx_object.slide_layouts[2]:
         return "sectionheader"
-    for type in Types.LIST:
-        if any(word in slide.title.lower() for word in Types.LIST[type]):
+    for type in SlideTypes.LIST:
+        if any(word in slide.title.lower() for word in SlideTypes.LIST[type]):
             return type
     return "notype"
 
@@ -186,6 +187,8 @@ def get_named_entities(text):
 def get_title(slide):
     if slide.shapes.title is not None:
         return slide.shapes.title.text
+    elif len(slide.text.split(" "))>0:
+        return "untitled"+slide.text.split("\n")[0]
     return "Untitled"
 
 
@@ -255,6 +258,7 @@ def title_similarity(title_1, title_2):
     return float(sum(levenshtein(word2, word1) == 0 or ((float(max(len(word1), len(word2))-levenshtein(word2, word1))/max(len(word1), len(word2))) > 0.7) for word2 in str1 for word1 in str2))/max(len(str1), len(str2))
 
 def is_section_header(slide):
+    return len(slide.text.split(" ")) < 5
     return slide.type == "sectionheader"
 
 def section_level(slide):
@@ -306,9 +310,12 @@ def parse(presentation_parser):
     root_section = Section(presentation_title)
     # On peut maintenant créer la présentation
     presentation = Presentation(root_section)
+    current_id = 1
     for slide_parser in presentation_parser.slides:
 
         new_slide = Slide()
+        new_slide.id = current_id
+        current_id+=1
         new_slide.title = slide_parser.title
 
         # On récupère le texte du corps de la diapositive

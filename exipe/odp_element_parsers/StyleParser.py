@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-from exipe.odp_element_parsers.utils import namespace
+from odp_element_parsers.utils import namespace
 
 
 class StyleParser(object):

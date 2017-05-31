@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from exipe.odp_element_parsers.SlideParser import SlideParser
-from exipe.odp_element_parsers.StyleParser import StyleParser
-from exipe.odp_element_parsers.utils import namespace
+from odp_element_parsers.SlideParser import SlideParser
+from odp_element_parsers.StyleParser import StyleParser
+from odp_element_parsers.utils import namespace
 
 
 class PresentationParser(object):

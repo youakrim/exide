@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from exipe.datatypes.Slide import Slide
+from Slide import Slide
 
 
 class Section:
@@ -57,17 +57,14 @@ class Section:
 
     @property
     def outline(self):
-        outline = "- "+self.title+"\n"
+        outline = "- Section : "+self.title+"\n"
         for element in self.subelements:
             if isinstance(element, Section):
                 for line in element.outline.split("\n"):
                     outline += "\t"+line+"\n"
             else:
-                outline+="\t- "+element.title+"\n"
+                outline+="\t- "+element.title+" "+str(element.id)+"\n"
         return outline
-
-
-
 
     def get_slides_of_type(self, type):
         pass
