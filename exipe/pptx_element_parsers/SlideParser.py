@@ -11,6 +11,9 @@ class SlideParser(object):
         self.title_parsers = []
         self.number = number
         self.pptx_object = PPTXSlideObject
+        self.layout = PPTXSlideObject.slide_layout
+
+
     def parseText(self, PPTXSlideObject):
         text = []
         for shape in PPTXSlideObject.shapes.placeholders:

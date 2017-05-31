@@ -7,6 +7,7 @@ from exipe.pptx_element_parsers.SlideParser import SlideParser
 class PresentationParser(object):
 
     def __init__(self, pythonPPTXPresentationObject):
+        self.pptx_object = pythonPPTXPresentationObject
         self.slides = self.parseSlides(pythonPPTXPresentationObject)
         #self.styleGroups = self.mergeSimilarStyles()
 

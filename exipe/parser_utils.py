@@ -172,6 +172,8 @@ def get_urls(text):
 
 
 def get_slide_type(slide):
+    if slide.layout is not None and slide.layout == slide.presentation.pptx_object.slide_layouts[2]:
+        return "sectionheader"
     for type in Types.LIST:
         if any(word in slide.title.lower() for word in Types.LIST[type]):
             return type
@@ -232,22 +234,19 @@ def structure_extraction(section):
     while len(element_list) > 0:
         if is_section_header(element_list[0]):
             current_section = Section(element_list[i].title)
+            current_level = section_level(element_list[0])
             element_list.remove(element_list[0])
             while len(element_list) > 0:
-                if is_section_header(element_list[0]):
+                if is_section_header(element_list[0]) and section_level(element_list[0]) >= current_level:
                     break
-                else:
-                    current_section.subelements.append(element_list[0])
-                    element_list.remove(element_list[0])
+                current_section.subelements.append(element_list[0])
+                element_list.remove(element_list[0])
             new_new_tree.subelements.append(copy.copy(current_section))
         else:
             new_new_tree.subelements.append(element_list[0])
             element_list.remove(element_list[0])
 
-
-
     return new_new_tree
-
 
 
 def title_similarity(title_1, title_2):
@@ -256,7 +255,10 @@ def title_similarity(title_1, title_2):
     return float(sum(levenshtein(word2, word1) == 0 or ((float(max(len(word1), len(word2))-levenshtein(word2, word1))/max(len(word1), len(word2))) > 0.7) for word2 in str1 for word1 in str2))/max(len(str1), len(str2))
 
 def is_section_header(slide):
-    return get_slide_type(slide) == "sectionheader"
+    return slide.type == "sectionheader"
+
+def section_level(slide):
+    return 0
 
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
@@ -315,7 +317,7 @@ def parse(presentation_parser):
         new_slide.emphasized_text = get_emphasized_terms(slide_parser.text_parsers)
 
         # On cherche à typer la diapositive en fonction de son titre
-        new_slide.type = get_slide_type(new_slide)
+        new_slide.type = get_slide_type(slide_parser)
 
         # On cherche à récupérer les URLs
         new_slide.urls = get_urls(new_slide.text)

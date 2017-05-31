@@ -12,6 +12,7 @@ class SlideParser(object):
         self.text_parsers = self.parseText(XMLSlideObject)
         self.title_parsers = self.parseTitle(XMLSlideObject)
         self.number = number
+        self.layout = None
 
     def get_style_by_id(self, style_id):
         return self.presentation.get_style_by_id(style_id)
