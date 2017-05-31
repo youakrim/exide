@@ -10,7 +10,7 @@ The API is currently in developement and bugs are likely to occur.
 * Named-entities recognition (unaccurate)
 * Emphasized text recognition
 * URLs recognition
-* Structure detection
+* Structure detection and outline generation
 * Recognition of the following silde types : 
   * Introduction 
   * Conclusion
