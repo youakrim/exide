@@ -233,10 +233,10 @@ def structure_extraction(section):
     # We then try to recognize section headers and create new section
     new_new_tree = Section(new_tree.title)
     element_list = new_tree.subelements[:]
-    i = 0
     while len(element_list) > 0:
-        if is_section_header(element_list[0]):
-            current_section = Section(element_list[i].title)
+        if is_section_header(element_list[0]) and len(element_list) > 1 and not is_section_header(element_list[1]):
+            current_section = Section(element_list[0].title)
+            current_section.subelements.append(element_list[0])
             current_level = section_level(element_list[0])
             element_list.remove(element_list[0])
             while len(element_list) > 0:
