@@ -8,7 +8,7 @@ class SlideParser(object):
     def __init__(self, PPTXSlideObject, number, presentationParser):
         self.presentation = presentationParser
         self.text_parsers = self.parseText(PPTXSlideObject)
-        self.title_parsers = []
+        self.title_parsers = self.parseTitle(PPTXSlideObject)
         self.number = number
         self.pptx_object = PPTXSlideObject
         self.layout = PPTXSlideObject.slide_layout
@@ -32,6 +32,17 @@ class SlideParser(object):
                         text.append(TextParser(run, self))
         return text
 
+    def parseTitle(self, PPTXSlideObject):
+        title = []
+        for shape in PPTXSlideObject.shapes.placeholders:
+            if PPTXSlideObject.shapes.title is not None:
+                if PPTXSlideObject.shapes.title.shape_id == shape.shape_id:
+                    if not shape.has_text_frame:
+                        continue
+                    for paragraph in shape.text_frame.paragraphs:
+                        for run in paragraph.runs:
+                            title.append(TextParser(run, self))
+        return title
 
     # On cherche à extraire les textes d'un certain style
     def getTextsByStyleId(self, styleID):
@@ -66,4 +77,4 @@ class SlideParser(object):
         text = ""
         if self.pptx_object.shapes.title is not None:
             return self.pptx_object.shapes.title.text
-        return "Untitled"
+        return None

@@ -29,6 +29,7 @@ def get_continuous_chunks(text):
                 continue
     return continuous_chunk
 
+
 def get_text_statistics(list_of_text_parsers):
     # On initialise les varaiables statistiques
     # We set the statistics variables
@@ -100,8 +101,10 @@ def statistics_noise_reduction(statistics):
         font_groups.append(font_group)
     return False
 
+
 def relative_uncertainty(a,b):
     return (abs(a-b)/(a))*100
+
 
 # Pré-condition : le text_parser doit faire partie du corpus d'apprentissage des statistiques et les statistiques doivent avoir un format valides
 def matches_statistics(tp, statistics):
@@ -173,10 +176,12 @@ def get_urls(text):
 
 
 def get_slide_type(slide):
+    if get_title(slide) == "Untitled":
+        return "graphic"
     if slide.layout is not None and slide.layout == slide.presentation.pptx_object.slide_layouts[2]:
         return "sectionheader"
     for type in SlideTypes.LIST:
-        if any(word in slide.title.lower() for word in SlideTypes.LIST[type]):
+        if any(word in get_title(slide).lower() for word in SlideTypes.LIST[type]):
             return type
     return "notype"
 
@@ -185,10 +190,12 @@ def get_named_entities(text):
 
 
 def get_title(slide):
-    if slide.shapes.title is not None:
-        return slide.shapes.title.text
+    if slide.title is not None:
+        return slide.title
     elif len(slide.text.split(" "))>0:
-        return "untitled"+slide.text.split("\n")[0]
+        for line in slide.text.split("\n"):
+            if len(line) > 2:
+                return line.replace('\t', '')
     return "Untitled"
 
 
@@ -210,7 +217,7 @@ def get_text(slide):
     return text
 
 
-def structure_extraction(section):
+def structure_extraction(section, presentation_parser):
     # We start by regrouping slides with similar titles
     current_section = None
     new_tree = Section(section.title)
@@ -230,24 +237,35 @@ def structure_extraction(section):
         new_tree.subelements.append(copy.copy(current_section))
     else:
         new_tree.subelements.append(section.slides[len(section.slides)-1])
-    # We then try to recognize section headers and create new section
+
+    # We then try to recognize section headers and create new sections
     new_new_tree = Section(new_tree.title)
     element_list = new_tree.subelements[:]
-    while len(element_list) > 0:
-        if is_section_header(element_list[0]) and len(element_list) > 1 and not is_section_header(element_list[1]):
-            current_section = Section(element_list[0].title)
-            current_section.subelements.append(element_list[0])
-            current_level = section_level(element_list[0])
-            element_list.remove(element_list[0])
-            while len(element_list) > 0:
-                if is_section_header(element_list[0]) and section_level(element_list[0]) >= current_level:
+    slide_parser_list = presentation_parser.slides
+    if len(element_list) ==1:
+        new_new_tree.subelements.append(element_list[0])
+    while len(element_list) > 1:
+        if is_section_header(element_list[1]) and len(element_list) > 2:
+            current_section = Section(element_list[1].title)
+            current_section.subelements.append(copy.copy(element_list[1]))
+            current_level = section_level(element_list[1], slide_parser_list[element_list[1].id-1])
+            element_list.remove(element_list[1])
+            first_slide = element_list[1]
+            while len(element_list) > 1:
+                if is_section_header(element_list[1]) and section_level(element_list[1], slide_parser_list[element_list[1].id-1]) >= current_level and section_level(element_list[1], slide_parser_list[element_list[1].id-1]) >= section_level(first_slide, slide_parser_list[first_slide.id-1]):
                     break
-                current_section.subelements.append(element_list[0])
-                element_list.remove(element_list[0])
-            new_new_tree.subelements.append(copy.copy(current_section))
+                current_section.subelements.append(element_list[1])
+                element_list.remove(element_list[1])
+            #print current_section.title
+            current_section_structured = structure_extraction(copy.copy(current_section), presentation_parser)
+            new_new_tree.subelements.append(copy.copy(current_section_structured))
         else:
             new_new_tree.subelements.append(element_list[0])
             element_list.remove(element_list[0])
+            if len(element_list) == 1:
+                new_new_tree.subelements.append(element_list[0])
+                element_list.remove(element_list[0])
+
 
     return new_new_tree
 
@@ -255,13 +273,20 @@ def structure_extraction(section):
 def title_similarity(title_1, title_2):
     str1 = stopwords_removal(title_1, "fr").lower().split()
     str2 = stopwords_removal(title_2, "fr").lower().split()
+    if max(len(str1), len(str2)) == 0:
+        return 0
     return float(sum(levenshtein(word2, word1) == 0 or ((float(max(len(word1), len(word2))-levenshtein(word2, word1))/max(len(word1), len(word2))) > 0.7) for word2 in str1 for word1 in str2))/max(len(str1), len(str2))
 
-def is_section_header(slide):
-    return slide.type == "sectionheader" or len(slide.text.split(" ")) < 5
 
-def section_level(slide):
+def is_section_header(slide):
+    return slide.type == "sectionheader" or (len(slide.text.split(" ")) < 15 and slide.type != "graphic")
+
+
+def section_level(slide, slide_parser):
+    if len(slide_parser.title_parsers) > 0:
+        return slide_parser.title_parsers[0].font_size
     return 0
+
 
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
@@ -290,15 +315,16 @@ def stopwords_removal(string, language):
     path = os.path.join(__location__, "sw_"+language);
 
     string_without_numbers = ''.join([i for i in string if i.isalpha()])
+    result = ""
     try:
         file = io.open(path, 'r', encoding='utf-8')
+        file_content = file.read()
+        stopwords = file_content.split("\n")
+        stringwords = string_without_numbers.split()
+        resultwords = [word for word in stringwords if word.lower() not in stopwords]
+        result = ' '.join(resultwords)
     except:
         print "Error : missing stopword file for "+language+" in"+__location__
-    file_content = file.read()
-    stopwords = file_content.split("\n")
-    stringwords = string_without_numbers.split()
-    resultwords = [word for word in stringwords if word.lower() not in stopwords]
-    result = ' '.join(resultwords)
 
     return result
 
@@ -315,7 +341,7 @@ def parse(presentation_parser):
         new_slide = Slide()
         new_slide.id = current_id
         current_id+=1
-        new_slide.title = slide_parser.title
+        new_slide.title = get_title(slide_parser)
 
         # On récupère le texte du corps de la diapositive
         new_slide.text = slide_parser.text
@@ -333,7 +359,5 @@ def parse(presentation_parser):
         new_slide.named_entities = get_named_entities(new_slide.title)
         new_slide.named_entities += get_named_entities(new_slide.text)
 
-        named_entities = []
-
-    presentation.root_section = structure_extraction(root_section)
+    presentation.root_section = structure_extraction(root_section, presentation_parser)
     return presentation

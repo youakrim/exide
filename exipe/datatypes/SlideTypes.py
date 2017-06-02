@@ -30,7 +30,7 @@ class SlideTypes:
 
 if __name__ == '__main__':
     # TESTS
-    for words in Types.LIST:
+    for words in SlideTypes.LIST:
         print words
-        for word in Types.LIST[words]:
+        for word in SlideTypes.LIST[words]:
             print "\t"+word

@@ -18,10 +18,10 @@ def main(argv):
     outputfile = ''
     try:
         opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
-        print("Opts : ")
+        '''print("Opts : ")
         print(opts)
         print("Args : ")
-        print(args)
+        print(args)'''
     except getopt.GetoptError:
         print('test.py -i <inputfile> -o <outputfile>')
         sys.exit(2)
@@ -33,17 +33,17 @@ def main(argv):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
-    print('Input file is "', inputfile)
-    print('Output file is "', outputfile)
+    #print('Input file is "', inputfile)
+    #print('Output file is "', outputfile)
 
     # On récupère les noms de fichiers et extensions
     # We extract the filename and extension of both files
     inputfile_name, inputfile_extension = os.path.splitext(inputfile)
     inputfile_directory = os.path.dirname(inputfile)
-    print("L'extension du fichier d'entrée est", inputfile_extension)
+    #print("L'extension du fichier d'entrée est", inputfile_extension)
     # On vérifie que l'extension du fichier d'entrée (inputfile) est connue
     # We check if the inputfile extension is recognized
-    extensions_connues = [".odp"]
+    extensions_connues = [".odp", ".pptx"]
 
     if inputfile_extension not in extensions_connues:
         sys.exit("Erreur : Type de fichier non supporté \n \t Les extensions supportées sont ", extensions_connues)

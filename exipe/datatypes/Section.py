@@ -57,14 +57,18 @@ class Section:
 
     @property
     def outline(self):
-        outline = "- Section : "+self.title+"\n"
+        outline = "- "+self.title.replace('\n', ' ').replace('\r', '').replace('\t', '')+"\n"
         for element in self.subelements:
             if isinstance(element, Section):
                 for line in element.outline.split("\n"):
                     outline += "\t"+line+"\n"
             else:
-                outline+="\t- "+element.title+" "+str(element.id)+"\n"
+                outline+="\t* "+element.title.replace('\n', ' ').replace('\r', '').replace('\t', '')+" [sl. "+str(element.id)+"]\n"
         return outline
+
+    @property
+    def id(self):
+        return self.subelements[0].id
 
     def get_slides_of_type(self, type):
         pass
@@ -74,3 +78,4 @@ class Section:
 
     def get_slides_by_title(self, title):
         pass
+
