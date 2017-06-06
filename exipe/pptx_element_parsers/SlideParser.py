@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from pptx_element_parsers.TextParser import TextParser
+from pptx_element_parsers.ShapeParser import ShapeParser
 
 class SlideParser(object):
 
@@ -16,6 +17,9 @@ class SlideParser(object):
 
     def parseText(self, PPTXSlideObject):
         text = []
+        for shape in PPTXSlideObject.shapes:
+            if hasattr(shape, "text") and shape.text is not None and shape not in PPTXSlideObject.shapes.placeholders:
+                text.append(ShapeParser(shape, self))
         for shape in PPTXSlideObject.shapes.placeholders:
             if PPTXSlideObject.shapes.title is not None:
                 if PPTXSlideObject.shapes.title.shape_id != shape.shape_id:
@@ -74,7 +78,6 @@ class SlideParser(object):
 
     @property
     def title(self):
-        text = ""
         if self.pptx_object.shapes.title is not None:
             return self.pptx_object.shapes.title.text
         return None

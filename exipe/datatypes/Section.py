@@ -4,12 +4,14 @@ from Slide import Slide
 
 
 class Section:
-    def __init__(self, title):
-        self.title = title
+    def __init__(self):
         self.subelements = []
         self.level = 0
         self.toc_slide_id = None
         self.type="section"
+    @property
+    def title(self):
+        return self.subelements[0].title
 
     @property
     def emphasized_text(self, ):

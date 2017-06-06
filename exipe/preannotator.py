@@ -5,7 +5,7 @@ import os
 
 import sys
 
-import odp_parser
+import pptx
 
 
 # On cherche à récuperer les noms des fichiers d'entrée et de sortie
@@ -43,21 +43,19 @@ def main(argv):
     #print("L'extension du fichier d'entrée est", inputfile_extension)
     # On vérifie que l'extension du fichier d'entrée (inputfile) est connue
     # We check if the inputfile extension is recognized
-    extensions_connues = [".odp", ".pptx"]
+    extensions_connues = [".pptx"]
 
     if inputfile_extension not in extensions_connues:
         sys.exit("Erreur : Type de fichier non supporté \n \t Les extensions supportées sont ", extensions_connues)
 
     # Si odp alors on entre dans l'archive
     # If the input file extension is ".odp", we unzip the archive
-    if inputfile_extension == ".odp":
-        pres = odp_parser.parse_odp(inputfile)
-        print pres.root_section.outline.encode('utf-8')
-    elif inputfile_extension == ".pptx":
-        pres = pptx_parser.parse_pptx(inputfile)
-       # print pres.root_section.outline.encode('utf-8')
-        print pres.export_to_json()
-
+    if inputfile_extension == ".pptx":
+        prs = pptx.Presentation(inputfile)
+        for slide in prs.slides:
+            new_title = "[title]"+slide.shapes.title.text + "[/title]"
+            slide.shapes.title.text = new_title
+        prs.save(outputfile)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

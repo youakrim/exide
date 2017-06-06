@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+import jsonpickle, json
 
 class Presentation:
     def __init__(self, section):
@@ -11,4 +11,4 @@ class Presentation:
         pass
 
     def export_to_json(self, ):
-        pass
+        return json.dumps(json.loads(jsonpickle.encode(self)), indent=4)

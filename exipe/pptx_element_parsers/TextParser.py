@@ -11,8 +11,7 @@ class TextParser(object):
     def text(self):
         if self.pptx_objet.text is not None:
             return self.pptx_objet.text
-        else:
-            return ""
+        return ""
 
     @property
     def font_weight(self):

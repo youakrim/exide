@@ -104,7 +104,9 @@ class SlideParser(object):
 
     @property
     def title(self):
-        text=""
-        for tp in self.title_parsers:
-            text+=tp.text
-        return text
+        if len(self.title_parsers) > 0:
+            text=""
+            for tp in self.title_parsers:
+                text+=tp.text
+            return text
+        return None
