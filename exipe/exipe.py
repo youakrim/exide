@@ -46,7 +46,7 @@ def main(argv):
     extensions_connues = [".odp", ".pptx"]
 
     if inputfile_extension not in extensions_connues:
-        sys.exit("Erreur : Type de fichier non supporté \n \t Les extensions supportées sont ", extensions_connues)
+        sys.exit("Erreur : Type de fichier non supporté \n \t Les extensions supportées sont "+ str(extensions_connues))
 
     # Si odp alors on entre dans l'archive
     # If the input file extension is ".odp", we unzip the archive
