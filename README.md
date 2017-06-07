@@ -24,7 +24,7 @@ Note : slide types can be added by editing the datatypes/types file.
 ### Install exipe
 cd to the root of the exipe package directory and then : 
 ```bash
-pip install .
+sudo pip install .
 ```
 ### Notes
 For now the API works only with Office Open XML Presentation files (PPTX) and OpendDocument Presentation files (ODP). It uses python-pptx and NLTK librairies.
