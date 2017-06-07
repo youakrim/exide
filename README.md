@@ -19,13 +19,13 @@ The API is currently in developement and bugs are likely to occur.
   * Table of contents
   * References
   * Section header
- 
+Note : slide types can be added by editing the datatypes/types file.
+
 ### Supported file types
 * Office Open XML Presentations (PPTX)
 * OpenDocument Presentations (ODP)
 * LaTeX beamer Presentations
 
-Note : slide types can be added by editing the datatypes/types file.
 ### Install exipe
 cd to the root of the exipe package directory and then : 
 ```bash
