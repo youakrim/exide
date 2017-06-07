@@ -11,6 +11,9 @@ def parse_beamer(path):
     with open(path, 'r') as content_file:
         content = content_file.read()
 
+    if len(re.compile(r'\\begin{frame}').split(content)) == 0:
+        raise Exception("Invalid LaTeX Beamer file. No frame found.")
+
     if len(re.findall(r'\\title{(.*?)\}', content, re.S)) > 0:
         title = re.findall(r'\\title{(.*?)\}', content, re.S)[0]
     else:
