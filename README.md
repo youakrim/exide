@@ -12,7 +12,8 @@ python
 import nltk
 nltk.download("all")
 ```
-then press enter. Exipe is now installed on your system.
+then press enter. 
+Exipe is now installed on your system.
 
 ### Implemented features : 
 * Slide title extraction
