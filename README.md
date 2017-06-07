@@ -1,14 +1,14 @@
+# exipe
+
+Exipe is a Python API for information extraction from presentation documents.
+
+The API is currently in developement and bugs are likely to occur.
 
 ### Install exipe
 Download the repository, cd to the root of the exipe package directory and then type the following : 
 ```bash
 sudo pip install .
 ```
-# exipe
-
-Exipe is a Python API for information extraction from presentation documents.
-
-The API is currently in developement and bugs are likely to occur.
 
 ### Implemented features : 
 * Slide title extraction
