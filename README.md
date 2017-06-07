@@ -7,7 +7,8 @@ The API is currently in developement and bugs are likely to occur.
 ### Install exipe
 Download the repository, cd to the root of the exipe package directory and then type the following : 
 ```bash
-sudo pip install .
+sudo su
+pip install .
 python
 import nltk
 nltk.download("all")
