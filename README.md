@@ -1,4 +1,4 @@
-# exipe2
+# exipe
 
 Exipe is a Python API for information extraction from presentation documents.
 
