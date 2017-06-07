@@ -4,20 +4,20 @@ from Slide import Slide
 
 
 class Section:
-    def __init__(self):
+    def __init__(self, title=None):
         self.subelements = []
         self.level = 0
         self.toc_slide_id = None
-        self.type="section"
+        self.type = "section"
+        self.title = title
 
-    @property
-    def title(self):
+    def first_slide_title(self):
         """
             Title of the fist slide of the section, returns None if the Section has no slide
         """
         if len(self.subelements) > 0:
             return self.subelements[0].title
-        return None
+        return "Untitled"
 
     @property
     def emphasized_text(self, ):
@@ -26,7 +26,7 @@ class Section:
         """
         emphasized_texts = []
         for element in self.subelements:
-            emphasized_texts+=element.emphasized_text
+            emphasized_texts += element.emphasized_text
         return emphasized_texts
 
     @property
@@ -36,7 +36,7 @@ class Section:
         """
         ne = []
         for element in self.subelements:
-            ne+=element.named_entities
+            ne += element.named_entities
         return ne
 
     @property
@@ -46,7 +46,7 @@ class Section:
         """
         text = ""
         for element in self.subelements:
-            text+=element.text
+            text += element.text
         return text
 
     @property
@@ -56,7 +56,7 @@ class Section:
         """
         urls = []
         for element in self.subelements:
-            urls+=element.urls
+            urls += element.urls
         return urls
 
     @property
@@ -86,13 +86,18 @@ class Section:
         """
             Return a list style string with the section outline
         """
-        outline = "- "+self.title.replace('\n', ' ').replace('\r', '').replace('\t', '')+"\n"
+        if self.title is not None:
+            outline = "- " + self.title.replace('\n', ' ').replace('\r', '').replace('\t', '') + "\n"
+        else:
+            outline = "- Untitled \n"
         for element in self.subelements:
             if isinstance(element, Section):
                 for line in element.outline.split("\n"):
-                    outline += "\t"+line+"\n"
+                    outline += "\t" + line + "\n"
             else:
-                outline+="\t* "+element.title.replace('\n', ' ').replace('\r', '').replace('\t', '')+" [sl. "+str(element.id)+"]\n"
+                outline += "\t* " + element.title.replace('\n', ' ').replace('\r', '').replace('\t',
+                                                                                               '') + " [sl. " + str(
+                    element.id) + "]\n"
         return outline
 
     @property
@@ -143,4 +148,3 @@ class Section:
             if slide.title == title:
                 slides.append(slide)
         return slides
-

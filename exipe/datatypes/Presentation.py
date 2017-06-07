@@ -4,7 +4,7 @@ import jsonpickle, json
 
 
 class Presentation:
-    def __init__(self, section):
+    def __init__(self, section=None):
         self.root_section = section
         self.metadata = None
 
@@ -25,3 +25,9 @@ class Presentation:
         :return: str. -- JSON string
         """
         return json.dumps(json.loads(jsonpickle.encode(self)), indent=4)
+
+    @property
+    def outline(self):
+        if self.root_section is not None:
+            return self.root_section.outline
+        return ""

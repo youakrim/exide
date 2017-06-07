@@ -1,0 +1,312 @@
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice.
+
+\documentclass{beamer}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{float}
+\usepackage{qtree}
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+\usetheme{Boadilla}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{default}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+\title{Module d'Extraction d'Informations Structurelles de Fichiers de Présentation}
+
+
+
+\author{Yanis Ouakrim}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[LS2N] % (optional, but mostly needed)
+{
+    LS2N
+  }
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+\date{Compte rendu semaine 2}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{Theoretical Computer Science}
+% This is only inserted into the PDF information catalog. Can be left
+% out.
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+
+
+% Let's get started
+\begin{document}
+
+\begin{frame}
+  \frametitle{Test}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Plan}
+  \tableofcontents
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+% Section and subsections will appear in the presentation overview
+% and table of contents.
+\section{État de l'art}
+
+\subsection{Formats d'entrée}
+
+\begin{frame}{Formats d'entrée}
+
+\begin{block}{Formats sources}
+  \begin{itemize}
+  \item OpenDocument Presentation (ODP)
+  \item Microsoft PowerPoint Open XML Presentation (PPTX)
+  \item Microsoft PowerPoint Presentation (PPT)
+  \item \LaTeX (Beamer)
+  \end{itemize}
+  \end{block}
+  \pause
+\begin{block}{Formats d'export} % Bloc normal
+\begin{itemize}
+  \item PDF
+  \item TIFF
+  \item JPEG
+  \item etc.
+  \end{itemize}
+ \end{block}
+\end{frame}
+\subsection{Formats de sortie}
+
+\begin{frame}{Formats de sortie}
+
+\begin{block}{Formats standards}
+  \begin{itemize}
+  \item XML
+  \item JSON
+  \end{itemize}
+  \end{block}
+  \pause
+\begin{block}{Structure du document} % Bloc normal
+\begin{figure}
+    \begingroup
+    \fontsize{3pt}{4pt}\selectfont
+    \Tree[.Document [.{Thème 1} [.{Notion 1} {Définition} {Exemple} ]
+               [.{Notion 2} {Définition} [.{Exemple} {Image} ]]]
+               [.{Thème 2} [.{Sous-thème 1} [.{Notion 1} {Définition} {Exemple} ]] [.{Notion 2} {Définition} {Exemple} ]
+              ]]
+    \caption{Exemple de structure que l'on pourrait souhaiter extraire}
+    \endgroup
+    \label{fig:exemple}
+\end{figure}
+ \end{block}
+\end{frame}
+
+\section{Comment obtenir la structure logique à partir des formats d'entrée ?}
+
+\begin{frame}{Comment obtenir la structure logique d'un document à partir de son format d'entrée ?}
+\begin{block}{PPT}
+Format binaire, difficilement traitable sans conversion préalable.
+\end{block}
+\pause
+\begin{block}{ODP}
+Extraire les informations de base (découpage titre/corps des diapositives) possible.
+\end{block}
+\pause
+\begin{block}{PPTX}
+Même système que pour l'ODP. Mais structure XML plus obscure.
+\end{block}
+\pause
+\begin{block}{\LaTeX}
+Structure logique explicite. Beaucoup de possibilités avec un simple parsing. Nombreuses ressources (Ex: TRALICS)
+\end{block}
+\end{frame}
+
+\section{ODP : quelques perspectives}
+\begin{frame}{ODP : quelques perspectives}
+
+\begin{block}{Le format pivot idéal}
+\begin{itemize}
+    \item Conversion PPTX ou PPT vers ODP avec peu de perte d'informations.
+    \item Un format Open Source
+    \item Un format populaire
+    \item Un format standardisé
+\end{itemize}
+\end{block}
+\pause
+\begin{block}{Quelques utilitaires}
+ODFPY, odfoutline
+\end{block}
+\end{frame}
+\section{Parsing}
+\begin{frame}{Parsing}
+  \begin{block}{Élements de structuration}
+L'attribut \texttt{presentation:class} un "typage" des éléments :
+\begin{itemize}
+    \item chart
+    \item graphic
+    \item title
+    \item subtitle
+    \item outline
+    \item notes
+    \item page
+    \item etc.
+\end{itemize}
+\end{block}
+\end{frame}
+\section{Reconnaisance des types de contenu par analyse lexicale}
+\begin{frame}{Reconnaisance des types de contenu}
+  \begin{block}{Typage par champs lexicaux}
+    En fonction du titre de la diapositive, on peut essayer de déduire de quoi elle traite : exemple, définition, conclusion...
+  \end{block}
+  \begin{exampleblock}{Exemple}
+    Une diapositive est intitulée "Exemple de graphe orienté". Son titre contient le mot exemple, elle sera donc typée en tant qu'exemple.
+  \end{exampleblock}
+\end{frame}
+
+\section{Les limites du système de déduction par balisage et d'analyse lexicale}
+\begin{frame}{Les limites du système de déduction par balisage et d'analyse lexicale}
+  \begin{block}{La déduction par balisage}
+    Mauvais typages, une \texttt{outline} peut correspondre à un simple paragraphe dans un fichier alors qu'elle correspondra bien au sommaire dans un autre fichiers.
+  \end{block}
+  \begin{block}{Extraction de la structure}
+    Seuls deux niveaux de titre : titre et sous-titre. Limités à la diapositive.
+  \end{block}
+\end{frame}
+
+\section{Une solution}
+\begin{frame}{Une solution}
+\begin{block}{Une solution} % Bloc normal
+Déduire d'après les caractéristiques \textbf{graphiques}, \textbf{semantiques} et \textbf{positionnelles} de chaque élément, sa position dans la structure logique du document.
+\end{block}
+ \pause
+\begin{exampleblock}{Exemple}
+Plus un texte est grand plus il aura de chance d'être un titre de haut niveau.
+\end{exampleblock}
+\end{frame}
+
+\section{Prétraitement}
+\begin{frame}{Prétraitement}
+  \begin{block}{Objectif}
+    Extraire les caractéristques graphiques de chaque élément : police, couleur, taille, position.
+  \end{block}
+  \begin{block}{Solution 1}
+    Extraire le style des fichiers ODP.
+  \end{block}
+  \begin{block}{Solution 2}
+    Export vers un fichier graphique (ex: \texttt{TIFF}) puis reconnaissance visuelle des caractériques graphiques à l'aide d'un OCR spécialisé (ex: Tesseract).
+  \end{block}
+  \begin{block}{Solution 3}
+    Export vers un fichier PDF puis extraction des caractériques graphiques à l'aide d'un utilitaire.
+  \end{block}
+\end{frame}
+
+\section{Traitement}
+\begin{frame}{Traitement}
+  \begin{block}{Objectif}
+    Reconnaître d'après les caractéristiques graphiques, semantiques et positionnelles de chaque élément sa position dans la structure logique du document.
+  \end{block}
+  \begin{block}{Étape 1}
+    Retirer les mots vides.
+  \end{block}
+  \begin{block}{Étape 2}
+    Regrouper les textes selon leur style
+  \end{block}
+  \begin{block}{Etape 3}
+    Débruitage : on fusionne les styles très similaires.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Traitement}
+\begin{block}{Étape 4}
+On vérifie si les styles du document correspondent à un modèle connu.
+\end{block}
+  \begin{block}{Étape 4}
+    On calcule un \textit{indice d'importance} de chaque paragraphe en fonction de ses caractéristiques :
+    \begin{itemize}
+        \item position
+        \item longueur
+    \end{itemize}
+  \end{block}
+  \begin{block}{Étape 5}
+    On calcule un \textit{indice d'importance} de chaque style en fonction de ses caractéristiques :
+    \begin{itemize}
+        \item taille
+        \item couleur
+        \item police
+        \item disposition de ses occurences au sein du document
+        \item indice d'importance de ses occurences
+    \end{itemize}
+  \end{block}
+\end{frame}
+\begin{frame}{Traitement}
+\begin{block}{Étape 4}
+On vérifie si les styles du document correspondent à un modèle connu.
+\end{block}
+  \begin{block}{Étape 5}
+    On calcule un \textit{indice d'importance} de chaque paragraphe en fonction de ses caractéristiques :
+    \begin{itemize}
+        \item position
+        \item longueur
+    \end{itemize}
+  \end{block}
+  \begin{block}{Étape 5}
+    On calcule un \textit{indice d'importance} de chaque style en fonction de ses caractéristiques :
+    \begin{itemize}
+        \item taille
+        \item couleur
+        \item police
+        \item disposition de ses occurences au sein du document
+        \item indice d'importance de ses occurences
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\end{document}

@@ -208,12 +208,12 @@ def get_title(slide):
 def group_slides_by_title(section):
     # We start by regrouping slides with similar titles
     current_section = None
-    new_tree = Section()
+    new_tree = Section(section.title)
     for i in range(1, len(section.slides)):
         if current_section is not None and title_similarity(get_title(section.slides[i - 1]), get_title(section.slides[i])) > 0.7:
             current_section.subelements.append(section.slides[i])
         elif current_section is None and title_similarity(get_title(section.slides[i - 1]), get_title(section.slides[i])) > 0.7:
-            current_section = Section()
+            current_section = Section(section.slides[i - 1].title)
             current_section.subelements.append(section.slides[i - 1])
             current_section.subelements.append(section.slides[i])
         elif current_section is not None:
@@ -291,7 +291,7 @@ def structure_extraction(section, presentation_parser):
     '''
     slide_parser_list = presentation_parser.slides
     # liste_elem = sous elements de la sections
-    output_section = Section()
+    output_section = Section(presentation_parser.slides[0].title)
     element_list = section.subelements
     output_section.subelements.append(element_list[0])
     # On retire la premier element de liste_elem qui correspond au titre de la section
@@ -306,7 +306,7 @@ def structure_extraction(section, presentation_parser):
         # Si l’élément courant est une en-tête de section suivie par au moins une diapo de niveau inférieur:
         elif is_section_header(element_list[0]) and len(element_list) > 1:
             # Alors on créer une section
-            current_section = Section()
+            current_section = Section(element_list[0].title)
             # On ajoute l’élément dans la section
             current_section.subelements.append(element_list[0])
             # On retire l’élément de la liste
@@ -412,6 +412,8 @@ def parse(presentation_parser):
         # On cherche à récupérer les URLs
         new_slide.urls = get_urls(new_slide.text)
         presentation.root_section.subelements.append(new_slide)
+        if presentation.root_section.title is None:
+            presentation.root_section.title == new_slide.title
 
         # On cherche à récupérer les entités nommées
         new_slide.named_entities = get_named_entities(new_slide.title)

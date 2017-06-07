@@ -5,6 +5,7 @@ import os
 
 import sys
 
+import beamer_parser
 import odp_parser
 
 
@@ -33,17 +34,13 @@ def main(argv):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
-    #print('Input file is "', inputfile)
-    #print('Output file is "', outputfile)
 
     # On récupère les noms de fichiers et extensions
     # We extract the filename and extension of both files
     inputfile_name, inputfile_extension = os.path.splitext(inputfile)
-    inputfile_directory = os.path.dirname(inputfile)
-    #print("L'extension du fichier d'entrée est", inputfile_extension)
     # On vérifie que l'extension du fichier d'entrée (inputfile) est connue
     # We check if the inputfile extension is recognized
-    extensions_connues = [".odp", ".pptx"]
+    extensions_connues = [".odp", ".pptx", ".tex"]
 
     if inputfile_extension not in extensions_connues:
         sys.exit("Erreur : Type de fichier non supporté \n \t Les extensions supportées sont "+ str(extensions_connues))
@@ -55,8 +52,11 @@ def main(argv):
         print pres.root_section.outline.encode('utf-8')
     elif inputfile_extension == ".pptx":
         pres = pptx_parser.parse_pptx(inputfile)
-       # print pres.root_section.outline.encode('utf-8')
-        print pres.export_to_json()
+        print pres.root_section.outline.encode('utf-8')
+        #print pres.export_to_json()
+    elif inputfile_extension == ".tex":
+        pres = beamer_parser.parse_beamer(inputfile)
+        print pres.root_section.outline.encode('utf-8')
 
 
 if __name__ == "__main__":
