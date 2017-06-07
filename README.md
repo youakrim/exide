@@ -22,6 +22,7 @@ The API is currently in developement and bugs are likely to occur.
 
 Note : slide types can be added by editing the datatypes/types file.
 ### Install exipe
+cd to the root of the exipe package directory and then : 
 ```bash
 pip install .
 ```
