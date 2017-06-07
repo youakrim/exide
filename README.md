@@ -1,3 +1,9 @@
+
+### Install exipe
+Download the repository, cd to the root of the exipe package directory and then type the following : 
+```bash
+sudo pip install .
+```
 # exipe
 
 Exipe is a Python API for information extraction from presentation documents.
@@ -27,8 +33,3 @@ Note : slide types can be added by editing the datatypes/types file.
 * OpenDocument Presentations (ODP)
 * LaTeX beamer Presentations
 
-### Install exipe
-cd to the root of the exipe package directory and then : 
-```bash
-sudo pip install .
-```
