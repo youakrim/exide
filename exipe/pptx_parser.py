@@ -1,9 +1,9 @@
 #-*- coding: utf-8 -*-
 
 import pptx
-from parser_utils import *
+from .parser_utils import *
 
-from pptx_element_parsers.PresentationParser import PresentationParser
+from .pptx_element_parsers.PresentationParser import PresentationParser
 
 
 def parse_pptx(fileName):

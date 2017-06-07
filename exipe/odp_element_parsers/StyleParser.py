@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-from odp_element_parsers.utils import namespace
+from .utils import namespace
 
 
 class StyleParser(object):

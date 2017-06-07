@@ -371,7 +371,7 @@ def levenshtein(s1, s2):
 
 def stopwords_removal(string, language):
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))) + "/dict/"
-    path = os.path.join(__location__, "sw_" + language);
+    path = os.path.join(__location__, "sw_" + language+".txt");
 
     string_without_numbers = ''.join([i for i in string if i.isalpha()])
     result = ""

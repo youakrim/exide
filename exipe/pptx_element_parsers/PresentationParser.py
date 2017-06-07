@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from pptx_element_parsers.SlideParser import SlideParser
+from .SlideParser import SlideParser
 
 
 class PresentationParser(object):

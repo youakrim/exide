@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/exipe/datatypes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/exipe/pptx_element_parsers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/exipe/odp_element_parsers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/exipe/dict" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

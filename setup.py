@@ -1,11 +1,13 @@
 from distutils.core import setup
 
 setup(name='Exipe',
-      version='1.0',
+      version='1.1.9.9.7',
       description='Information Retrieval API for Presentation Documents',
       author='Yanis Ouakrim',
-      author_email='yanis.ouakrim@etu.univ-nantes.fr',
+      author_email='yanis.ouakrim[at]etu.univ-nantes.fr',
       url='https://www.python.org/sigs/distutils-sig/',
-      packages=['exipe', 'exipe.datatypes'],
-      install_requires=['python-pptx', 'nltk', 'zipfile', 'jsonpickle', 'json']
+      packages=['exipe', 'exipe.datatypes', 'exipe.odp_element_parsers', 'exipe.pptx_element_parsers', 'exipe.dict'],
+      package_data={'': ['*.txt']},
+      include_package_data=True,
+      install_requires=['python-pptx', 'nltk', 'jsonpickle']
       )

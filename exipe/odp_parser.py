@@ -4,8 +4,8 @@ import uuid
 
 import shutil, zipfile
 from lxml import etree
-from odp_element_parsers.PresentationParser import PresentationParser
-from parser_utils import *
+from .odp_element_parsers.PresentationParser import PresentationParser
+from .parser_utils import *
 
 
 

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from odp_element_parsers.TextParser import TextParser
-from odp_element_parsers.utils import namespace
+from .TextParser import TextParser
+from .utils import namespace
 
 
 class SlideParser(object):
@@ -109,4 +109,3 @@ class SlideParser(object):
             for tp in self.title_parsers:
                 text+=tp.text
             return text
-        return None

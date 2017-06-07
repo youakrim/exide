@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from pptx_element_parsers.TextParser import TextParser
-from pptx_element_parsers.ShapeParser import ShapeParser
+from .TextParser import TextParser
+from .ShapeParser import ShapeParser
 
 class SlideParser(object):
 
