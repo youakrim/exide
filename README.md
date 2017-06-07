@@ -8,6 +8,9 @@ The API is currently in developement and bugs are likely to occur.
 Download the repository, cd to the root of the exipe package directory and then type the following : 
 ```bash
 sudo pip install .
+python
+import nltk
+nltk.download("all")
 ```
 
 ### Implemented features : 
