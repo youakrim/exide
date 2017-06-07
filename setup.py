@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='Exipe',
-      version='2.0',
+      version='2.0.0',
       description='Information Retrieval API for Presentation Documents',
       author='Yanis Ouakrim',
       author_email='yanis.ouakrim[at]etu.univ-nantes.fr',
