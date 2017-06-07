@@ -21,7 +21,7 @@ The API is currently in developement and bugs are likely to occur.
   * Section header
  
 ### Supported file types
-* Office Open XML Presentations PPTX
+* Office Open XML Presentations (PPTX)
 * OpenDocument Presentations (ODP)
 * LaTeX beamer Presentations
 
@@ -31,6 +31,3 @@ cd to the root of the exipe package directory and then :
 ```bash
 sudo pip install .
 ```
-### Notes
-For now the API works only with Office Open XML Presentation files (PPTX) and OpendDocument Presentation files (ODP). It uses python-pptx and NLTK librairies.
-
