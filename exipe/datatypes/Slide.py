@@ -7,7 +7,7 @@ class Slide:
         self.title = "Untitled"
         self.text = ""
         self.type = "notype"
-        self.emphasized_text = []
+        self.emphasized_terms = []
         self.urls = []
         self.named_entities = []
         self.id = ""

@@ -38,6 +38,7 @@ def parse_slides(latex, starting_index=1):
             current_slide.title = get_frame_title(slides_contents[i])
             current_slide.text = slides_contents[i]
             current_slide.id = index
+            current_slide.emphasized_text = get_emphasized_terms(slides_contents[i])
             index+=1
             slides.append(current_slide)
     return slides
@@ -79,6 +80,9 @@ def parse_sections(latex, starting_index=1):
         index += len(current_section.subelements)
         sections.append(current_section)
     return sections
+
+def get_emphasized_terms(latex):
+    return re.findall(r'\\emph{(.*?)\}', latex, re.S)
 
 def applyRegexps(text, listRegExp):
     """ Applies successively many regexps to a text"""

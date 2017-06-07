@@ -404,7 +404,7 @@ def parse(presentation_parser):
         # On récupère le texte du corps de la diapositive
         new_slide.text = slide_parser.text
 
-        new_slide.emphasized_text = get_emphasized_terms(slide_parser.text_parsers)
+        new_slide.emphasized_terms = get_emphasized_terms(slide_parser.text_parsers)
 
         # On cherche à typer la diapositive en fonction de son titre
         new_slide.type = get_slide_type(slide_parser)

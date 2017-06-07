@@ -20,14 +20,14 @@ class Section:
         return "Untitled"
 
     @property
-    def emphasized_text(self, ):
+    def emphasized_terms(self, ):
         """
             List of the emphasized terms of the Section's slides
         """
-        emphasized_texts = []
+        emphasized_termss = []
         for element in self.subelements:
-            emphasized_texts += element.emphasized_text
-        return emphasized_texts
+            emphasized_termss += element.emphasized_terms
+        return emphasized_termss
 
     @property
     def named_entities(self, ):
