@@ -9,12 +9,21 @@ class Section:
         self.level = 0
         self.toc_slide_id = None
         self.type="section"
+
     @property
     def title(self):
-        return self.subelements[0].title
+        """
+            Title of the fist slide of the section, returns None if the Section has no slide
+        """
+        if len(self.subelements) > 0:
+            return self.subelements[0].title
+        return None
 
     @property
     def emphasized_text(self, ):
+        """
+            List of the emphasized terms of the Section's slides
+        """
         emphasized_texts = []
         for element in self.subelements:
             emphasized_texts+=element.emphasized_text
@@ -22,6 +31,9 @@ class Section:
 
     @property
     def named_entities(self, ):
+        """
+            List of the named entities of the Section's slides
+        """
         ne = []
         for element in self.subelements:
             ne+=element.named_entities
@@ -29,6 +41,9 @@ class Section:
 
     @property
     def text(self, ):
+        """
+            String of the body text of all slides without the slide titles
+        """
         text = ""
         for element in self.subelements:
             text+=element.text
@@ -36,6 +51,9 @@ class Section:
 
     @property
     def urls(self, ):
+        """
+            List of the URLs of the Section's slides
+        """
         urls = []
         for element in self.subelements:
             urls+=element.urls
@@ -43,6 +61,9 @@ class Section:
 
     @property
     def slides(self):
+        """
+            List of the Section's Slide objects
+        """
         slides = []
         for element in self.subelements:
             if isinstance(element, Slide):
@@ -51,6 +72,9 @@ class Section:
 
     @property
     def sections(self):
+        """
+            List of the Section's subsections
+        """
         sections = []
         for element in self.subelements:
             if isinstance(element, Section):
@@ -59,6 +83,9 @@ class Section:
 
     @property
     def outline(self):
+        """
+            Return a list style string with the section outline
+        """
         outline = "- "+self.title.replace('\n', ' ').replace('\r', '').replace('\t', '')+"\n"
         for element in self.subelements:
             if isinstance(element, Section):
@@ -70,14 +97,50 @@ class Section:
 
     @property
     def id(self):
+        """
+        Return the |id| of the first |Slide| of the |Section|
+        """
         return self.subelements[0].id
 
     def get_slides_of_type(self, type):
-        pass
+        """
+        Returns the list of the |Slide| objects of the given type
+        :param type: str. -- type of slides
+        :return: list of |Slide| objects
+        """
+        slides = []
+        for slide in self.subelements:
+            if slide.type == type:
+                slides.append(slide)
+        return slides
 
-    def get_slides_by_keyword(self, keyword):
-        pass
+    def get_slides_by_keyword(self, keyword, search_title=True, search_body_text=False):
+        """
+        Returns the list of |Slide| objects that contain a given keyword
+        :param keyword: The word or string to look for.
+        :param search_title: Indicates if the search should consider the title string or not
+        :param search_body_text: Indicates if the search should consider the body text string or not
+        :return: list of |Slide| objects
+        """
+        slides = []
+        for slide in self.slides:
+            if search_title:
+                if keyword in slide.title:
+                    slide.append(slide)
+            if search_bodytext:
+                if keyword in slide.text:
+                    slides.append()
+        return slides
 
     def get_slides_by_title(self, title):
-        pass
+        """
+        Returns the list of the slides whose title matches the given title
+        :param title: The title string to look for
+        :return: list of |Slide| objects
+        """
+        slides = []
+        for slide in self.slides:
+            if slide.title == title:
+                slides.append(slide)
+        return slides
 
