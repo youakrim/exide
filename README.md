@@ -4,6 +4,18 @@ Exipe is a Python API for information extraction from presentation documents.
 
 The API is currently in developement and bugs are likely to occur.
 
+### Install exipe
+Download the repository, cd to the root of the exipe package directory and then type the following : 
+```bash
+sudo su
+pip install .
+python
+import nltk
+nltk.download("all")
+```
+then press enter. 
+Exipe is now installed on your system.
+
 ### Implemented features : 
 * Slide title extraction
 * Slide body text extraction
@@ -19,13 +31,11 @@ The API is currently in developement and bugs are likely to occur.
   * Table of contents
   * References
   * Section header
-
+ 
 Note : slide types can be added by editing the datatypes/types file.
-### Install exipe
-cd to the root of the exipe package directory and then : 
-```bash
-sudo pip install .
-```
-### Notes
-For now the API works only with Office Open XML Presentation files (PPTX) and OpendDocument Presentation files (ODP). It uses python-pptx and NLTK librairies.
+
+### Supported file types
+* Office Open XML Presentations (PPTX)
+* OpenDocument Presentations (ODP)
+* LaTeX beamer Presentations
 
