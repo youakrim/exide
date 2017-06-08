@@ -181,13 +181,22 @@ def get_urls(text):
     return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
 
 
-def get_slide_type(slide):
+def get_slide_parser_type(slide):
     if get_title(slide) == "Untitled":
         return "graphic"
     if slide.layout is not None and slide.layout == slide.presentation.pptx_object.slide_layouts[2]:
         return "sectionheader"
     for type in SlideTypes.LIST:
         if any(word in get_title(slide).lower() for word in SlideTypes.LIST[type]):
+            return type
+    return "notype"
+
+
+def get_slide_type(slide):
+    if slide.title == "Untitled":
+        return "graphic"
+    for type in SlideTypes.LIST:
+        if any(word in slide.title.decode("utf8").lower() for word in SlideTypes.LIST[type]):
             return type
     return "notype"
 
@@ -407,7 +416,7 @@ def parse(presentation_parser):
         new_slide.emphasized_terms = get_emphasized_terms(slide_parser.text_parsers)
 
         # On cherche à typer la diapositive en fonction de son titre
-        new_slide.type = get_slide_type(slide_parser)
+        new_slide.type = get_slide_parser_type(slide_parser)
 
         # On cherche à récupérer les URLs
         new_slide.urls = get_urls(new_slide.text)

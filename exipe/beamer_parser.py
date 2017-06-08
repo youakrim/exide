@@ -5,7 +5,7 @@ import re, os
 from datatypes.Section import Section
 from datatypes.Slide import Slide
 from datatypes.Presentation import Presentation
-from parser_utils import get_named_entities
+from parser_utils import get_named_entities, get_urls, get_slide_type
 
 
 def parse_beamer(path):
@@ -42,6 +42,8 @@ def parse_slides(latex, starting_index=1):
             current_slide.title = get_frame_title(slides_contents[i])
             current_slide.text = slides_contents[i]
             current_slide.id = index
+            current_slide.urls = get_urls(current_slide.text)
+            current_slide.type = get_slide_type(current_slide)
             current_slide.named_entities = get_named_entities(current_slide.text.decode('ascii', "ignore"))
             current_slide.emphasized_text = get_emphasized_terms(slides_contents[i])
             index+=1

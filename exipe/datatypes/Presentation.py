@@ -19,7 +19,7 @@ class Presentation:
                 return slide
         return None
 
-    def export_to_json(self):
+    def export_to_JSON(self):
         """
         Serialize the presentation to a JSON string.
         :return: str. -- JSON string
