@@ -300,7 +300,10 @@ def structure_extraction(section, presentation_parser):
     '''
     slide_parser_list = presentation_parser.slides
     # liste_elem = sous elements de la sections
-    output_section = Section(presentation_parser.slides[0].title)
+    if len(section.subelements) > 0:
+        output_section = Section(section.subelements[0].title)
+    else:
+        output_section = Section("Untitled")
     element_list = section.subelements
     output_section.subelements.append(element_list[0])
     # On retire la premier element de liste_elem qui correspond au titre de la section
@@ -403,6 +406,17 @@ def parse(presentation_parser):
     root_section = Section()
     # On peut maintenant créer la présentation
     presentation = Presentation(root_section)
+
+    presentation.initial_format = presentation_parser.initial_format
+    presentation.title = presentation_parser.title
+    presentation.author = presentation_parser.author
+    presentation.category = presentation_parser.category
+    presentation.comments = presentation_parser.comments
+    presentation.keywords = presentation_parser.keywords
+    presentation.language = presentation_parser.language
+    presentation.created = presentation_parser.created
+    presentation.last_modified = presentation_parser.last_modified
+    presentation.subject = presentation_parser.subject
     current_id = 1
     for slide_parser in presentation_parser.slides:
         new_slide = Slide()

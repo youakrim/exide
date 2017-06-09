@@ -15,11 +15,23 @@ def parse_beamer(path):
     if len(re.compile(r'\\begin{frame}').split(content)) == 0:
         raise Exception("Invalid LaTeX Beamer file. No frame found.")
 
-    if len(re.findall(r'\\title{(.*?)\}', content, re.S)) > 0:
-        title = re.findall(r'\\title{(.*?)\}', content, re.S)[0]
+    if len(re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)) > 0:
+        print re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)
+        title = re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)[0]
     else:
         title = "Untitled"
+
+    if len(re.compile(r'\\begin{frame}').split(content)) == 0:
+        raise Exception("Invalid LaTeX Beamer file. No frame found.")
+
+    if len(re.findall(r'\\author\[?.*\]?[\n]?\{(.*)\}', content, re.M)) > 0:
+        author = detex(re.findall(r'\\author\[?.*\]?[\n]?\{(.*)\}', content, re.M)[0])
+    else:
+        author = "Untitled"
+
     pres = Presentation()
+    pres.title = title
+    pres.author = author
     pres.root_section = Section(title)
 
     title_slide = Slide()
@@ -40,7 +52,7 @@ def parse_slides(latex, starting_index=1):
         if len(re.findall(r'\\titlepage', slides_contents[i])) == 0:
             current_slide = Slide()
             current_slide.title = get_frame_title(slides_contents[i])
-            current_slide.text = slides_contents[i]
+            current_slide.text = detex(slides_contents[i])
             current_slide.id = index
             current_slide.urls = get_urls(current_slide.text)
             current_slide.type = get_slide_type(current_slide)
@@ -228,5 +240,7 @@ def detex(latexText):
 if __name__ == '__main__':
 
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/beamer"
-    pres = parse_beamer(os.path.join(__location__, "simple_beamer"))
+    pres = parse_beamer(os.path.join(__location__, "flots.tex"))
+    print pres.title
+    print pres.author
     print pres.root_section.outline

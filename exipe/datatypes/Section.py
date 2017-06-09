@@ -105,7 +105,10 @@ class Section:
         """
         Return the |id| of the first |Slide| of the |Section|
         """
-        return self.subelements[0].id
+        if len(self.subelements) >0:
+            return self.subelements[0].id
+        else:
+            return 1
 
     def get_slides_of_type(self, type):
         """

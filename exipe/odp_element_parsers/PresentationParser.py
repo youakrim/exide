@@ -8,10 +8,46 @@ from .utils import namespace
 
 class PresentationParser(object):
 
-    def __init__(self, XMLPresentationObject):
+    def __init__(self, XMLPresentationObject, XMLMeta):
+        self.initial_format = "odp"
+        self.xml_meta = XMLMeta
         self.styles = self.parseStyles(XMLPresentationObject)
         self.slides = self.parseSlides(XMLPresentationObject)
-        #self.styleGroups = self.mergeSimilarStyles()
+        self.category = ""
+        self.comments = ""
+        self.keywords = ""
+        self.language = ""
+        self.subject = ""
+
+    @property
+    def title(self):
+        if self.xml_meta.find(".//dc:title", self.xml_meta.nsmap):
+            return self.xml_meta.find(".//dc:title", self.xml_meta.nsmap).text
+        return None
+
+    @property
+    def author(self):
+        if self.xml_meta.find(".//meta:initial-creator", self.xml_meta.nsmap):
+            return self.xml_meta.find(".//meta:initial-creator", self.xml_meta.nsmap).text
+        return None
+
+    @property
+    def last_modifier(self):
+        if self.xml_meta.find(".//dc:creator", self.xml_meta.nsmap):
+            return self.xml_meta.find(".//dc:creator", self.xml_meta.nsmap).text
+        return None
+
+    @property
+    def last_modified(self):
+        if self.xml_meta.find(".//dc:date", self.xml_meta.nsmap):
+            return self.xml_meta.find(".//dc:date", self.xml_meta.nsmap).text
+        return None
+
+    @property
+    def created(self):
+        if self.xml_meta.find(".//meta:creation-date", self.xml_meta.nsmap):
+            return self.xml_meta.find(".//meta:creation-date", self.xml_meta.nsmap).text
+        return None
 
     # On cherche à extraire les texte d'un certain style
     def getTextsByStyleId(self, styleID):

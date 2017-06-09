@@ -6,7 +6,16 @@ import jsonpickle, json
 class Presentation:
     def __init__(self, section=None):
         self.root_section = section
-        self.metadata = None
+        self.initial_format = ""
+        self.title = ""
+        self.author = ""
+        self.category = ""
+        self.comments = ""
+        self.keywords = ""
+        self.language = ""
+        self.created = ""
+        self.last_modified = ""
+        self.subject = ""
 
     def get_slide_by_id(self, id):
         '''

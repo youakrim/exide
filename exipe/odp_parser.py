@@ -23,6 +23,8 @@ def parse_odp(file_path):
     # We extract the content from the "content.xml" file
     with open(path_to_unzipped + "/content.xml", 'r') as content_file:
         content = content_file.read()
+    with open(path_to_unzipped + "/meta.xml", 'r') as meta_file:
+        meta = meta_file.read()
     # On parse le contenu en xml
     # We parse the content as an xml file
     tree = etree.parse(path_to_unzipped + "/content.xml")
@@ -30,7 +32,7 @@ def parse_odp(file_path):
     # On supprime l'archive décompressée
     shutil.rmtree(path_to_unzipped)
 
-    presPars = PresentationParser(root)
+    presPars = PresentationParser(root, meta)
     return parse(presPars)
 
 if __name__ == '__main__':

@@ -4,6 +4,7 @@ import os
 
 from .pptx_parser import parse_pptx
 from .odp_parser import parse_odp
+from .beamer_parser import parse_beamer
 
 
 def parse(file):
@@ -12,5 +13,7 @@ def parse(file):
         return parse_pptx(file)
     elif file_extension == ".odp":
         return parse_odp(file)
+    elif file_extension == ".tex":
+        return parse_beamer(file)
     else:
         raise Exception("Unsupported file extension")
