@@ -118,7 +118,7 @@ def matches_statistics(tp, statistics):
 
     tp_boldness_ratio = float(statistics["boldness"][tp.font_weight]) / float(
         total_text_parser_count(statistics["boldness"]))
-    if tp_boldness_ratio < 0.5:
+    if tp_boldness_ratio < 0.9:
         return False
 
     tp_font_ratio = float(statistics["fonts"][tp.font_family]) / float(total_text_parser_count(statistics["fonts"]))
@@ -148,7 +148,7 @@ def get_case_emphasized_terms(text, statistics):
 def matches_case_statistics(word, statistics):
     text_case_ratio = float(statistics["text-case"][get_case(word)]) / float(
         total_text_parser_count(statistics["text-case"]))
-    if text_case_ratio < 0.5:
+    if text_case_ratio < 0.0:
         return False
     return True
 
@@ -170,7 +170,7 @@ def get_emphasized_terms(list_of_text_parsers):
     statistics = get_text_statistics(list_of_text_parsers)
     emphasized_terms = []
     for tp in list_of_text_parsers:
-        if len(tp.text) > 2:
+        if len(tp.text) > 3:
             if not matches_statistics(tp, statistics):
                 emphasized_terms.append(tp.text)
             emphasized_terms += get_case_emphasized_terms(tp.text, statistics)
@@ -178,7 +178,7 @@ def get_emphasized_terms(list_of_text_parsers):
 
 
 def get_urls(text):
-    return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    return re.findall('[http[s]?://]?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
 
 
 def get_slide_parser_type(slide):
@@ -214,6 +214,7 @@ def get_title(slide):
                 return line.replace('\t', '')
     return "Untitled"
 
+
 def group_slides_by_title(section):
     # We start by regrouping slides with similar titles
     current_section = None
@@ -238,68 +239,7 @@ def group_slides_by_title(section):
 
 
 def structure_extraction(section, presentation_parser):
-    '''
-    # We then try to recognize section headers and create new sections
-    new_new_tree = Section(new_tree.title)
-    element_list = new_tree.subelements[:]
     slide_parser_list = presentation_parser.slides
-    if len(element_list) == 1:
-        new_new_tree.subelements.append(element_list[0])
-    while len(element_list) > 1:
-        # si l'élément courant est une entête de section
-        if is_section_header(element_list[1]) and len(element_list) > 2:
-            # On créer une section
-            current_section = Section(element_list[1].title)
-            # on ajoute le premier element (element courant) de la section de dans
-            current_section.subelements.append(copy.copy(element_list[1]))
-            # On calcule le niveau de section de l'element courant
-            current_level = section_level(element_list[1], slide_parser_list[element_list[1].id-1])
-            # On stocke le premier element dans une variable
-            first_slide = element_list[1]
-            # On retire l'element courant de la liste d'elements à traiter
-            element_list.remove(element_list[1])
-            # Si le nombre d'element n'est pas 1 ou 0
-            # On parcours les elements
-            while len(element_list) > 1:
-                # si l'element courant est une entête de section
-                # et que son niveau de section est superieur ou egal au niveau de section de l'element courant
-                # et que l'element suivant a un element après lui
-                # et que le niveau de section de l'element suivant  est superieur ou egal à celui  de son element suivant
-                if is_section_header(element_list[1]) and \
-                                section_level(element_list[1], slide_parser_list[element_list[1].id-1]) >= current_level and\
-                                len(element_list) > 2 and\
-                                section_level(element_list[1], slide_parser_list[element_list[1].id-1]) >= section_level(first_slide, slide_parser_list[first_slide.id-1]):
-                    # Alors on considère que l'élément courant est une nouvelle section
-                    # On quitte la boucle
-                    break
-                # Sinon, on considère l'élement courant comme un slide
-                # On ajoute l'élément courant à la section courante
-                current_section.subelements.append(copy.copy(element_list[1]))
-                # On retire l'element courant de la liste d'éléments à traiter
-                element_list.remove(element_list[1])
-            # Une fois que l'on a fini de remplir la section, on lui applique un algorithme de reconnaissance de structure
-            current_section_structured = structure_extraction(copy.copy(current_section), presentation_parser)
-            # Si la liste de sous elements de la section courante ne contient qu'un élément
-            if len(current_section_structured.subelements) == 1:
-                # On ajoute cet élément directement dans sa section mère et on retire l'encapsulation dans sa section mono elementaire
-                new_new_tree.subelements.append(copy.copy(current_section_structured.subelements[0]))
-            else:
-                # Sinon, on ajoute la section structurée à la section mère
-                new_new_tree.subelements.append(copy.copy(current_section_structured))
-        else:
-            # si l'élément courant n'est pas une entête de section
-            # on l'ajoute directement à l'arbre de sa section mère
-            new_new_tree.subelements.append(element_list[0])
-            element_list.remove(element_list[0])
-            # Si la lsite des élements n'est pas vide
-            if len(element_list) != 0:
-                # On ajoute l'element restant à la liste des elements de la section mere
-                new_new_tree.subelements.append(element_list[0])
-                # On retire l'element de la liste à traiter
-                element_list.remove(element_list[0])
-    '''
-    slide_parser_list = presentation_parser.slides
-    # liste_elem = sous elements de la sections
     if len(section.subelements) > 0:
         output_section = Section(section.subelements[0].title)
     else:
@@ -308,7 +248,7 @@ def structure_extraction(section, presentation_parser):
     output_section.subelements.append(element_list[0])
     # On retire la premier element de liste_elem qui correspond au titre de la section
     element_list.remove(element_list[0])
-    # Tant que la liste n’est pas vide
+    # Tant que la pile n’est pas vide
     while len(element_list) > 0:
         # Si l’élément courant est une section
         if isinstance(element_list[0], Section):
@@ -321,7 +261,7 @@ def structure_extraction(section, presentation_parser):
             current_section = Section(element_list[0].title)
             # On ajoute l’élément dans la section
             current_section.subelements.append(element_list[0])
-            # On retire l’élément de la liste
+            # On retire l’élément de la pile
 
             element_list.remove(element_list[0])
             # On ajoute tout les éléments suivants jusqu’à ce qu’il y a une autre en-t^te de section de même niveau suivie par au moins une diapo de niveau inférieur

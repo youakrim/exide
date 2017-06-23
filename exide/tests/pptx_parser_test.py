@@ -1,6 +1,6 @@
 import unittest,os
 
-from exipe.pptx_parser import parse_pptx
+from exide.pptx_parser import parse_pptx
 
 
 class pptx_parser_test(unittest.TestCase):

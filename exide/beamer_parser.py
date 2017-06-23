@@ -16,7 +16,6 @@ def parse_beamer(path):
         raise Exception("Invalid LaTeX Beamer file. No frame found.")
 
     if len(re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)) > 0:
-        print re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)
         title = re.findall(r'\\title\[?.*\]?[\n]?\{(.*)\}', content, re.M)[0]
     else:
         title = "Untitled"
@@ -240,7 +239,7 @@ def detex(latexText):
 if __name__ == '__main__':
 
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))+"/tests/data/beamer"
-    pres = parse_beamer(os.path.join(__location__, "flots.tex"))
+    pres = parse_beamer(os.path.join(__location__, "simple_beamer"))
     print pres.title
     print pres.author
     print pres.root_section.outline
