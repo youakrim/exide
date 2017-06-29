@@ -37,6 +37,10 @@ class Presentation:
 
     @property
     def outline(self):
+        """
+
+        :return:
+        """
         if self.root_section is not None:
             return self.root_section.outline
         return ""
