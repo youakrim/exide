@@ -40,7 +40,7 @@ Note : slide types can be added by editing the datatypes/types file.
 * LaTeX beamer Presentations
 
 ### Simple example
-The following code show you how to display the outline string of the file my_presentation.pptx.
+The following code show you how to print the outline string of the file my_presentation.pptx.
 ```python
 from exide.parse import parse
 exide_presentation = parse("my_folder/my_presentation.pptx")
