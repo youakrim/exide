@@ -1,11 +1,11 @@
-# exipe
+# exide
 
-Exipe is a Python API for information extraction from presentation documents.
+Exide is a Python API for information extraction from presentation documents.
 
 The API is currently in developement and bugs are likely to occur.
 
-### Install exipe
-Download the repository, cd to the root of the exipe package directory and then type the following : 
+### Install exide
+Download the repository, cd to the root of the exide package directory and then type the following : 
 ```bash
 sudo su
 pip install .
@@ -14,7 +14,7 @@ import nltk
 nltk.download("all")
 ```
 then press enter. 
-Exipe is now installed on your system.
+Exide is now installed on your system.
 
 ### Implemented features : 
 * Slide title extraction
@@ -38,4 +38,12 @@ Note : slide types can be added by editing the datatypes/types file.
 * Office Open XML Presentations (PPTX)
 * OpenDocument Presentations (ODP)
 * LaTeX beamer Presentations
+
+### Simple example
+The following code show you how to print the outline string of the file my_presentation.pptx.
+```python
+from exide.parse import parse
+exide_presentation = parse("my_folder/my_presentation.pptx")
+print(exide_presentation.outline)
+```
 
