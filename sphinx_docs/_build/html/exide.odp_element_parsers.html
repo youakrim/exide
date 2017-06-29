@@ -1,0 +1,307 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exide.odp_element_parsers package &#8212; exipe2  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exide.pptx_element_parsers package" href="exide.pptx_element_parsers.html" />
+    <link rel="prev" title="exide.datatypes package" href="exide.datatypes.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exide-odp-element-parsers-package">
+<h1>exide.odp_element_parsers package<a class="headerlink" href="#exide-odp-element-parsers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-exide.odp_element_parsers.PresentationParser">
+<span id="exide-odp-element-parsers-presentationparser-module"></span><h2>exide.odp_element_parsers.PresentationParser module<a class="headerlink" href="#module-exide.odp_element_parsers.PresentationParser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser">
+<em class="property">class </em><code class="descclassname">exide.odp_element_parsers.PresentationParser.</code><code class="descname">PresentationParser</code><span class="sig-paren">(</span><em>XMLPresentationObject</em>, <em>XMLMeta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/PresentationParser.html#PresentationParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.author">
+<code class="descname">author</code><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.author" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.created">
+<code class="descname">created</code><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.getTextsByStyleId">
+<code class="descname">getTextsByStyleId</code><span class="sig-paren">(</span><em>styleID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/PresentationParser.html#PresentationParser.getTextsByStyleId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.getTextsByStyleId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.get_style_by_id">
+<code class="descname">get_style_by_id</code><span class="sig-paren">(</span><em>style_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/PresentationParser.html#PresentationParser.get_style_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.get_style_by_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.last_modified">
+<code class="descname">last_modified</code><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.last_modified" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.last_modifier">
+<code class="descname">last_modifier</code><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.last_modifier" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.parseSlides">
+<code class="descname">parseSlides</code><span class="sig-paren">(</span><em>XMLPresentationObject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/PresentationParser.html#PresentationParser.parseSlides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.parseSlides" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.parseStyles">
+<code class="descname">parseStyles</code><span class="sig-paren">(</span><em>XMLPresentationObject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/PresentationParser.html#PresentationParser.parseStyles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.parseStyles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.PresentationParser.PresentationParser.title">
+<code class="descname">title</code><a class="headerlink" href="#exide.odp_element_parsers.PresentationParser.PresentationParser.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_element_parsers.SlideParser">
+<span id="exide-odp-element-parsers-slideparser-module"></span><h2>exide.odp_element_parsers.SlideParser module<a class="headerlink" href="#module-exide.odp_element_parsers.SlideParser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser">
+<em class="property">class </em><code class="descclassname">exide.odp_element_parsers.SlideParser.</code><code class="descname">SlideParser</code><span class="sig-paren">(</span><em>XMLSlideObject</em>, <em>number</em>, <em>presentationParser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.getTextsByStyleId">
+<code class="descname">getTextsByStyleId</code><span class="sig-paren">(</span><em>styleID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser.getTextsByStyleId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.getTextsByStyleId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.get_style_by_id">
+<code class="descname">get_style_by_id</code><span class="sig-paren">(</span><em>style_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser.get_style_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.get_style_by_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.mergeSameLineTexts">
+<code class="descname">mergeSameLineTexts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser.mergeSameLineTexts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.mergeSameLineTexts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.parseText">
+<code class="descname">parseText</code><span class="sig-paren">(</span><em>XMLSlideObject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser.parseText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.parseText" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.parseTitle">
+<code class="descname">parseTitle</code><span class="sig-paren">(</span><em>XMLSlideObject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/SlideParser.html#SlideParser.parseTitle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.parseTitle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.text">
+<code class="descname">text</code><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.SlideParser.SlideParser.title">
+<code class="descname">title</code><a class="headerlink" href="#exide.odp_element_parsers.SlideParser.SlideParser.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_element_parsers.StyleParser">
+<span id="exide-odp-element-parsers-styleparser-module"></span><h2>exide.odp_element_parsers.StyleParser module<a class="headerlink" href="#module-exide.odp_element_parsers.StyleParser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser">
+<em class="property">class </em><code class="descclassname">exide.odp_element_parsers.StyleParser.</code><code class="descname">StyleParser</code><span class="sig-paren">(</span><em>id</em>, <em>type</em>, <em>XMLStyleObject</em>, <em>presentation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/StyleParser.html#StyleParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.NS">
+<code class="descname">NS</code><em class="property"> = ‘{urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0}’</em><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.NS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.font_color">
+<code class="descname">font_color</code><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.font_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.font_family">
+<code class="descname">font_family</code><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.font_family" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.font_size">
+<code class="descname">font_size</code><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.font_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.font_weight">
+<code class="descname">font_weight</code><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.font_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.StyleParser.StyleParser.underlined">
+<code class="descname">underlined</code><a class="headerlink" href="#exide.odp_element_parsers.StyleParser.StyleParser.underlined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_element_parsers.TextParser">
+<span id="exide-odp-element-parsers-textparser-module"></span><h2>exide.odp_element_parsers.TextParser module<a class="headerlink" href="#module-exide.odp_element_parsers.TextParser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.odp_element_parsers.TextParser.TextParser">
+<em class="property">class </em><code class="descclassname">exide.odp_element_parsers.TextParser.</code><code class="descname">TextParser</code><span class="sig-paren">(</span><em>XMLTextObject</em>, <em>style</em>, <em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/TextParser.html#TextParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.color">
+<code class="descname">color</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.font_family">
+<code class="descname">font_family</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.font_family" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.font_size">
+<code class="descname">font_size</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.font_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.font_weight">
+<code class="descname">font_weight</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.font_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.text">
+<code class="descname">text</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.odp_element_parsers.TextParser.TextParser.underlined">
+<code class="descname">underlined</code><a class="headerlink" href="#exide.odp_element_parsers.TextParser.TextParser.underlined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_element_parsers.utils">
+<span id="exide-odp-element-parsers-utils-module"></span><h2>exide.odp_element_parsers.utils module<a class="headerlink" href="#module-exide.odp_element_parsers.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.odp_element_parsers.utils.namespace">
+<code class="descclassname">exide.odp_element_parsers.utils.</code><code class="descname">namespace</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_element_parsers/utils.html#namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_element_parsers.utils.namespace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_element_parsers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-exide.odp_element_parsers" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">exide.odp_element_parsers package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers.PresentationParser">exide.odp_element_parsers.PresentationParser module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers.SlideParser">exide.odp_element_parsers.SlideParser module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers.StyleParser">exide.odp_element_parsers.StyleParser module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers.TextParser">exide.odp_element_parsers.TextParser module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers.utils">exide.odp_element_parsers.utils module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_element_parsers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="exide.html">exide package</a><ul>
+      <li>Previous: <a href="exide.datatypes.html" title="previous chapter">exide.datatypes package</a></li>
+      <li>Next: <a href="exide.pptx_element_parsers.html" title="next chapter">exide.pptx_element_parsers package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exide.odp_element_parsers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/exide.odp_element_parsers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

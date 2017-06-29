@@ -1,0 +1,54 @@
+exide\.pptx\_element\_parsers package
+=====================================
+
+Submodules
+----------
+
+exide\.pptx\_element\_parsers\.PresentationParser module
+--------------------------------------------------------
+
+.. automodule:: exide.pptx_element_parsers.PresentationParser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+exide\.pptx\_element\_parsers\.ShapeParser module
+-------------------------------------------------
+
+.. automodule:: exide.pptx_element_parsers.ShapeParser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+exide\.pptx\_element\_parsers\.SlideParser module
+-------------------------------------------------
+
+.. automodule:: exide.pptx_element_parsers.SlideParser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+exide\.pptx\_element\_parsers\.TextParser module
+------------------------------------------------
+
+.. automodule:: exide.pptx_element_parsers.TextParser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+exide\.pptx\_element\_parsers\.utils module
+-------------------------------------------
+
+.. automodule:: exide.pptx_element_parsers.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: exide.pptx_element_parsers
+    :members:
+    :undoc-members:
+    :show-inheritance:

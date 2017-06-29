@@ -1,0 +1,279 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exide.datatypes package &#8212; exipe2  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exide.odp_element_parsers package" href="exide.odp_element_parsers.html" />
+    <link rel="prev" title="exide package" href="exide.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exide-datatypes-package">
+<h1>exide.datatypes package<a class="headerlink" href="#exide-datatypes-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-exide.datatypes.Presentation">
+<span id="exide-datatypes-presentation-module"></span><h2>exide.datatypes.Presentation module<a class="headerlink" href="#module-exide.datatypes.Presentation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.datatypes.Presentation.Presentation">
+<em class="property">class </em><code class="descclassname">exide.datatypes.Presentation.</code><code class="descname">Presentation</code><span class="sig-paren">(</span><em>section=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="exide.datatypes.Presentation.Presentation.export_to_JSON">
+<code class="descname">export_to_JSON</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation.export_to_JSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.export_to_JSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize the presentation to a JSON string.
+:return: str. – JSON string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="exide.datatypes.Presentation.Presentation.get_slide_by_id">
+<code class="descname">get_slide_by_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation.get_slide_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.get_slide_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ID of a slide corresponds to its page number. The first slide of a presentation will have 1 as its ID.
+:param id: slide number
+:return: Slide – if no slide matches the given id, None is returned</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Presentation.Presentation.outline">
+<code class="descname">outline</code><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.outline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.datatypes.Section">
+<span id="exide-datatypes-section-module"></span><h2>exide.datatypes.Section module<a class="headerlink" href="#module-exide.datatypes.Section" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.datatypes.Section.Section">
+<em class="property">class </em><code class="descclassname">exide.datatypes.Section.</code><code class="descname">Section</code><span class="sig-paren">(</span><em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="exide.datatypes.Section.Section.emphasized_terms">
+<code class="descname">emphasized_terms</code><a class="headerlink" href="#exide.datatypes.Section.Section.emphasized_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the emphasized terms of the Section’s slides</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="exide.datatypes.Section.Section.first_slide_title">
+<code class="descname">first_slide_title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.first_slide_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.first_slide_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Title of the fist slide of the section, returns None if the Section has no slide</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="exide.datatypes.Section.Section.get_slides_by_keyword">
+<code class="descname">get_slides_by_keyword</code><span class="sig-paren">(</span><em>keyword</em>, <em>search_title=True</em>, <em>search_body_text=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_by_keyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_by_keyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of <a href="#id1"><span class="problematic" id="id2">|Slide|</span></a> objects that contain a given keyword
+:param keyword: The word or string to look for.
+:param search_title: Indicates if the search should consider the title string or not
+:param search_body_text: Indicates if the search should consider the body text string or not
+:return: list of <a href="#id3"><span class="problematic" id="id4">|Slide|</span></a> objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="exide.datatypes.Section.Section.get_slides_by_title">
+<code class="descname">get_slides_by_title</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_by_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_by_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of the slides whose title matches the given title
+:param title: The title string to look for
+:return: list of <a href="#id5"><span class="problematic" id="id6">|Slide|</span></a> objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="exide.datatypes.Section.Section.get_slides_of_type">
+<code class="descname">get_slides_of_type</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_of_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_of_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of the <a href="#id7"><span class="problematic" id="id8">|Slide|</span></a> objects of the given type
+:param type: str. – type of slides
+:return: list of <a href="#id9"><span class="problematic" id="id10">|Slide|</span></a> objects</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.id">
+<code class="descname">id</code><a class="headerlink" href="#exide.datatypes.Section.Section.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <a href="#id11"><span class="problematic" id="id12">|id|</span></a> of the first <a href="#id13"><span class="problematic" id="id14">|Slide|</span></a> of the <a href="#id15"><span class="problematic" id="id16">|Section|</span></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.named_entities">
+<code class="descname">named_entities</code><a class="headerlink" href="#exide.datatypes.Section.Section.named_entities" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the named entities of the Section’s slides</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.outline">
+<code class="descname">outline</code><a class="headerlink" href="#exide.datatypes.Section.Section.outline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list style string with the section outline</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.sections">
+<code class="descname">sections</code><a class="headerlink" href="#exide.datatypes.Section.Section.sections" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the Section’s subsections</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.slides">
+<code class="descname">slides</code><a class="headerlink" href="#exide.datatypes.Section.Section.slides" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the Section’s Slide objects</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.text">
+<code class="descname">text</code><a class="headerlink" href="#exide.datatypes.Section.Section.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>String of the body text of all slides without the slide titles</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.Section.Section.urls">
+<code class="descname">urls</code><a class="headerlink" href="#exide.datatypes.Section.Section.urls" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the URLs of the Section’s slides</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.datatypes.Slide">
+<span id="exide-datatypes-slide-module"></span><h2>exide.datatypes.Slide module<a class="headerlink" href="#module-exide.datatypes.Slide" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.datatypes.Slide.Slide">
+<em class="property">class </em><code class="descclassname">exide.datatypes.Slide.</code><code class="descname">Slide</code><a class="reference internal" href="_modules/exide/datatypes/Slide.html#Slide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Slide.Slide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.datatypes.SlideTypes">
+<span id="exide-datatypes-slidetypes-module"></span><h2>exide.datatypes.SlideTypes module<a class="headerlink" href="#module-exide.datatypes.SlideTypes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="exide.datatypes.SlideTypes.SlideTypes">
+<em class="property">class </em><code class="descclassname">exide.datatypes.SlideTypes.</code><code class="descname">SlideTypes</code><a class="reference internal" href="_modules/exide/datatypes/SlideTypes.html#SlideTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="exide.datatypes.SlideTypes.SlideTypes.LIST">
+<code class="descname">LIST</code><em class="property"> = {u’definition’: [u’def’, u’d\xe9f’], u’sectionheader’: [u’chapitre’, u’partie’, u’section’], u’exercice’: [u’exercice’], u’intro’: [u’intro’, u’pr\xe9sentation’], u’references’: [u’refs’, u’r\xe9f\xe9rences’, u’sources’, u’liens’, u’savoir plus’, u’bibilio’], u’toc’: [u’plan’, u’table des mati\xe8res’, u’table of contents’, u’sommaire’], u’example’: [u’ex:’, u’examp’, u’exemple’, u’eg’, u’e.g.’, u’e. g.’], u’conclusion’: [u’conclu’, u’synth\xe8se’, u’r\xe9sum’, u’summary’]}</em><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes.LIST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.SlideTypes.SlideTypes.file">
+<code class="descname">file</code><em class="property"> = &lt;_io.TextIOWrapper name=’/Library/Python/2.7/site-packages/exide/datatypes/types_dict.txt’ encoding=’utf-8’&gt;</em><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes.file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.SlideTypes.SlideTypes.file_content">
+<code class="descname">file_content</code><em class="property"> = u’###example###\nex:\nexamp\nexemple\neg\ne.g.\ne. g.\n###definition###\ndef\nd\xe9f\n###conclusion###\nconclu\nsynth\xe8se\nr\xe9sum\nsummary\n###intro###\nintro\npr\xe9sentation\n###toc###\nplan\ntable des mati\xe8res\ntable of contents\nsommaire\n###references###\nrefs\nr\xe9f\xe9rences\nsources\nliens\nsavoir plus\nbibilio\n###exercice###\nexercice\n###sectionheader###\nchapitre\npartie\nsection’</em><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes.file_content" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.SlideTypes.SlideTypes.lines">
+<code class="descname">lines</code><em class="property"> = []</em><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes.lines" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="exide.datatypes.SlideTypes.SlideTypes.words">
+<code class="descname">words</code><em class="property"> = [u”, u’sectionheader’, u”]</em><a class="headerlink" href="#exide.datatypes.SlideTypes.SlideTypes.words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-exide.datatypes">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-exide.datatypes" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">exide.datatypes package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-exide.datatypes.Presentation">exide.datatypes.Presentation module</a></li>
+<li><a class="reference internal" href="#module-exide.datatypes.Section">exide.datatypes.Section module</a></li>
+<li><a class="reference internal" href="#module-exide.datatypes.Slide">exide.datatypes.Slide module</a></li>
+<li><a class="reference internal" href="#module-exide.datatypes.SlideTypes">exide.datatypes.SlideTypes module</a></li>
+<li><a class="reference internal" href="#module-exide.datatypes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="exide.html">exide package</a><ul>
+      <li>Previous: <a href="exide.html" title="previous chapter">exide package</a></li>
+      <li>Next: <a href="exide.odp_element_parsers.html" title="next chapter">exide.odp_element_parsers package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exide.datatypes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/exide.datatypes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

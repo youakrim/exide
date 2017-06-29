@@ -1,0 +1,473 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exide.parser_utils &#8212; exipe2  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for exide.parser_utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">ne_chunk</span><span class="p">,</span> <span class="n">re</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">ne_chunk</span><span class="p">,</span> <span class="n">pos_tag</span><span class="p">,</span> <span class="n">word_tokenize</span><span class="p">,</span> <span class="n">sent_tokenize</span><span class="p">,</span> <span class="n">ne_chunk_sents</span><span class="p">,</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">nltk.tree</span> <span class="k">import</span> <span class="n">Tree</span>
+
+<span class="kn">from</span> <span class="nn">datatypes.Section</span> <span class="k">import</span> <span class="n">Section</span>
+<span class="kn">from</span> <span class="nn">datatypes.Slide</span> <span class="k">import</span> <span class="n">Slide</span>
+<span class="kn">from</span> <span class="nn">datatypes.SlideTypes</span> <span class="k">import</span> <span class="n">SlideTypes</span>
+<span class="kn">from</span> <span class="nn">datatypes.Presentation</span> <span class="k">import</span> <span class="n">Presentation</span>
+
+
+<div class="viewcode-block" id="get_continuous_chunks"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_continuous_chunks">[docs]</a><span class="k">def</span> <span class="nf">get_continuous_chunks</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">chunked</span> <span class="o">=</span> <span class="n">ne_chunk</span><span class="p">(</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)))</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">continuous_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chunked</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">Tree</span><span class="p">:</span>
+            <span class="n">current_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">leaves</span><span class="p">()]))</span>
+        <span class="k">elif</span> <span class="n">current_chunk</span><span class="p">:</span>
+            <span class="n">named_entity</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_chunk</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">named_entity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">continuous_chunk</span><span class="p">:</span>
+                <span class="n">continuous_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">named_entity</span><span class="p">)</span>
+                <span class="n">current_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">continuous_chunk</span></div>
+
+
+<div class="viewcode-block" id="get_text_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_text_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_text_statistics</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">):</span>
+    <span class="c1"># On initialise les varaiables statistiques</span>
+    <span class="c1"># We set the statistics variables</span>
+    <span class="n">font_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">color_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">font_size_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>  <span class="c1"># [(62550,12)]</span>
+    <span class="n">boldness_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bold&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">underlined_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">text_case_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;uppercase&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">tp</span> <span class="ow">in</span> <span class="n">list_of_text_parsers</span><span class="p">:</span>
+        <span class="c1"># Removing the tiny strings: ? , ; : /...</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># On récupère le nom de la police</span>
+            <span class="c1"># We extract the font name</span>
+            <span class="k">if</span> <span class="n">tp</span><span class="o">.</span><span class="n">font_family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">font_list</span><span class="p">:</span>
+                <span class="n">font_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_family</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">font_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_family</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We extract the text color</span>
+            <span class="k">if</span> <span class="n">tp</span><span class="o">.</span><span class="n">color</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">color_list</span><span class="p">:</span>
+                <span class="n">color_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">color</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">color</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We extract the font size</span>
+            <span class="k">if</span> <span class="n">tp</span><span class="o">.</span><span class="n">font_size</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">font_size_list</span><span class="p">:</span>
+                <span class="n">font_size_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_size</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">font_size_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_size</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We extract the font_weight</span>
+            <span class="k">if</span> <span class="n">tp</span><span class="o">.</span><span class="n">font_weight</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">boldness_list</span><span class="p">:</span>
+                <span class="n">boldness_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_weight</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">boldness_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">font_weight</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We extract underlining</span>
+            <span class="k">if</span> <span class="n">tp</span><span class="o">.</span><span class="n">underlined</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">underlined_list</span><span class="p">:</span>
+                <span class="n">underlined_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">underlined</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">underlined_list</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">underlined</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We extract text case (by word)</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tp</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+                        <span class="n">text_case_list</span><span class="p">[</span><span class="s2">&quot;uppercase&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">text_case_list</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;fonts&quot;</span><span class="p">:</span> <span class="n">font_list</span><span class="p">,</span> <span class="s2">&quot;colors&quot;</span><span class="p">:</span> <span class="n">color_list</span><span class="p">,</span> <span class="s2">&quot;boldness&quot;</span><span class="p">:</span> <span class="n">boldness_list</span><span class="p">,</span> <span class="s2">&quot;underlining&quot;</span><span class="p">:</span> <span class="n">underlined_list</span><span class="p">,</span>
+            <span class="s2">&quot;font-size&quot;</span><span class="p">:</span> <span class="n">font_size_list</span><span class="p">,</span> <span class="s2">&quot;text-case&quot;</span><span class="p">:</span> <span class="n">text_case_list</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="statistics_noise_reduction"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.statistics_noise_reduction">[docs]</a><span class="k">def</span> <span class="nf">statistics_noise_reduction</span><span class="p">(</span><span class="n">statistics</span><span class="p">):</span>
+    <span class="c1"># TODO</span>
+    <span class="n">fonts_to_check</span> <span class="o">=</span> <span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">][:]</span>
+    <span class="n">font_groups</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">fonts_to_check</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">font_A</span> <span class="o">=</span> <span class="n">fonts_to_check</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">font_group</span> <span class="o">=</span> <span class="p">[</span><span class="n">font_A</span><span class="p">]</span>
+        <span class="n">fonts_to_check</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">font_A</span><span class="p">)</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">fonts_to_check</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">relative_uncertainty</span><span class="p">(</span><span class="n">font_A</span><span class="p">,</span> <span class="n">fonts_to_check</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">font_group</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fonts_to_check</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">fonts_to_check</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fonts_to_check</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">font_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">font_group</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="relative_uncertainty"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.relative_uncertainty">[docs]</a><span class="k">def</span> <span class="nf">relative_uncertainty</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span></div>
+
+
+<span class="c1"># Pré-condition : le text_parser doit faire partie du corpus d&#39;apprentissage des statistiques et les statistiques doivent avoir un format valides</span>
+<div class="viewcode-block" id="matches_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.matches_statistics">[docs]</a><span class="k">def</span> <span class="nf">matches_statistics</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+    <span class="c1"># On considère qu&#39;un text_parser correspond aux statistiques si il est conforme à plus de la moitié de la mise en forme</span>
+    <span class="n">tp_underlining_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;underlining&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">underlined</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;underlining&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">tp_underlining_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">tp_boldness_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;boldness&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_weight</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;boldness&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">tp_boldness_ratio</span> <span class="o">&lt;</span> <span class="mf">0.9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">tp_font_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_family</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">tp_font_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">color_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">color</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">color_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">font_size_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;font-size&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_size</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;font-size&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">font_size_ratio</span> <span class="o">&lt;</span> <span class="mf">0.3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="c1"># Strings with different case</span>
+<div class="viewcode-block" id="get_case_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_case_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_case_emphasized_terms</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+    <span class="n">case_emphasized_terms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">matches_case_statistics</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+            <span class="n">case_emphasized_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">case_emphasized_terms</span></div>
+
+
+<div class="viewcode-block" id="matches_case_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.matches_case_statistics">[docs]</a><span class="k">def</span> <span class="nf">matches_case_statistics</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+    <span class="n">text_case_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;text-case&quot;</span><span class="p">][</span><span class="n">get_case</span><span class="p">(</span><span class="n">word</span><span class="p">)])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;text-case&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">text_case_ratio</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_case"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_case">[docs]</a><span class="k">def</span> <span class="nf">get_case</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;uppercase&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;default&quot;</span></div>
+
+
+<div class="viewcode-block" id="total_text_parser_count"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.total_text_parser_count">[docs]</a><span class="k">def</span> <span class="nf">total_text_parser_count</span><span class="p">(</span><span class="n">statistic</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">statistic</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="n">statistic</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="get_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_emphasized_terms</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">):</span>
+    <span class="n">statistics</span> <span class="o">=</span> <span class="n">get_text_statistics</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">)</span>
+    <span class="n">emphasized_terms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tp</span> <span class="ow">in</span> <span class="n">list_of_text_parsers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">matches_statistics</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+                <span class="n">emphasized_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">emphasized_terms</span> <span class="o">+=</span> <span class="n">get_case_emphasized_terms</span><span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">statistics</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">emphasized_terms</span></div>
+
+
+<div class="viewcode-block" id="get_urls"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_urls">[docs]</a><span class="k">def</span> <span class="nf">get_urls</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;[http[s]?://]?(?:[a-zA-Z]|[0-9]|[$-_@.&amp;+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_slide_parser_type"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_slide_parser_type">[docs]</a><span class="k">def</span> <span class="nf">get_slide_parser_type</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">get_title</span><span class="p">(</span><span class="n">slide</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;graphic&quot;</span>
+    <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">layout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">slide</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">slide</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">pptx_object</span><span class="o">.</span><span class="n">slide_layouts</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="s2">&quot;sectionheader&quot;</span>
+    <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">SlideTypes</span><span class="o">.</span><span class="n">LIST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">get_title</span><span class="p">(</span><span class="n">slide</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">SlideTypes</span><span class="o">.</span><span class="n">LIST</span><span class="p">[</span><span class="nb">type</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="nb">type</span>
+    <span class="k">return</span> <span class="s2">&quot;notype&quot;</span></div>
+
+
+<div class="viewcode-block" id="get_slide_type"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_slide_type">[docs]</a><span class="k">def</span> <span class="nf">get_slide_type</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;graphic&quot;</span>
+    <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">SlideTypes</span><span class="o">.</span><span class="n">LIST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">SlideTypes</span><span class="o">.</span><span class="n">LIST</span><span class="p">[</span><span class="nb">type</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="nb">type</span>
+    <span class="k">return</span> <span class="s2">&quot;notype&quot;</span></div>
+
+
+<div class="viewcode-block" id="get_named_entities"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_named_entities">[docs]</a><span class="k">def</span> <span class="nf">get_named_entities</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_continuous_chunks</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_title"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_title">[docs]</a><span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Untitled&quot;</span></div>
+
+
+<div class="viewcode-block" id="group_slides_by_title"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.group_slides_by_title">[docs]</a><span class="k">def</span> <span class="nf">group_slides_by_title</span><span class="p">(</span><span class="n">section</span><span class="p">):</span>
+    <span class="c1"># We start by regrouping slides with similar titles</span>
+    <span class="n">current_section</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">new_tree</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">title_similarity</span><span class="p">(</span><span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">title_similarity</span><span class="p">(</span><span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+            <span class="n">current_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">current_section</span><span class="p">))</span>
+            <span class="n">current_section</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">current_section</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">new_tree</span></div>
+
+
+<div class="viewcode-block" id="structure_extraction"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.structure_extraction">[docs]</a><span class="k">def</span> <span class="nf">structure_extraction</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">presentation_parser</span><span class="p">):</span>
+    <span class="n">slide_parser_list</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">slides</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">subelements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">subelements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s2">&quot;Untitled&quot;</span><span class="p">)</span>
+    <span class="n">element_list</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">subelements</span>
+    <span class="n">output_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># On retire la premier element de liste_elem qui correspond au titre de la section</span>
+    <span class="n">element_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># Tant que la pile n’est pas vide</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Si l’élément courant est une section</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Section</span><span class="p">):</span>
+            <span class="c1"># On l&#39;ajoute directement à la section de sortie</span>
+            <span class="n">output_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">element_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Si l’élément courant est une en-tête de section suivie par au moins une diapo de niveau inférieur:</span>
+        <span class="k">elif</span> <span class="n">is_section_header</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Alors on créer une section</span>
+            <span class="n">current_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+            <span class="c1"># On ajoute l’élément dans la section</span>
+            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># On retire l’élément de la pile</span>
+
+            <span class="n">element_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># On ajoute tout les éléments suivants jusqu’à ce qu’il y a une autre en-t^te de section de même niveau suivie par au moins une diapo de niveau inférieur</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span><span class="p">(</span><span class="n">is_section_header</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="n">section_level</span><span class="p">(</span><span class="n">slide_parser_list</span><span class="p">[</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">section_level</span><span class="p">(</span><span class="n">slide_parser_list</span><span class="p">[</span><span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])):</span>
+                <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">element_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># On structure la section créee</span>
+            <span class="n">structured_section</span> <span class="o">=</span> <span class="n">structure_extraction</span><span class="p">(</span><span class="n">current_section</span><span class="p">,</span> <span class="n">presentation_parser</span><span class="p">)</span>
+            <span class="c1"># On ajoute la section créée à la section de sortie</span>
+            <span class="n">output_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">structured_section</span><span class="p">))</span>
+        <span class="c1"># Sinon, on l’ajoute à la section de sortie</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">element_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">output_section</span></div>
+
+
+<div class="viewcode-block" id="title_similarity"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.title_similarity">[docs]</a><span class="k">def</span> <span class="nf">title_similarity</span><span class="p">(</span><span class="n">title_1</span><span class="p">,</span> <span class="n">title_2</span><span class="p">):</span>
+    <span class="n">str1</span> <span class="o">=</span> <span class="n">stopwords_removal</span><span class="p">(</span><span class="n">title_1</span><span class="p">,</span> <span class="s2">&quot;fr&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">str2</span> <span class="o">=</span> <span class="n">stopwords_removal</span><span class="p">(</span><span class="n">title_2</span><span class="p">,</span> <span class="s2">&quot;fr&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">str2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">levenshtein</span><span class="p">(</span><span class="n">word2</span><span class="p">,</span> <span class="n">word1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span>
+    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2</span><span class="p">))</span> <span class="o">-</span> <span class="n">levenshtein</span><span class="p">(</span><span class="n">word2</span><span class="p">,</span> <span class="n">word1</span><span class="p">))</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="n">word2</span> <span class="ow">in</span>
+                     <span class="n">str1</span> <span class="k">for</span> <span class="n">word1</span> <span class="ow">in</span> <span class="n">str2</span><span class="p">))</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">str2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="is_section_header"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.is_section_header">[docs]</a><span class="k">def</span> <span class="nf">is_section_header</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">slide</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;sectionheader&quot;</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">30</span> <span class="ow">and</span> <span class="n">slide</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;graphic&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="section_level"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.section_level">[docs]</a><span class="k">def</span> <span class="nf">section_level</span><span class="p">(</span><span class="n">slide_parser</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slide_parser</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">slide_parser</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">font_size</span>
+    <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="levenshtein"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.levenshtein">[docs]</a><span class="k">def</span> <span class="nf">levenshtein</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">levenshtein</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
+
+    <span class="c1"># len(s1) &gt;= len(s2)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+
+    <span class="n">previous_row</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s1</span><span class="p">):</span>
+        <span class="n">current_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+            <span class="n">insertions</span> <span class="o">=</span> <span class="n">previous_row</span><span class="p">[</span>
+                             <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># j+1 instead of j since previous_row and current_row are one character longer</span>
+            <span class="n">deletions</span> <span class="o">=</span> <span class="n">current_row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># than s2</span>
+            <span class="n">substitutions</span> <span class="o">=</span> <span class="n">previous_row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">c1</span> <span class="o">!=</span> <span class="n">c2</span><span class="p">)</span>
+            <span class="n">current_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">insertions</span><span class="p">,</span> <span class="n">deletions</span><span class="p">,</span> <span class="n">substitutions</span><span class="p">))</span>
+        <span class="n">previous_row</span> <span class="o">=</span> <span class="n">current_row</span>
+
+    <span class="k">return</span> <span class="n">previous_row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="stopwords_removal"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.stopwords_removal">[docs]</a><span class="k">def</span> <span class="nf">stopwords_removal</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+    <span class="n">__location__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;/dict/&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__location__</span><span class="p">,</span> <span class="s2">&quot;sw_&quot;</span> <span class="o">+</span> <span class="n">language</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">);</span>
+
+    <span class="n">string_without_numbers</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">string</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">file_content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">stopwords</span> <span class="o">=</span> <span class="n">file_content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">stringwords</span> <span class="o">=</span> <span class="n">string_without_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">resultwords</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">stringwords</span> <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resultwords</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s2">&quot;Error : missing stopword file for &quot;</span> <span class="o">+</span> <span class="n">language</span> <span class="o">+</span> <span class="s2">&quot; in&quot;</span> <span class="o">+</span> <span class="n">__location__</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="parse"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.parse">[docs]</a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">presentation_parser</span><span class="p">):</span>
+    <span class="c1"># On créé la section racine qui va contenir tout les éléments : diapositives, autres sections</span>
+    <span class="n">presentation_title</span> <span class="o">=</span> <span class="n">get_title</span><span class="p">(</span><span class="n">presentation_parser</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">root_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">()</span>
+    <span class="c1"># On peut maintenant créer la présentation</span>
+    <span class="n">presentation</span> <span class="o">=</span> <span class="n">Presentation</span><span class="p">(</span><span class="n">root_section</span><span class="p">)</span>
+
+    <span class="n">presentation</span><span class="o">.</span><span class="n">initial_format</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">initial_format</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">author</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">category</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">comments</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">keywords</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">language</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">created</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">last_modified</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">subject</span>
+    <span class="n">current_id</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">slide_parser</span> <span class="ow">in</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">slides</span><span class="p">:</span>
+        <span class="n">new_slide</span> <span class="o">=</span> <span class="n">Slide</span><span class="p">()</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">current_id</span>
+        <span class="n">current_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">get_title</span><span class="p">(</span><span class="n">slide_parser</span><span class="p">)</span>
+
+        <span class="c1"># On récupère le texte du corps de la diapositive</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">slide_parser</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">emphasized_terms</span> <span class="o">=</span> <span class="n">get_emphasized_terms</span><span class="p">(</span><span class="n">slide_parser</span><span class="o">.</span><span class="n">text_parsers</span><span class="p">)</span>
+
+        <span class="c1"># On cherche à typer la diapositive en fonction de son titre</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">get_slide_parser_type</span><span class="p">(</span><span class="n">slide_parser</span><span class="p">)</span>
+
+        <span class="c1"># On cherche à récupérer les URLs</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">get_urls</span><span class="p">(</span><span class="n">new_slide</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_slide</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">new_slide</span><span class="o">.</span><span class="n">title</span>
+
+        <span class="c1"># On cherche à récupérer les entités nommées</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">named_entities</span> <span class="o">=</span> <span class="n">get_named_entities</span><span class="p">(</span><span class="n">new_slide</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">new_slide</span><span class="o">.</span><span class="n">named_entities</span> <span class="o">+=</span> <span class="n">get_named_entities</span><span class="p">(</span><span class="n">new_slide</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span> <span class="o">=</span> <span class="n">group_slides_by_title</span><span class="p">(</span><span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span><span class="p">)</span>
+    <span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span> <span class="o">=</span> <span class="n">structure_extraction</span><span class="p">(</span><span class="n">presentation</span><span class="o">.</span><span class="n">root_section</span><span class="p">,</span> <span class="n">presentation_parser</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">presentation</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

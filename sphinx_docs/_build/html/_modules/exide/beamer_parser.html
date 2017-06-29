@@ -1,0 +1,332 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exide.beamer_parser &#8212; exipe2  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for exide.beamer_parser</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1">#-*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">datatypes.Section</span> <span class="k">import</span> <span class="n">Section</span>
+<span class="kn">from</span> <span class="nn">datatypes.Slide</span> <span class="k">import</span> <span class="n">Slide</span>
+<span class="kn">from</span> <span class="nn">datatypes.Presentation</span> <span class="k">import</span> <span class="n">Presentation</span>
+<span class="kn">from</span> <span class="nn">parser_utils</span> <span class="k">import</span> <span class="n">get_named_entities</span><span class="p">,</span> <span class="n">get_urls</span><span class="p">,</span> <span class="n">get_slide_type</span>
+
+
+<div class="viewcode-block" id="parse_beamer"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_beamer">[docs]</a><span class="k">def</span> <span class="nf">parse_beamer</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">content_file</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">content_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{frame}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">content</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid LaTeX Beamer file. No frame found.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">title\[?.*\]?[\n]?\{(.*)\}&#39;</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">title\[?.*\]?[\n]?\{(.*)\}&#39;</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{frame}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">content</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid LaTeX Beamer file. No frame found.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">author\[?.*\]?[\n]?\{(.*)\}&#39;</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">detex</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">author\[?.*\]?[\n]?\{(.*)\}&#39;</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
+
+    <span class="n">pres</span> <span class="o">=</span> <span class="n">Presentation</span><span class="p">()</span>
+    <span class="n">pres</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+    <span class="n">pres</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
+    <span class="n">pres</span><span class="o">.</span><span class="n">root_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="n">title_slide</span> <span class="o">=</span> <span class="n">Slide</span><span class="p">()</span>
+    <span class="n">title_slide</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+    <span class="n">title_slide</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;sectionheader&quot;</span>
+    <span class="n">title_slide</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">pres</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title_slide</span><span class="p">)</span>
+
+    <span class="n">pres</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">subelements</span> <span class="o">+=</span> <span class="n">parse_sections</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pres</span></div>
+
+
+<div class="viewcode-block" id="parse_slides"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_slides">[docs]</a><span class="k">def</span> <span class="nf">parse_slides</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
+    <span class="n">slides</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">slides_contents</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{frame}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">latex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">slides_contents</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">titlepage&#39;</span><span class="p">,</span> <span class="n">slides_contents</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">current_slide</span> <span class="o">=</span> <span class="n">Slide</span><span class="p">()</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">get_frame_title</span><span class="p">(</span><span class="n">slides_contents</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">detex</span><span class="p">(</span><span class="n">slides_contents</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">index</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">get_urls</span><span class="p">(</span><span class="n">current_slide</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">get_slide_type</span><span class="p">(</span><span class="n">current_slide</span><span class="p">)</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">named_entities</span> <span class="o">=</span> <span class="n">get_named_entities</span><span class="p">(</span><span class="n">current_slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">))</span>
+            <span class="n">current_slide</span><span class="o">.</span><span class="n">emphasized_text</span> <span class="o">=</span> <span class="n">get_emphasized_terms</span><span class="p">(</span><span class="n">slides_contents</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">index</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">slides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_slide</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">slides</span></div>
+
+
+<div class="viewcode-block" id="get_frame_title"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.get_frame_title">[docs]</a><span class="k">def</span> <span class="nf">get_frame_title</span><span class="p">(</span><span class="n">latex</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^{.*}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">frametitle{(.*?)}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">frametitle{(.*?)}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot;Untitled&quot;</span></div>
+
+
+<div class="viewcode-block" id="parse_subsections"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_subsections">[docs]</a><span class="k">def</span> <span class="nf">parse_subsections</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
+    <span class="n">subsections</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">subsections_titles</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">subsection{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+    <span class="n">subsections_contents</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">subsection{.*}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">latex</span><span class="p">)</span>
+    <span class="n">subsections</span> <span class="o">+=</span> <span class="n">parse_slides</span><span class="p">(</span><span class="n">subsections_contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subsections</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">subsections_contents</span><span class="p">)):</span>
+        <span class="n">current_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">subsections_titles</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span> <span class="o">+=</span> <span class="n">parse_slides</span><span class="p">(</span><span class="n">subsections_contents</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="p">)</span>
+        <span class="n">subsections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_section</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">subsections</span></div>
+
+
+<div class="viewcode-block" id="parse_sections"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_sections">[docs]</a><span class="k">def</span> <span class="nf">parse_sections</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sections_titles</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">section{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+    <span class="n">sections_contents</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">section{.*}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">latex</span><span class="p">)</span>
+    <span class="n">sections</span> <span class="o">+=</span> <span class="n">parse_subsections</span><span class="p">(</span><span class="n">sections_contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sections_contents</span><span class="p">)):</span>
+        <span class="n">current_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">sections_titles</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span> <span class="o">+=</span> <span class="n">parse_subsections</span><span class="p">(</span><span class="n">sections_contents</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">index</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="p">)</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_section</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sections</span></div>
+
+<div class="viewcode-block" id="get_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.get_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_emphasized_terms</span><span class="p">(</span><span class="n">latex</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">emph{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="applyRegexps"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.applyRegexps">[docs]</a><span class="k">def</span> <span class="nf">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">listRegExp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Applies successively many regexps to a text&quot;&quot;&quot;</span>
+    <span class="c1"># apply all the rules in the ruleset</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">listRegExp</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="detex"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.detex">[docs]</a><span class="k">def</span> <span class="nf">detex</span><span class="p">(</span><span class="n">latexText</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform a latex text into a simple text</span>
+<span class="sd">        Credits : Gilles Bertrand http://www.gilles-bertrand.com/2012/11/a-simple-detex-function-in-python.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># initialization</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">latexText</span>
+    <span class="c1"># remove all the contents of the header, ie everything before the first occurence of &quot;\begin{document}&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?s).*?(</span><span class="se">\\</span><span class="s2">begin\{document\})&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># remove comments</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="sa">r</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;([^</span><span class="se">\\</span><span class="s1">])%.*&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regexps</span><span class="p">)</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># - replace some LaTeX commands by the contents inside curly rackets</span>
+    <span class="n">to_reduce</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">emph&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">textbf&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">textit&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">text&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">IEEEauthorblockA&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">IEEEauthorblockN&#39;</span><span class="p">,</span>
+                 <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">author&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">caption&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">author&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">thanks&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">to_reduce</span><span class="p">:</span>
+        <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="n">tag</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\{([^\}\{]*)\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regexps</span><span class="p">)</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     _     _       _ _       _     _   </span>
+<span class="sd">    | |__ (_) __ _| (_) __ _| |__ | |_ </span>
+<span class="sd">    | &#39;_ \| |/ _` | | |/ _` | &#39;_ \| __|</span>
+<span class="sd">    | | | | | (_| | | | (_| | | | | |_ </span>
+<span class="sd">    |_| |_|_|\__, |_|_|\__, |_| |_|\__|</span>
+<span class="sd">             |___/     |___/           </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># - replace some LaTeX commands by the contents inside curly brackets and highlight these contents</span>
+    <span class="n">to_highlight</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">part[\*]*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">chapter[\*]*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">section[\*]*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">subsection[\*]*&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">subsubsection[\*]*&#39;</span><span class="p">,</span>
+                    <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">paragraph[\*]*&#39;</span><span class="p">];</span>
+    <span class="c1"># highlightment pattern: #--content--#</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">to_highlight</span><span class="p">:</span>
+        <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="n">tag</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\{([^\}\{]*)\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\n#--\1--#\n&#39;</span><span class="p">})</span>
+    <span class="c1"># highlightment pattern: [content]</span>
+    <span class="n">to_highlight</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">title&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">author&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">thanks&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">cite&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">ref&#39;</span><span class="p">];</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">to_highlight</span><span class="p">:</span>
+        <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="n">tag</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;\{([^\}\{]*)\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;[\1]&#39;</span><span class="p">})</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regexps</span><span class="p">)</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     _ __ ___ _ __ ___   _____   _____ </span>
+<span class="sd">    | &#39;__/ _ \ &#39;_ ` _ \ / _ \ \ / / _ \</span>
+<span class="sd">    | | |  __/ | | | | | (_) \ V /  __/</span>
+<span class="sd">    |_|  \___|_| |_| |_|\___/ \_/ \___|</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># remove LaTeX tags</span>
+    <span class="c1"># - remove completely some LaTeX commands that take arguments</span>
+    <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">maketitle&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">footnote&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">centering&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">IEEEpeerreviewmaketitle&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">includegraphics&#39;</span><span class="p">,</span>
+                 <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">IEEEauthorrefmark&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">label&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">end&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">big&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">right&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">left&#39;</span><span class="p">,</span>
+                 <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">documentclass&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">usepackage&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">bibliographystyle&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">bibliography&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">cline&#39;</span><span class="p">,</span>
+                 <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">multicolumn&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">pause&#39;</span><span class="p">]</span>
+
+    <span class="c1"># replace tag with options and argument by a single space</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">:</span>
+        <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="n">tag</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;(\[[^\]]*\])*(\{[^\}\{]*\})*&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; &#39;</span><span class="p">})</span>
+        <span class="c1"># regexps.append({&#39;left&#39;:tag+r&#39;\{[^\}\{]*\}\[[^\]\[]*\]&#39;, &#39;right&#39;:r&#39; &#39;})</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regexps</span><span class="p">)</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                    _                </span>
+<span class="sd">     _ __ ___ _ __ | | __ _  ___ ___ </span>
+<span class="sd">    | &#39;__/ _ \ &#39;_ \| |/ _` |/ __/ _ \</span>
+<span class="sd">    | | |  __/ |_) | | (_| | (_|  __/</span>
+<span class="sd">    |_|  \___| .__/|_|\__,_|\___\___|</span>
+<span class="sd">             |_|                     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># - replace some LaTeX commands by the contents inside curly rackets</span>
+    <span class="c1"># replace some symbols by their ascii equivalent</span>
+    <span class="c1"># - common symbols</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">eg(\{\})* *&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;e.g., &#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">ldots&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;...&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">Rightarrow&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;=&gt;&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">rightarrow&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">le&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">ge&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;&gt;&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">_&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;_&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\n&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; &#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;&amp;&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">%&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;%&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;([^</span><span class="se">\\</span><span class="s1">])&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1\t&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">item&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\t- &#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">\hline[ \t]*</span><span class="se">\\</span><span class="s1">hline&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;=============================================&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;[ \t]*</span><span class="se">\\</span><span class="s1">hline&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;_____________________________________________&#39;</span><span class="p">})</span>
+    <span class="c1"># - special letters</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\&#39;</span><span class="s1">{?\{e\}}?&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;é&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">`{?\{a\}}?&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;à&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\&#39;</span><span class="s1">{?\{o\}}?&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;ó&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\&#39;</span><span class="s1">{?\{a\}}?&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;á&#39;</span><span class="p">})</span>
+    <span class="c1"># keep untouched the contents of the equations</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\$(.)\$&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\$([^\$]*)\$&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="c1"># remove the equation symbols ($)</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;([^</span><span class="se">\\</span><span class="s1">])\$&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="c1"># correct spacing problems</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; +,&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;,&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; +&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; &#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; +\)&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\)&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\( +&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\(&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39; +\.&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\.&#39;</span><span class="p">})</span>
+    <span class="c1"># remove lonely curly brackets</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;^([^\{]*)\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;([^</span><span class="se">\\</span><span class="s1">])\{([^\}]*)\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\1\2&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">\{&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\{&#39;</span><span class="p">})</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">\}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\}&#39;</span><span class="p">})</span>
+    <span class="c1"># strip white space characters at end of line</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;[ \t]*\n&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\n&#39;</span><span class="p">})</span>
+    <span class="c1"># remove consecutive blank lines</span>
+    <span class="n">regexps</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;([ \t]*\n){3,}&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;\n&#39;</span><span class="p">})</span>
+    <span class="c1"># apply all those regexps</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">regexps</span><span class="p">)</span>
+    <span class="n">regexps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># return the modified text</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">__location__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span><span class="o">+</span><span class="s2">&quot;/tests/data/beamer&quot;</span>
+    <span class="n">pres</span> <span class="o">=</span> <span class="n">parse_beamer</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__location__</span><span class="p">,</span> <span class="s2">&quot;simple_beamer&quot;</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="n">pres</span><span class="o">.</span><span class="n">title</span>
+    <span class="nb">print</span> <span class="n">pres</span><span class="o">.</span><span class="n">author</span>
+    <span class="nb">print</span> <span class="n">pres</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">outline</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,364 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>exide package &#8212; exipe2  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exide.datatypes package" href="exide.datatypes.html" />
+    <link rel="prev" title="Welcome to exipe2’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exide-package">
+<h1>exide package<a class="headerlink" href="#exide-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="exide.datatypes.html">exide.datatypes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#module-exide.datatypes.Presentation">exide.datatypes.Presentation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#module-exide.datatypes.Section">exide.datatypes.Section module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#module-exide.datatypes.Slide">exide.datatypes.Slide module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#module-exide.datatypes.SlideTypes">exide.datatypes.SlideTypes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.datatypes.html#module-exide.datatypes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exide.odp_element_parsers.html">exide.odp_element_parsers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers.PresentationParser">exide.odp_element_parsers.PresentationParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers.SlideParser">exide.odp_element_parsers.SlideParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers.StyleParser">exide.odp_element_parsers.StyleParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers.TextParser">exide.odp_element_parsers.TextParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers.utils">exide.odp_element_parsers.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.odp_element_parsers.html#module-exide.odp_element_parsers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exide.pptx_element_parsers.html">exide.pptx_element_parsers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.PresentationParser">exide.pptx_element_parsers.PresentationParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.ShapeParser">exide.pptx_element_parsers.ShapeParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.SlideParser">exide.pptx_element_parsers.SlideParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.TextParser">exide.pptx_element_parsers.TextParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.utils">exide.pptx_element_parsers.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-exide.beamer_parser">
+<span id="exide-beamer-parser-module"></span><h2>exide.beamer_parser module<a class="headerlink" href="#module-exide.beamer_parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.beamer_parser.applyRegexps">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">applyRegexps</code><span class="sig-paren">(</span><em>text</em>, <em>listRegExp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#applyRegexps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.applyRegexps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies successively many regexps to a text</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.detex">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">detex</code><span class="sig-paren">(</span><em>latexText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#detex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.detex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a latex text into a simple text
+Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-bertrand.com/2012/11/a-simple-detex-function-in-python.html">http://www.gilles-bertrand.com/2012/11/a-simple-detex-function-in-python.html</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.get_emphasized_terms">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">get_emphasized_terms</code><span class="sig-paren">(</span><em>latex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#get_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.get_emphasized_terms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.get_frame_title">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">get_frame_title</code><span class="sig-paren">(</span><em>latex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#get_frame_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.get_frame_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.parse_beamer">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_beamer</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_beamer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_beamer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.parse_sections">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_sections</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_sections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_sections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.parse_slides">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_slides</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_slides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_slides" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.beamer_parser.parse_subsections">
+<code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_subsections</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_subsections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_subsections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.exipe">
+<span id="exide-exipe-module"></span><h2>exide.exipe module<a class="headerlink" href="#module-exide.exipe" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.exipe.main">
+<code class="descclassname">exide.exipe.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/exipe.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.exipe.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.odp_parser">
+<span id="exide-odp-parser-module"></span><h2>exide.odp_parser module<a class="headerlink" href="#module-exide.odp_parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.odp_parser.parse_odp">
+<code class="descclassname">exide.odp_parser.</code><code class="descname">parse_odp</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/odp_parser.html#parse_odp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.odp_parser.parse_odp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.parse">
+<span id="exide-parse-module"></span><h2>exide.parse module<a class="headerlink" href="#module-exide.parse" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.parse.parse">
+<code class="descclassname">exide.parse.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parse.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parse.parse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.parser_utils">
+<span id="exide-parser-utils-module"></span><h2>exide.parser_utils module<a class="headerlink" href="#module-exide.parser_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.parser_utils.get_case">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_case</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_case"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_case" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_case_emphasized_terms">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_case_emphasized_terms</code><span class="sig-paren">(</span><em>text</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_case_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_case_emphasized_terms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_continuous_chunks">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_continuous_chunks</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_continuous_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_continuous_chunks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_emphasized_terms">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_emphasized_terms</code><span class="sig-paren">(</span><em>list_of_text_parsers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_emphasized_terms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_named_entities">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_named_entities</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_named_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_named_entities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_slide_parser_type">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_slide_parser_type</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_slide_parser_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_slide_parser_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_slide_type">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_slide_type</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_slide_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_slide_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_text_statistics">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_text_statistics</code><span class="sig-paren">(</span><em>list_of_text_parsers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_text_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_text_statistics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_title">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_title</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.get_urls">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">get_urls</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_urls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.group_slides_by_title">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">group_slides_by_title</code><span class="sig-paren">(</span><em>section</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#group_slides_by_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.group_slides_by_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.is_section_header">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">is_section_header</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#is_section_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.is_section_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.levenshtein">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">levenshtein</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#levenshtein"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.levenshtein" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.matches_case_statistics">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">matches_case_statistics</code><span class="sig-paren">(</span><em>word</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#matches_case_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.matches_case_statistics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.matches_statistics">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">matches_statistics</code><span class="sig-paren">(</span><em>tp</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#matches_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.matches_statistics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.parse">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>presentation_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.parse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.relative_uncertainty">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">relative_uncertainty</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#relative_uncertainty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.relative_uncertainty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.section_level">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">section_level</code><span class="sig-paren">(</span><em>slide_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#section_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.section_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.statistics_noise_reduction">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">statistics_noise_reduction</code><span class="sig-paren">(</span><em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#statistics_noise_reduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.statistics_noise_reduction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.stopwords_removal">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">stopwords_removal</code><span class="sig-paren">(</span><em>string</em>, <em>language</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#stopwords_removal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.stopwords_removal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.structure_extraction">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">structure_extraction</code><span class="sig-paren">(</span><em>section</em>, <em>presentation_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#structure_extraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.structure_extraction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.title_similarity">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">title_similarity</code><span class="sig-paren">(</span><em>title_1</em>, <em>title_2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#title_similarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.title_similarity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="exide.parser_utils.total_text_parser_count">
+<code class="descclassname">exide.parser_utils.</code><code class="descname">total_text_parser_count</code><span class="sig-paren">(</span><em>statistic</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#total_text_parser_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.total_text_parser_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.pptx_parser">
+<span id="exide-pptx-parser-module"></span><h2>exide.pptx_parser module<a class="headerlink" href="#module-exide.pptx_parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.pptx_parser.parse_pptx">
+<code class="descclassname">exide.pptx_parser.</code><code class="descname">parse_pptx</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/pptx_parser.html#parse_pptx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.pptx_parser.parse_pptx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide.preannotator">
+<span id="exide-preannotator-module"></span><h2>exide.preannotator module<a class="headerlink" href="#module-exide.preannotator" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="exide.preannotator.main">
+<code class="descclassname">exide.preannotator.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/preannotator.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.preannotator.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-exide">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-exide" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">exide package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-exide.beamer_parser">exide.beamer_parser module</a></li>
+<li><a class="reference internal" href="#module-exide.exipe">exide.exipe module</a></li>
+<li><a class="reference internal" href="#module-exide.odp_parser">exide.odp_parser module</a></li>
+<li><a class="reference internal" href="#module-exide.parse">exide.parse module</a></li>
+<li><a class="reference internal" href="#module-exide.parser_utils">exide.parser_utils module</a></li>
+<li><a class="reference internal" href="#module-exide.pptx_parser">exide.pptx_parser module</a></li>
+<li><a class="reference internal" href="#module-exide.preannotator">exide.preannotator module</a></li>
+<li><a class="reference internal" href="#module-exide">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to exipe2’s documentation!</a></li>
+      <li>Next: <a href="exide.datatypes.html" title="next chapter">exide.datatypes package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exide.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/exide.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
