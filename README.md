@@ -47,3 +47,5 @@ exide_presentation = parse("my_folder/my_presentation.pptx")
 print(exide_presentation.outline)
 ```
 
+### Documentation
+Exide documentation is available [here](https://codophile1.github.io/exide/).
