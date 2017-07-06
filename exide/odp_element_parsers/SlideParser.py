@@ -15,9 +15,21 @@ class SlideParser(object):
         self.layout = None
 
     def get_style_by_id(self, style_id):
+        """
+        Return a |StyleParser| matching the given id.
+
+        :param style_id:
+        :return: |StyleParser| object.
+        """
         return self.presentation.get_style_by_id(style_id)
 
     def parseText(self, XMLSlideObject):
+        """
+        Create |TextParser| object for each text of the given XML slide object.
+
+        :param XMLSlideObject: LXML slide object
+        :return: List of |TextParser| object.
+        """
         text = []
         for frame in XMLSlideObject.findall(".//draw:frame", XMLSlideObject.nsmap):
             if frame not in XMLSlideObject.findall(".//draw:frame[@presentation:class='title']", XMLSlideObject.nsmap):
@@ -51,6 +63,12 @@ class SlideParser(object):
         return text
 
     def parseTitle(self, XMLSlideObject):
+        """
+        Look up for the XML title object within the given XML Slide Object and creates a list of |TextParser| objects for each text within the title.
+
+        :param XMLSlideObject:
+        :return:
+        """
         title = []
         # On cheche la zone de texte correspondant au titre de la diapositive
         titleFrame = XMLSlideObject.find(".//draw:frame[@presentation:class='title']", XMLSlideObject.nsmap)
@@ -76,6 +94,12 @@ class SlideParser(object):
 
     # On cherche à extraire les textes d'un certain style
     def getTextsByStyleId(self, styleID):
+        """
+        Return a list of |TextParser| objects whose style matches the given style ID.
+
+        :param styleID: ID of a |StyleParser|
+        :return: List of |TextParser| objects.
+        """
         texts = []
         # On parcourt les textes et pour chaque texte, on vérifie si il a le style recherché
         for text in self.text_parsers:
@@ -83,20 +107,13 @@ class SlideParser(object):
                 texts.append(text)
         return texts
 
-    def mergeSameLineTexts(self):
-        input_texts = self.text_parsers
-        output_text=[]
-        for text in input_texts:
-            input_texts.remove(text)
-            for text2 in input_texts:
-                if text.top == text2.top and text.style_id == text2.style_id:
-                    input_texts.remove(text2)
-                    text.text+=text2.text
-            output_text.append(text)
-        return output_text
-
     @property
     def text(self):
+        """
+        Return a string containing all the body text of the slide.
+
+        :return: Strinf
+        """
         text=""
         for tp in self.text_parsers:
             text+="\n"+tp.text
@@ -104,6 +121,11 @@ class SlideParser(object):
 
     @property
     def title(self):
+        """
+        Retrun a string containing the title of the slide.
+
+        :return: String
+        """
         if len(self.title_parsers) > 0:
             text=""
             for tp in self.title_parsers:

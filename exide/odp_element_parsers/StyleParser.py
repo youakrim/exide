@@ -14,6 +14,11 @@ class StyleParser(object):
 
     @property
     def font_family(self):
+        """
+        Return the name of style's font family
+
+        :return: String
+        """
         if self.type == "fontspec":
             if "family" in self.xml_style.attrib:
                 return self.xml_style.attrib["family"]
@@ -28,6 +33,11 @@ class StyleParser(object):
 
     @property
     def font_size(self):
+        """
+        Return the style's font size.
+
+        :return: String
+        """
         if self.type == "fontspec":
             if "size" in self.xml_style.attrib:
                 return self.xml_style.attrib["size"]
@@ -42,6 +52,11 @@ class StyleParser(object):
 
     @property
     def font_color(self):
+        """
+        Return the style's font color.
+
+        :return: String
+        """
         if self.type == "fontspec":
             if "color" in self.xml_style.attrib:
                 return self.xml_style.attrib["color"]
@@ -56,6 +71,11 @@ class StyleParser(object):
 
     @property
     def font_weight(self):
+        """
+        Return the style's font weight.
+
+        :return: String
+        """
         if self.type == "fontspec":
             if "weight" in self.xml_style.attrib:
                 return self.xml_style.attrib["weight"]
@@ -70,6 +90,11 @@ class StyleParser(object):
 
     @property
     def underlined(self):
+        """
+        Return the style's underlining.
+
+        :return: String
+        """
         if self.type == "fontspec":
             if "underline" in self.xml_style.attrib:
                 return self.xml_style.attrib["underline"]

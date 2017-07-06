@@ -9,6 +9,13 @@ from parser_utils import get_named_entities, get_urls, get_slide_type
 
 
 def parse_beamer(path):
+    """
+    Transform a beamer tex file into a |Presentation| object
+
+    :param path: Path of the beamer file
+    :type path: string
+    :return: |Presentation|
+    """
     with open(path, 'r') as content_file:
         content = content_file.read()
 
@@ -44,6 +51,13 @@ def parse_beamer(path):
 
 
 def parse_slides(latex, starting_index=1):
+    """
+    Extract slides from tex file.
+
+    :param latex:
+    :param starting_index:
+    :return:
+    """
     index = starting_index
     slides = []
     slides_contents = re.compile(r'\\begin{frame}').split(latex)
@@ -63,6 +77,12 @@ def parse_slides(latex, starting_index=1):
 
 
 def get_frame_title(latex):
+    """
+    Extract the title from slide tex source.
+
+    :param latex: string
+    :return: String
+    """
     if re.match(r'^{.*}', latex):
         return re.findall(r'\{(.*?)\}', latex, re.S)[0]
     elif len(re.findall(r'\\frametitle{(.*?)}', latex, re.S)) > 0:
@@ -71,6 +91,13 @@ def get_frame_title(latex):
 
 
 def parse_subsections(latex, starting_index=1):
+    """
+    Parse subsections.
+
+    :param latex:
+    :param starting_index:
+    :return: list of |Section| objects
+    """
     index = starting_index
     subsections = []
     subsections_titles = re.findall(r'\\subsection{(.*?)\}', latex, re.S)
@@ -86,6 +113,13 @@ def parse_subsections(latex, starting_index=1):
 
 
 def parse_sections(latex, starting_index=1):
+    """
+    Parse sections.
+
+    :param latex: string
+    :param starting_index: int
+    :return: list of |Section| objects
+    """
     index = starting_index
     sections = []
     sections_titles = re.findall(r'\\section{(.*?)\}', latex, re.S)
@@ -100,6 +134,12 @@ def parse_sections(latex, starting_index=1):
     return sections
 
 def get_emphasized_terms(latex):
+    """
+    Return emphasized terms of the given latex string.
+
+    :param latex: String
+    :return: list of Strings
+    """
     return re.findall(r'\\emph{(.*?)\}', latex, re.S)
 
 def applyRegexps(text, listRegExp):

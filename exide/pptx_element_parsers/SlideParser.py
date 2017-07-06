@@ -16,6 +16,12 @@ class SlideParser(object):
 
 
     def parseText(self, PPTXSlideObject):
+        """
+        Create |TextParser| object for each text of the given XML slide object.
+
+        :param XMLSlideObject: LXML slide object
+        :return: List of |TextParser| object.
+        """
         text = []
         for shape in PPTXSlideObject.shapes:
             if hasattr(shape, "text") and shape.text is not None and shape not in PPTXSlideObject.shapes.placeholders:
@@ -37,6 +43,12 @@ class SlideParser(object):
         return text
 
     def parseTitle(self, PPTXSlideObject):
+        """
+        Look up for the XML title object within the given XML Slide Object and creates a list of |TextParser| objects for each text within the title.
+
+        :param XMLSlideObject:
+        :return:
+        """
         title = []
         for shape in PPTXSlideObject.shapes.placeholders:
             if PPTXSlideObject.shapes.title is not None:
@@ -50,6 +62,12 @@ class SlideParser(object):
 
     # On cherche à extraire les textes d'un certain style
     def getTextsByStyleId(self, styleID):
+        """
+        Return a list of |TextParser| objects whose style matches the given style ID.
+
+        :param styleID: ID of a |StyleParser|
+        :return: List of |TextParser| objects.
+        """
         texts = []
         # On parcourt les textes et pour chaque texte, on vérifie si il a le style recherché
         for text in self.text:
@@ -57,20 +75,13 @@ class SlideParser(object):
                 texts.append(text)
         return texts
 
-    def mergeSameLineTexts(self):
-        input_texts = self.text
-        output_text=[]
-        for text in input_texts:
-            input_texts.remove(text)
-            for text2 in input_texts:
-                if text.top == text2.top and text.style_id == text2.style_id:
-                    input_texts.remove(text2)
-                    text.content+=text2.content
-            output_text.append(text)
-        return output_text
-
     @property
     def text(self):
+        """
+        Return a string containing all the body text of the slide.
+
+        :return: String
+        """
         text=""
         for tp in self.text_parsers:
             text+="\n"+tp.text
@@ -78,6 +89,11 @@ class SlideParser(object):
 
     @property
     def title(self):
+        """
+        Return a string containing the title of the slide.
+
+        :return: String
+        """
         if self.pptx_object.shapes.title is not None:
             return self.pptx_object.shapes.title.text
         return None

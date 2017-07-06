@@ -4,6 +4,13 @@ from Slide import Slide
 
 
 class Section:
+    """
+    A Section object has the following attributes :
+        - subelements (list of Slide and Section objects): list of the element within the Section
+        - level (int) : depth of the Section in the presentation element tree
+        - toc_slide_id (int) : id of the table of content slide of the Section
+        - title (string): title of the Section
+    """
     def __init__(self, title=None):
         self.subelements = []
         self.level = 0
@@ -113,6 +120,7 @@ class Section:
     def get_slides_of_type(self, type):
         """
         Returns the list of the |Slide| objects of the given type
+
         :param type: str. -- type of slides
         :return: list of |Slide| objects
         """
@@ -125,6 +133,7 @@ class Section:
     def get_slides_by_keyword(self, keyword, search_title=True, search_body_text=False):
         """
         Returns the list of |Slide| objects that contain a given keyword
+
         :param keyword: The word or string to look for.
         :param search_title: Indicates if the search should consider the title string or not
         :param search_body_text: Indicates if the search should consider the body text string or not
@@ -143,6 +152,7 @@ class Section:
     def get_slides_by_title(self, title):
         """
         Returns the list of the slides whose title matches the given title
+
         :param title: The title string to look for
         :return: list of |Slide| objects
         """

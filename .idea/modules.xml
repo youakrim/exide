@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/exipe.iml" filepath="$PROJECT_DIR$/.idea/exipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/exide.iml" filepath="$PROJECT_DIR$/.idea/exide.iml" />
     </modules>
   </component>
 </project>

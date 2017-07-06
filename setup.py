@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='Exide',
-      version='3.9.0',
+      version='3.9.4',
       description='Information Retrieval API for Presentation Documents',
       author='Yanis Ouakrim',
       author_email='yanis.ouakrim[at]etu.univ-nantes.fr',

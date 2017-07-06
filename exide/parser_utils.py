@@ -13,6 +13,12 @@ from datatypes.Presentation import Presentation
 
 
 def get_continuous_chunks(text):
+    """
+    Return the list of proper nouns of the given string
+
+    :param text: string
+    :return: list of proper nouns
+    """
     chunked = ne_chunk(pos_tag(word_tokenize(text)))
     prev = None
     continuous_chunk = []
@@ -31,6 +37,12 @@ def get_continuous_chunks(text):
 
 
 def get_text_statistics(list_of_text_parsers):
+    """
+    Return a dictionary of dictionaries each corresponding to a statistic
+
+    :param list_of_text_parsers:
+    :return: a dictionary of dictionaries
+    """
     # On initialise les varaiables statistiques
     # We set the statistics variables
     font_list = {"default": 0}
@@ -87,6 +99,12 @@ def get_text_statistics(list_of_text_parsers):
 
 
 def statistics_noise_reduction(statistics):
+    """
+    Return a text statistic dictionary denoised (similar characteristics has been merged) [this function doesn't work yet].
+
+    :param statistics:
+    :return: a text statistic dictionary
+    """
     # TODO
     fonts_to_check = statistics["fonts"][:]
     font_groups = []
@@ -105,39 +123,65 @@ def statistics_noise_reduction(statistics):
 
 
 def relative_uncertainty(a, b):
+    """
+    Calculate the relative uncertainty between two numbers
+
+    :param a:
+    :param b:
+    :return: relative uncertainty between a and b
+    """
     return (abs(a - b) / (a)) * 100
 
 
 # Pré-condition : le text_parser doit faire partie du corpus d'apprentissage des statistiques et les statistiques doivent avoir un format valides
-def matches_statistics(tp, statistics):
+def matches_statistics(tp, statistics, underlining_threshold=0.5, boldness_threshold=0.9, font_family_threshold=0.5, color_threshold = 0.5, font_size_threshold =0.3):
+    """
+    Return True if the given TextParser object matches the given text statistics or False if ut doesn't
+
+    :param tp: TextParser
+    :param statistics:
+    :param underlining_threshold:
+    :param boldness_threshold:
+    :param font_family_threshold:
+    :param color_threshold:
+    :param font_size_threshold:
+    :return:
+    """
     # On considère qu'un text_parser correspond aux statistiques si il est conforme à plus de la moitié de la mise en forme
     tp_underlining_ratio = float(statistics["underlining"][tp.underlined]) / float(
         total_text_parser_count(statistics["underlining"]))
-    if tp_underlining_ratio < 0.5:
+    if tp_underlining_ratio < underlining_threshold:
         return False
 
     tp_boldness_ratio = float(statistics["boldness"][tp.font_weight]) / float(
         total_text_parser_count(statistics["boldness"]))
-    if tp_boldness_ratio < 0.9:
+    if tp_boldness_ratio < boldness_threshold:
         return False
 
     tp_font_ratio = float(statistics["fonts"][tp.font_family]) / float(total_text_parser_count(statistics["fonts"]))
-    if tp_font_ratio < 0.5:
+    if tp_font_ratio < font_family_threshold:
         return False
 
     color_ratio = float(statistics["colors"][tp.color]) / float(total_text_parser_count(statistics["colors"]))
-    if color_ratio < 0.5:
+    if color_ratio < color_threshold:
         return False
 
     font_size_ratio = float(statistics["font-size"][tp.font_size]) / float(
         total_text_parser_count(statistics["font-size"]))
-    if font_size_ratio < 0.3:
+    if font_size_ratio < font_size_threshold:
         return False
     return True
 
 
 # Strings with different case
 def get_case_emphasized_terms(text, statistics):
+    """
+    Returns the words that have a different case than the average text.
+
+    :param text:
+    :param statistics:
+    :return:
+    """
     case_emphasized_terms = []
     for word in text.split(" "):
         if not matches_case_statistics(word, statistics):
@@ -146,6 +190,13 @@ def get_case_emphasized_terms(text, statistics):
 
 
 def matches_case_statistics(word, statistics):
+    """
+    Return True if the given text's characteristics matches average characteristics given by the statistics.
+
+    :param word: String
+    :param statistics: Dictionary
+    :return: Boolean
+    """
     text_case_ratio = float(statistics["text-case"][get_case(word)]) / float(
         total_text_parser_count(statistics["text-case"]))
     if text_case_ratio < 0.0:
@@ -154,12 +205,24 @@ def matches_case_statistics(word, statistics):
 
 
 def get_case(word):
+    """
+    Gives the case of the given word.
+
+    :param word: String
+    :return: String
+    """
     if word.isupper():
         return "uppercase"
     return "default"
 
 
 def total_text_parser_count(statistic):
+    """
+    Count the |TextParser| object included in the given statistics.
+
+    :param statistic: dictionary
+    :return: int
+    """
     count = 0
     for value in statistic:
         count += statistic[value]
@@ -167,6 +230,12 @@ def total_text_parser_count(statistic):
 
 
 def get_emphasized_terms(list_of_text_parsers):
+    """
+    Return a list of emphasized terms within the given |TextParser| objects.
+
+    :param list_of_text_parsers:
+    :return: list of Strings.
+    """
     statistics = get_text_statistics(list_of_text_parsers)
     emphasized_terms = []
     for tp in list_of_text_parsers:
@@ -178,10 +247,22 @@ def get_emphasized_terms(list_of_text_parsers):
 
 
 def get_urls(text):
+    """
+    Return a list of the urls of the given text.
+
+    :param text: String
+    :return: String
+    """
     return re.findall('[http[s]?://]?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
 
 
 def get_slide_parser_type(slide):
+    """
+    Returns a string with the matching slide type for the given |SlideParser| or "notype" if no type was found.
+
+    :param slide: |SlideParser|
+    :return: String
+    """
     if get_title(slide) == "Untitled":
         return "graphic"
     if slide.layout is not None and slide.layout == slide.presentation.pptx_object.slide_layouts[2]:
@@ -193,6 +274,12 @@ def get_slide_parser_type(slide):
 
 
 def get_slide_type(slide):
+    """
+    Returns a string with the matching slide type for the given slide or "notype" if no type was found.
+
+    :param slide:
+    :return: String
+    """
     if slide.title == "Untitled":
         return "graphic"
     for type in SlideTypes.LIST:
@@ -202,10 +289,22 @@ def get_slide_type(slide):
 
 
 def get_named_entities(text):
+    """
+    Return the list af the named entities of the given text.
+
+    :param text: string
+    :return: list of strings
+    """
     return get_continuous_chunks(text.encode('ascii', 'ignore'))
 
 
 def get_title(slide):
+    """
+    Return the title of a given slide, return "Untitled" if no title was found.
+
+    :param slide:
+    :return: String
+    """
     if slide.title is not None:
         return slide.title
     elif len(slide.text.split("\n")) > 0:
@@ -214,7 +313,7 @@ def get_title(slide):
                 return line.replace('\t', '')
     return "Untitled"
 
-
+"""
 def group_slides_by_title(section):
     # We start by regrouping slides with similar titles
     current_section = None
@@ -236,9 +335,16 @@ def group_slides_by_title(section):
     else:
         new_tree.subelements.append(section.slides[len(section.slides) - 1])
     return new_tree
-
+"""
 
 def structure_extraction(section, presentation_parser):
+    """
+    Return a structured |Section| object.
+
+    :param section:
+    :param presentation_parser:
+    :return: |Sectionbject|
+    """
     slide_parser_list = presentation_parser.slides
     if len(section.subelements) > 0:
         output_section = Section(section.subelements[0].title)
@@ -280,6 +386,13 @@ def structure_extraction(section, presentation_parser):
 
 
 def title_similarity(title_1, title_2):
+    """
+    Return a similarity index between two strings.
+
+    :param title_1:
+    :param title_2:
+    :return:
+    """
     str1 = stopwords_removal(title_1, "fr").lower().split()
     str2 = stopwords_removal(title_2, "fr").lower().split()
     if max(len(str1), len(str2)) == 0:
@@ -290,16 +403,35 @@ def title_similarity(title_1, title_2):
 
 
 def is_section_header(slide):
+    """
+    Return True if the given side is a section header and false if it isn't.
+
+    :param slide:
+    :return: Boolean
+    """
     return slide.type == "sectionheader" or (len(slide.text.split(" ")) < 30 and slide.type != "graphic")
 
 
 def section_level(slide_parser):
+    """
+    Return a string corresponding to the indentation level of the slide
+
+    :param slide_parser:
+    :return:
+    """
     if len(slide_parser.title_parsers) > 0:
         return slide_parser.title_parsers[0].font_size
     return 0
 
 
 def levenshtein(s1, s2):
+    """
+    Return the levensthein distance between two strings
+
+    :param s1:
+    :param s2:
+    :return: int
+    """
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
 
@@ -322,6 +454,13 @@ def levenshtein(s1, s2):
 
 
 def stopwords_removal(string, language):
+    """
+    Removes the stopwords of the string of the given language. If no stopwords dictionary exist for the given language, the function raises an exception.
+
+    :param string:
+    :param language: language of the given string
+    :return: String
+    """
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))) + "/dict/"
     path = os.path.join(__location__, "sw_" + language+".txt");
 
@@ -341,6 +480,12 @@ def stopwords_removal(string, language):
 
 
 def parse(presentation_parser):
+    """
+    Parse a |PresentationParser| object into a |Presentation| object.
+
+    :param presentation_parser: |PresentationParser| object
+    :return: |Presentation| object
+    """
     # On créé la section racine qui va contenir tout les éléments : diapositives, autres sections
     presentation_title = get_title(presentation_parser.slides[0])
     root_section = Section()

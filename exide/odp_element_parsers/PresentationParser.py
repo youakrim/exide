@@ -21,36 +21,61 @@ class PresentationParser(object):
 
     @property
     def title(self):
+        """
+        Title of the presentation
+        :return: String containing the title of the presentation or None if no title was found
+        """
         if self.xml_meta.find(".//dc:title", self.xml_meta.nsmap):
             return self.xml_meta.find(".//dc:title", self.xml_meta.nsmap).text
         return None
 
     @property
     def author(self):
+        """
+        Author of the presentation
+        :return: String containing the author name of the presentation or None if no author name was found
+        """
         if self.xml_meta.find(".//meta:initial-creator", self.xml_meta.nsmap):
             return self.xml_meta.find(".//meta:initial-creator", self.xml_meta.nsmap).text
         return None
 
     @property
     def last_modifier(self):
+        """
+        Name of the last person who edited the presentation
+        :return: String containing the last editor's name or None if no name was found
+        """
         if self.xml_meta.find(".//dc:creator", self.xml_meta.nsmap):
             return self.xml_meta.find(".//dc:creator", self.xml_meta.nsmap).text
         return None
 
     @property
     def last_modified(self):
+        """
+        Date of the last edit of the presentation
+        :return: String containing the last edition date or None if no date was found
+        """
         if self.xml_meta.find(".//dc:date", self.xml_meta.nsmap):
             return self.xml_meta.find(".//dc:date", self.xml_meta.nsmap).text
         return None
 
     @property
     def created(self):
+        """
+        Date of creation of the presentation
+        :return: String containing the date of creation or None if no date was found
+        """
         if self.xml_meta.find(".//meta:creation-date", self.xml_meta.nsmap):
             return self.xml_meta.find(".//meta:creation-date", self.xml_meta.nsmap).text
         return None
 
     # On cherche à extraire les texte d'un certain style
     def getTextsByStyleId(self, styleID):
+        """
+        Get all |TextParser| of a given style.
+        :param styleID: Id of the style
+        :return: A list of |TextParser|
+        """
         #TODO
         texts = []
         # On parcourt les slides et pour chaque slide, on récupère le nombre de textes ayant le style
@@ -60,6 +85,12 @@ class PresentationParser(object):
         return texts
 
     def parseSlides(self, XMLPresentationObject):
+        """
+        Create |SlideParser| object of each slide of the presentation
+
+        :param XMLPresentationObject:
+        :return:
+        """
         slides = []
         slideCount=0
         for slide in XMLPresentationObject.findall(".//draw:page", XMLPresentationObject.nsmap):
@@ -68,6 +99,12 @@ class PresentationParser(object):
         return slides
 
     def parseStyles(self, XMLPresentationObject):
+        """
+        Create a |StyleParser| object of each style of the presentation.
+
+        :param XMLPresentationObject: LXML presentation object
+        :return: list of |StyleParser| objects
+        """
         styles = []
         for style in XMLPresentationObject.findall(".//fontspec", XMLPresentationObject.nsmap):
             type="fontspec"
@@ -86,6 +123,12 @@ class PresentationParser(object):
         return styles
 
     def get_style_by_id(self, style_id):
+        """
+        Return a |StyleParser| object matching the given ID.
+
+        :param style_id:
+        :return: |StyleParser| object or None if no matching style was found.
+        """
         for style in self.styles:
             if style.id == style_id:
                 return style

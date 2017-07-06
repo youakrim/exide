@@ -8,6 +8,12 @@ from .beamer_parser import parse_beamer
 
 
 def parse(file):
+    """
+    Transform a presentation file (PPTX, ODP or Beamer) into a |Presentation| object.
+
+    :param file: File path
+    :return: |Presentation| object
+    """
     file_extension = os.path.splitext(file)[1]
     if file_extension == ".pptx":
         return parse_pptx(file)

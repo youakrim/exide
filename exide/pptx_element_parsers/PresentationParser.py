@@ -21,6 +21,12 @@ class PresentationParser(object):
         self.slides = self.parse_slides(pythonPPTXPresentationObject)
 
     def parse_slides(self, pythonPPTXPresentationObject):
+        """
+       Create |SlideParser| object of each slide of the presentation.
+
+       :param XMLPresentationObject:
+       :return:
+       """
         slides = []
         slide_count = 0
         for slide in pythonPPTXPresentationObject.slides:
