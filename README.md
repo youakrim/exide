@@ -46,6 +46,7 @@ from exide.parse import parse
 exide_presentation = parse("my_folder/my_presentation.pptx")
 print(exide_presentation.outline)
 ```
+More examples [here](https://codophile1.github.io/exide/introduction.html).
 
 ### Documentation
 Exide documentation is available [here](https://codophile1.github.io/exide/).
