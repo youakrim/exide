@@ -36,14 +36,6 @@ exide\.pptx\_element\_parsers\.TextParser module
     :undoc-members:
     :show-inheritance:
 
-exide\.pptx\_element\_parsers\.utils module
--------------------------------------------
-
-.. automodule:: exide.pptx_element_parsers.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.beamer_parser &#8212; exipe2  documentation</title>
+    <title>exide.beamer_parser &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -53,6 +53,13 @@
 
 
 <div class="viewcode-block" id="parse_beamer"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_beamer">[docs]</a><span class="k">def</span> <span class="nf">parse_beamer</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a beamer tex file into a |Presentation| object</span>
+
+<span class="sd">    :param path: Path of the beamer file</span>
+<span class="sd">    :type path: string</span>
+<span class="sd">    :return: |Presentation|</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">content_file</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">content_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
@@ -88,6 +95,13 @@
 
 
 <div class="viewcode-block" id="parse_slides"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_slides">[docs]</a><span class="k">def</span> <span class="nf">parse_slides</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract slides from tex file.</span>
+
+<span class="sd">    :param latex:</span>
+<span class="sd">    :param starting_index:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
     <span class="n">slides</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">slides_contents</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{frame}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">latex</span><span class="p">)</span>
@@ -107,6 +121,12 @@
 
 
 <div class="viewcode-block" id="get_frame_title"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.get_frame_title">[docs]</a><span class="k">def</span> <span class="nf">get_frame_title</span><span class="p">(</span><span class="n">latex</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the title from slide tex source.</span>
+
+<span class="sd">    :param latex: string</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^{.*}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">frametitle{(.*?)}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -115,6 +135,13 @@
 
 
 <div class="viewcode-block" id="parse_subsections"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_subsections">[docs]</a><span class="k">def</span> <span class="nf">parse_subsections</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse subsections.</span>
+
+<span class="sd">    :param latex:</span>
+<span class="sd">    :param starting_index:</span>
+<span class="sd">    :return: list of |Section| objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
     <span class="n">subsections</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">subsections_titles</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">subsection{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
@@ -130,6 +157,13 @@
 
 
 <div class="viewcode-block" id="parse_sections"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.parse_sections">[docs]</a><span class="k">def</span> <span class="nf">parse_sections</span><span class="p">(</span><span class="n">latex</span><span class="p">,</span> <span class="n">starting_index</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse sections.</span>
+
+<span class="sd">    :param latex: string</span>
+<span class="sd">    :param starting_index: int</span>
+<span class="sd">    :return: list of |Section| objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">starting_index</span>
     <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">sections_titles</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">section{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
@@ -144,6 +178,12 @@
     <span class="k">return</span> <span class="n">sections</span></div>
 
 <div class="viewcode-block" id="get_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.get_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_emphasized_terms</span><span class="p">(</span><span class="n">latex</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return emphasized terms of the given latex string.</span>
+
+<span class="sd">    :param latex: String</span>
+<span class="sd">    :return: list of Strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">emph{(.*?)\}&#39;</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="applyRegexps"><a class="viewcode-back" href="../../exide.html#exide.beamer_parser.applyRegexps">[docs]</a><span class="k">def</span> <span class="nf">applyRegexps</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">listRegExp</span><span class="p">):</span>
@@ -317,7 +357,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

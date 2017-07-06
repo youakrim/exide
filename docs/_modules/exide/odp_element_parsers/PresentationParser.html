@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.odp_element_parsers.PresentationParser &#8212; exipe2  documentation</title>
+    <title>exide.odp_element_parsers.PresentationParser &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -65,36 +65,61 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Title of the presentation</span>
+<span class="sd">        :return: String containing the title of the presentation or None if no title was found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:title&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:title&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">author</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Author of the presentation</span>
+<span class="sd">        :return: String containing the author name of the presentation or None if no author name was found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//meta:initial-creator&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//meta:initial-creator&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Name of the last person who edited the presentation</span>
+<span class="sd">        :return: String containing the last editor&#39;s name or None if no name was found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:creator&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:creator&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Date of the last edit of the presentation</span>
+<span class="sd">        :return: String containing the last edition date or None if no date was found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//dc:date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Date of creation of the presentation</span>
+<span class="sd">        :return: String containing the date of creation or None if no date was found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//meta:creation-date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//meta:creation-date&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_meta</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># On cherche à extraire les texte d&#39;un certain style</span>
 <div class="viewcode-block" id="PresentationParser.getTextsByStyleId"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.PresentationParser.PresentationParser.getTextsByStyleId">[docs]</a>    <span class="k">def</span> <span class="nf">getTextsByStyleId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">styleID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all |TextParser| of a given style.</span>
+<span class="sd">        :param styleID: Id of the style</span>
+<span class="sd">        :return: A list of |TextParser|</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#TODO</span>
         <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># On parcourt les slides et pour chaque slide, on récupère le nombre de textes ayant le style</span>
@@ -104,6 +129,12 @@
         <span class="k">return</span> <span class="n">texts</span></div>
 
 <div class="viewcode-block" id="PresentationParser.parseSlides"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.PresentationParser.PresentationParser.parseSlides">[docs]</a>    <span class="k">def</span> <span class="nf">parseSlides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XMLPresentationObject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create |SlideParser| object of each slide of the presentation</span>
+
+<span class="sd">        :param XMLPresentationObject:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">slides</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">slideCount</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">slide</span> <span class="ow">in</span> <span class="n">XMLPresentationObject</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//draw:page&quot;</span><span class="p">,</span> <span class="n">XMLPresentationObject</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
@@ -112,6 +143,12 @@
         <span class="k">return</span> <span class="n">slides</span></div>
 
 <div class="viewcode-block" id="PresentationParser.parseStyles"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.PresentationParser.PresentationParser.parseStyles">[docs]</a>    <span class="k">def</span> <span class="nf">parseStyles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XMLPresentationObject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a |StyleParser| object of each style of the presentation.</span>
+
+<span class="sd">        :param XMLPresentationObject: LXML presentation object</span>
+<span class="sd">        :return: list of |StyleParser| objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">styles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">XMLPresentationObject</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//fontspec&quot;</span><span class="p">,</span> <span class="n">XMLPresentationObject</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;fontspec&quot;</span>
@@ -130,6 +167,12 @@
         <span class="k">return</span> <span class="n">styles</span></div>
 
 <div class="viewcode-block" id="PresentationParser.get_style_by_id"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.PresentationParser.PresentationParser.get_style_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_style_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a |StyleParser| object matching the given ID.</span>
+
+<span class="sd">        :param style_id:</span>
+<span class="sd">        :return: |StyleParser| object or None if no matching style was found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">style</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">style_id</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">style</span>
@@ -164,7 +207,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

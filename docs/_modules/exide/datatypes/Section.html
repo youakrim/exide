@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.datatypes.Section &#8212; exipe2  documentation</title>
+    <title>exide.datatypes.Section &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -48,6 +48,13 @@
 
 
 <div class="viewcode-block" id="Section"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Section.Section">[docs]</a><span class="k">class</span> <span class="nc">Section</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Section object has the following attributes :</span>
+<span class="sd">        - subelements (list of Slide and Section objects): list of the element within the Section</span>
+<span class="sd">        - level (int) : depth of the Section in the presentation element tree</span>
+<span class="sd">        - toc_slide_id (int) : id of the table of content slide of the Section</span>
+<span class="sd">        - title (string): title of the Section</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subelements</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="mi">0</span>
@@ -157,6 +164,7 @@
 <div class="viewcode-block" id="Section.get_slides_of_type"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Section.Section.get_slides_of_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_slides_of_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the list of the |Slide| objects of the given type</span>
+
 <span class="sd">        :param type: str. -- type of slides</span>
 <span class="sd">        :return: list of |Slide| objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -169,6 +177,7 @@
 <div class="viewcode-block" id="Section.get_slides_by_keyword"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Section.Section.get_slides_by_keyword">[docs]</a>    <span class="k">def</span> <span class="nf">get_slides_by_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyword</span><span class="p">,</span> <span class="n">search_title</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">search_body_text</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the list of |Slide| objects that contain a given keyword</span>
+
 <span class="sd">        :param keyword: The word or string to look for.</span>
 <span class="sd">        :param search_title: Indicates if the search should consider the title string or not</span>
 <span class="sd">        :param search_body_text: Indicates if the search should consider the body text string or not</span>
@@ -187,6 +196,7 @@
 <div class="viewcode-block" id="Section.get_slides_by_title"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Section.Section.get_slides_by_title">[docs]</a>    <span class="k">def</span> <span class="nf">get_slides_by_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the list of the slides whose title matches the given title</span>
+
 <span class="sd">        :param title: The title string to look for</span>
 <span class="sd">        :return: list of |Slide| objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -225,7 +235,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

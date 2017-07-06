@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.parser_utils &#8212; exipe2  documentation</title>
+    <title>exide.parser_utils &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -57,6 +57,12 @@
 
 
 <div class="viewcode-block" id="get_continuous_chunks"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_continuous_chunks">[docs]</a><span class="k">def</span> <span class="nf">get_continuous_chunks</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the list of proper nouns of the given string</span>
+
+<span class="sd">    :param text: string</span>
+<span class="sd">    :return: list of proper nouns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">chunked</span> <span class="o">=</span> <span class="n">ne_chunk</span><span class="p">(</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)))</span>
     <span class="n">prev</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">continuous_chunk</span> <span class="o">=</span> <span class="p">[]</span>
@@ -75,6 +81,12 @@
 
 
 <div class="viewcode-block" id="get_text_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_text_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_text_statistics</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a dictionary of dictionaries each corresponding to a statistic</span>
+
+<span class="sd">    :param list_of_text_parsers:</span>
+<span class="sd">    :return: a dictionary of dictionaries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># On initialise les varaiables statistiques</span>
     <span class="c1"># We set the statistics variables</span>
     <span class="n">font_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
@@ -131,6 +143,12 @@
 
 
 <div class="viewcode-block" id="statistics_noise_reduction"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.statistics_noise_reduction">[docs]</a><span class="k">def</span> <span class="nf">statistics_noise_reduction</span><span class="p">(</span><span class="n">statistics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a text statistic dictionary denoised (similar characteristics has been merged) [this function doesn&#39;t work yet].</span>
+
+<span class="sd">    :param statistics:</span>
+<span class="sd">    :return: a text statistic dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO</span>
     <span class="n">fonts_to_check</span> <span class="o">=</span> <span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">][:]</span>
     <span class="n">font_groups</span> <span class="o">=</span> <span class="p">[]</span>
@@ -149,39 +167,65 @@
 
 
 <div class="viewcode-block" id="relative_uncertainty"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.relative_uncertainty">[docs]</a><span class="k">def</span> <span class="nf">relative_uncertainty</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the relative uncertainty between two numbers</span>
+
+<span class="sd">    :param a:</span>
+<span class="sd">    :param b:</span>
+<span class="sd">    :return: relative uncertainty between a and b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span></div>
 
 
 <span class="c1"># Pré-condition : le text_parser doit faire partie du corpus d&#39;apprentissage des statistiques et les statistiques doivent avoir un format valides</span>
-<div class="viewcode-block" id="matches_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.matches_statistics">[docs]</a><span class="k">def</span> <span class="nf">matches_statistics</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+<div class="viewcode-block" id="matches_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.matches_statistics">[docs]</a><span class="k">def</span> <span class="nf">matches_statistics</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">underlining_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">boldness_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">font_family_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color_threshold</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">font_size_threshold</span> <span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if the given TextParser object matches the given text statistics or False if ut doesn&#39;t</span>
+
+<span class="sd">    :param tp: TextParser</span>
+<span class="sd">    :param statistics:</span>
+<span class="sd">    :param underlining_threshold:</span>
+<span class="sd">    :param boldness_threshold:</span>
+<span class="sd">    :param font_family_threshold:</span>
+<span class="sd">    :param color_threshold:</span>
+<span class="sd">    :param font_size_threshold:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># On considère qu&#39;un text_parser correspond aux statistiques si il est conforme à plus de la moitié de la mise en forme</span>
     <span class="n">tp_underlining_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;underlining&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">underlined</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
         <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;underlining&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">tp_underlining_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tp_underlining_ratio</span> <span class="o">&lt;</span> <span class="n">underlining_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">tp_boldness_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;boldness&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_weight</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
         <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;boldness&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">tp_boldness_ratio</span> <span class="o">&lt;</span> <span class="mf">0.9</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tp_boldness_ratio</span> <span class="o">&lt;</span> <span class="n">boldness_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">tp_font_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_family</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;fonts&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">tp_font_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tp_font_ratio</span> <span class="o">&lt;</span> <span class="n">font_family_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">color_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">color</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">color_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">color_ratio</span> <span class="o">&lt;</span> <span class="n">color_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">font_size_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;font-size&quot;</span><span class="p">][</span><span class="n">tp</span><span class="o">.</span><span class="n">font_size</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
         <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;font-size&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">font_size_ratio</span> <span class="o">&lt;</span> <span class="mf">0.3</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">font_size_ratio</span> <span class="o">&lt;</span> <span class="n">font_size_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <span class="c1"># Strings with different case</span>
 <div class="viewcode-block" id="get_case_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_case_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_case_emphasized_terms</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the words that have a different case than the average text.</span>
+
+<span class="sd">    :param text:</span>
+<span class="sd">    :param statistics:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">case_emphasized_terms</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">matches_case_statistics</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
@@ -190,6 +234,13 @@
 
 
 <div class="viewcode-block" id="matches_case_statistics"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.matches_case_statistics">[docs]</a><span class="k">def</span> <span class="nf">matches_case_statistics</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if the given text&#39;s characteristics matches average characteristics given by the statistics.</span>
+
+<span class="sd">    :param word: String</span>
+<span class="sd">    :param statistics: Dictionary</span>
+<span class="sd">    :return: Boolean</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">text_case_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;text-case&quot;</span><span class="p">][</span><span class="n">get_case</span><span class="p">(</span><span class="n">word</span><span class="p">)])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
         <span class="n">total_text_parser_count</span><span class="p">(</span><span class="n">statistics</span><span class="p">[</span><span class="s2">&quot;text-case&quot;</span><span class="p">]))</span>
     <span class="k">if</span> <span class="n">text_case_ratio</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -198,12 +249,24 @@
 
 
 <div class="viewcode-block" id="get_case"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_case">[docs]</a><span class="k">def</span> <span class="nf">get_case</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gives the case of the given word.</span>
+
+<span class="sd">    :param word: String</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
         <span class="k">return</span> <span class="s2">&quot;uppercase&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;default&quot;</span></div>
 
 
 <div class="viewcode-block" id="total_text_parser_count"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.total_text_parser_count">[docs]</a><span class="k">def</span> <span class="nf">total_text_parser_count</span><span class="p">(</span><span class="n">statistic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the |TextParser| object included in the given statistics.</span>
+
+<span class="sd">    :param statistic: dictionary</span>
+<span class="sd">    :return: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">statistic</span><span class="p">:</span>
         <span class="n">count</span> <span class="o">+=</span> <span class="n">statistic</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
@@ -211,6 +274,12 @@
 
 
 <div class="viewcode-block" id="get_emphasized_terms"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_emphasized_terms">[docs]</a><span class="k">def</span> <span class="nf">get_emphasized_terms</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of emphasized terms within the given |TextParser| objects.</span>
+
+<span class="sd">    :param list_of_text_parsers:</span>
+<span class="sd">    :return: list of Strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">statistics</span> <span class="o">=</span> <span class="n">get_text_statistics</span><span class="p">(</span><span class="n">list_of_text_parsers</span><span class="p">)</span>
     <span class="n">emphasized_terms</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tp</span> <span class="ow">in</span> <span class="n">list_of_text_parsers</span><span class="p">:</span>
@@ -222,10 +291,22 @@
 
 
 <div class="viewcode-block" id="get_urls"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_urls">[docs]</a><span class="k">def</span> <span class="nf">get_urls</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of the urls of the given text.</span>
+
+<span class="sd">    :param text: String</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;[http[s]?://]?(?:[a-zA-Z]|[0-9]|[$-_@.&amp;+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_slide_parser_type"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_slide_parser_type">[docs]</a><span class="k">def</span> <span class="nf">get_slide_parser_type</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a string with the matching slide type for the given |SlideParser| or &quot;notype&quot; if no type was found.</span>
+
+<span class="sd">    :param slide: |SlideParser|</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">get_title</span><span class="p">(</span><span class="n">slide</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;graphic&quot;</span>
     <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">layout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">slide</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">slide</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">pptx_object</span><span class="o">.</span><span class="n">slide_layouts</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
@@ -237,6 +318,12 @@
 
 
 <div class="viewcode-block" id="get_slide_type"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_slide_type">[docs]</a><span class="k">def</span> <span class="nf">get_slide_type</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a string with the matching slide type for the given slide or &quot;notype&quot; if no type was found.</span>
+
+<span class="sd">    :param slide:</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;graphic&quot;</span>
     <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">SlideTypes</span><span class="o">.</span><span class="n">LIST</span><span class="p">:</span>
@@ -246,10 +333,22 @@
 
 
 <div class="viewcode-block" id="get_named_entities"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_named_entities">[docs]</a><span class="k">def</span> <span class="nf">get_named_entities</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the list af the named entities of the given text.</span>
+
+<span class="sd">    :param text: string</span>
+<span class="sd">    :return: list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">get_continuous_chunks</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="get_title"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.get_title">[docs]</a><span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the title of a given slide, return &quot;Untitled&quot; if no title was found.</span>
+
+<span class="sd">    :param slide:</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">slide</span><span class="o">.</span><span class="n">title</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -258,31 +357,38 @@
                 <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="s2">&quot;Untitled&quot;</span></div>
 
-
-<div class="viewcode-block" id="group_slides_by_title"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.group_slides_by_title">[docs]</a><span class="k">def</span> <span class="nf">group_slides_by_title</span><span class="p">(</span><span class="n">section</span><span class="p">):</span>
-    <span class="c1"># We start by regrouping slides with similar titles</span>
-    <span class="n">current_section</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">new_tree</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">title_similarity</span><span class="p">(</span><span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
-            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">title_similarity</span><span class="p">(</span><span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">get_title</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
-            <span class="n">current_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
-            <span class="n">current_section</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">current_section</span><span class="p">))</span>
-            <span class="n">current_section</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">current_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">current_section</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">new_tree</span><span class="o">.</span><span class="n">subelements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">slides</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">new_tree</span></div>
-
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def group_slides_by_title(section):</span>
+<span class="sd">    # We start by regrouping slides with similar titles</span>
+<span class="sd">    current_section = None</span>
+<span class="sd">    new_tree = Section(section.title)</span>
+<span class="sd">    for i in range(1, len(section.slides)):</span>
+<span class="sd">        if current_section is not None and title_similarity(get_title(section.slides[i - 1]), get_title(section.slides[i])) &gt; 0.7:</span>
+<span class="sd">            current_section.subelements.append(section.slides[i])</span>
+<span class="sd">        elif current_section is None and title_similarity(get_title(section.slides[i - 1]), get_title(section.slides[i])) &gt; 0.7:</span>
+<span class="sd">            current_section = Section(section.slides[i - 1].title)</span>
+<span class="sd">            current_section.subelements.append(section.slides[i - 1])</span>
+<span class="sd">            current_section.subelements.append(section.slides[i])</span>
+<span class="sd">        elif current_section is not None:</span>
+<span class="sd">            new_tree.subelements.append(copy.copy(current_section))</span>
+<span class="sd">            current_section = None</span>
+<span class="sd">        else:</span>
+<span class="sd">            new_tree.subelements.append(section.slides[i - 1])</span>
+<span class="sd">    if current_section is not None:</span>
+<span class="sd">        new_tree.subelements.append(copy.copy(current_section))</span>
+<span class="sd">    else:</span>
+<span class="sd">        new_tree.subelements.append(section.slides[len(section.slides) - 1])</span>
+<span class="sd">    return new_tree</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="structure_extraction"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.structure_extraction">[docs]</a><span class="k">def</span> <span class="nf">structure_extraction</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">presentation_parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a structured |Section| object.</span>
+
+<span class="sd">    :param section:</span>
+<span class="sd">    :param presentation_parser:</span>
+<span class="sd">    :return: |Sectionbject|</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">slide_parser_list</span> <span class="o">=</span> <span class="n">presentation_parser</span><span class="o">.</span><span class="n">slides</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">subelements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">output_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">subelements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
@@ -324,6 +430,13 @@
 
 
 <div class="viewcode-block" id="title_similarity"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.title_similarity">[docs]</a><span class="k">def</span> <span class="nf">title_similarity</span><span class="p">(</span><span class="n">title_1</span><span class="p">,</span> <span class="n">title_2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a similarity index between two strings.</span>
+
+<span class="sd">    :param title_1:</span>
+<span class="sd">    :param title_2:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">str1</span> <span class="o">=</span> <span class="n">stopwords_removal</span><span class="p">(</span><span class="n">title_1</span><span class="p">,</span> <span class="s2">&quot;fr&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">str2</span> <span class="o">=</span> <span class="n">stopwords_removal</span><span class="p">(</span><span class="n">title_2</span><span class="p">,</span> <span class="s2">&quot;fr&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">str2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -334,16 +447,35 @@
 
 
 <div class="viewcode-block" id="is_section_header"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.is_section_header">[docs]</a><span class="k">def</span> <span class="nf">is_section_header</span><span class="p">(</span><span class="n">slide</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if the given side is a section header and false if it isn&#39;t.</span>
+
+<span class="sd">    :param slide:</span>
+<span class="sd">    :return: Boolean</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">slide</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;sectionheader&quot;</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">30</span> <span class="ow">and</span> <span class="n">slide</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;graphic&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="section_level"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.section_level">[docs]</a><span class="k">def</span> <span class="nf">section_level</span><span class="p">(</span><span class="n">slide_parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a string corresponding to the indentation level of the slide</span>
+
+<span class="sd">    :param slide_parser:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slide_parser</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">slide_parser</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">font_size</span>
     <span class="k">return</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="levenshtein"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.levenshtein">[docs]</a><span class="k">def</span> <span class="nf">levenshtein</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the levensthein distance between two strings</span>
+
+<span class="sd">    :param s1:</span>
+<span class="sd">    :param s2:</span>
+<span class="sd">    :return: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">levenshtein</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
 
@@ -366,6 +498,13 @@
 
 
 <div class="viewcode-block" id="stopwords_removal"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.stopwords_removal">[docs]</a><span class="k">def</span> <span class="nf">stopwords_removal</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes the stopwords of the string of the given language. If no stopwords dictionary exist for the given language, the function raises an exception.</span>
+
+<span class="sd">    :param string:</span>
+<span class="sd">    :param language: language of the given string</span>
+<span class="sd">    :return: String</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__location__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;/dict/&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__location__</span><span class="p">,</span> <span class="s2">&quot;sw_&quot;</span> <span class="o">+</span> <span class="n">language</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">);</span>
 
@@ -385,6 +524,12 @@
 
 
 <div class="viewcode-block" id="parse"><a class="viewcode-back" href="../../exide.html#exide.parser_utils.parse">[docs]</a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">presentation_parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse a |PresentationParser| object into a |Presentation| object.</span>
+
+<span class="sd">    :param presentation_parser: |PresentationParser| object</span>
+<span class="sd">    :return: |Presentation| object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># On créé la section racine qui va contenir tout les éléments : diapositives, autres sections</span>
     <span class="n">presentation_title</span> <span class="o">=</span> <span class="n">get_title</span><span class="p">(</span><span class="n">presentation_parser</span><span class="o">.</span><span class="n">slides</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">root_section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">()</span>
@@ -458,7 +603,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.odp_element_parsers.StyleParser &#8212; exipe2  documentation</title>
+    <title>exide.odp_element_parsers.StyleParser &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -58,6 +58,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">font_family</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the name of style&#39;s font family</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;fontspec&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span>
@@ -72,6 +77,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">font_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the style&#39;s font size.</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;fontspec&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
@@ -86,6 +96,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">font_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the style&#39;s font color.</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;fontspec&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
@@ -100,6 +115,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">font_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the style&#39;s font weight.</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;fontspec&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;weight&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
@@ -114,6 +134,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">underlined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the style&#39;s underlining.</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;fontspec&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;underline&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_style</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;underline&quot;</span><span class="p">]</span>
@@ -155,7 +180,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

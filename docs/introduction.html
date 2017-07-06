@@ -1,0 +1,204 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &#8212; exide  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exide package" href="exide.html" />
+    <link rel="prev" title="Welcome to exide’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Exide is an information extraction tool for presentation documents (ODP, PPTX, Beamer).</p>
+<p>Note : All the presentation files used in this tutorial are provided in the tests folder.</p>
+<div class="section" id="the-parse-function">
+<h2>The parse function<a class="headerlink" href="#the-parse-function" title="Permalink to this headline">¶</a></h2>
+<p>The parse function is the basis of the functioning of Exide : it returns a <a href="#id1"><span class="problematic" id="id2">|Presentation|</span></a> object that contains all the extracted and recognized data.</p>
+</div>
+<div class="section" id="a-simple-example">
+<h2>A simple example<a class="headerlink" href="#a-simple-example" title="Permalink to this headline">¶</a></h2>
+<p>The following code enables to print the recognized outline of a presentation file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">exide.parse</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">exide_presentation</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my_folder/presentation-test-sections.pptx&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">exide_presentation</span><span class="o">.</span><span class="n">outline</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Test</span> <span class="n">du</span> <span class="n">découpage</span>
+<span class="o">*</span> <span class="n">Test</span> <span class="n">du</span> <span class="n">découpage</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">1</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">Le</span> <span class="n">matériel</span> <span class="n">pour</span> <span class="n">le</span> <span class="n">découpage</span>
+  <span class="o">*</span> <span class="n">Le</span> <span class="n">matériel</span> <span class="n">pour</span> <span class="n">le</span> <span class="n">découpage</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">Les</span> <span class="n">ciseaux</span>
+  <span class="o">*</span> <span class="n">Les</span> <span class="n">ciseaux</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">La</span> <span class="n">scie</span>
+  <span class="o">*</span> <span class="n">La</span> <span class="n">scie</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">La</span> <span class="n">scie</span> <span class="n">circulaire</span>
+  <span class="o">*</span> <span class="n">La</span> <span class="n">scie</span> <span class="n">circulaire</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">Le</span> <span class="n">cutter</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+  <span class="o">*</span> <span class="n">Le</span> <span class="n">cutter</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">6</span><span class="p">]</span>
+  <span class="o">*</span> <span class="n">Le</span> <span class="n">cutter</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">Le</span> <span class="n">collage</span>
+  <span class="o">*</span> <span class="n">Le</span> <span class="n">collage</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">tube</span>
+  <span class="o">*</span> <span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">tube</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="o">-</span> <span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">pot</span>
+  <span class="o">*</span> <span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">pot</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="o">*</span> <span class="n">Le</span> <span class="n">ruban</span> <span class="n">adhésif</span> <span class="p">[</span><span class="n">sl</span><span class="o">.</span> <span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extracting-the-metadata">
+<h2>Extracting the metadata<a class="headerlink" href="#extracting-the-metadata" title="Permalink to this headline">¶</a></h2>
+<p>The following example shows you how to extract metadata from a presentation file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">exide.parse</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">exide_presentation</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my_folder/presentation-test-sections.pptx&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">exide_presentation</span><span class="o">.</span><span class="n">outline</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">presentation</span> <span class="s2">&quot;Test du découpage&quot;</span> <span class="n">was</span> <span class="n">created</span> <span class="n">by</span> <span class="n">Yanis</span> <span class="n">Ouakrim</span> <span class="n">on</span> <span class="n">the</span> <span class="mi">2017</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">31</span> <span class="mi">10</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">15</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-slide-titles">
+<h2>List slide titles<a class="headerlink" href="#list-slide-titles" title="Permalink to this headline">¶</a></h2>
+<p>The following code enables to print the titles of the presentation slides.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">exide.parse</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">exide_presentation</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my_folder/presentation-test-sections.pptx&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">slide</span> <span class="ow">in</span> <span class="n">exide_presentation</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">slides</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">slide</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">du</span> <span class="n">découpage</span>
+<span class="n">Le</span> <span class="n">matériel</span> <span class="n">pour</span> <span class="n">le</span> <span class="n">découpage</span>
+<span class="n">Les</span> <span class="n">ciseaux</span>
+<span class="n">La</span> <span class="n">scie</span>
+<span class="n">La</span> <span class="n">scie</span> <span class="n">circulaire</span>
+<span class="n">Le</span> <span class="n">cutter</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Le</span> <span class="n">cutter</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Le</span> <span class="n">collage</span>
+<span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">tube</span>
+<span class="n">La</span> <span class="n">colle</span> <span class="n">en</span> <span class="n">pot</span>
+<span class="n">Le</span> <span class="n">ruban</span> <span class="n">adhésif</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="more-features">
+<h2>More features<a class="headerlink" href="#more-features" title="Permalink to this headline">¶</a></h2>
+<p>To discover more features, please go through the <a href="#id3"><span class="problematic" id="id4">|Presentation|</span></a> class’ documentation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#the-parse-function">The parse function</a></li>
+<li><a class="reference internal" href="#a-simple-example">A simple example</a></li>
+<li><a class="reference internal" href="#extracting-the-metadata">Extracting the metadata</a></li>
+<li><a class="reference internal" href="#list-slide-titles">List slide titles</a></li>
+<li><a class="reference internal" href="#more-features">More features</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to exide’s documentation!</a></li>
+      <li>Next: <a href="exide.html" title="next chapter">exide package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Yanis Ouakrim.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/introduction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

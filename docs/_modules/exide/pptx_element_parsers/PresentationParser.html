@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.pptx_element_parsers.PresentationParser &#8212; exipe2  documentation</title>
+    <title>exide.pptx_element_parsers.PresentationParser &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -65,6 +65,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">slides</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_slides</span><span class="p">(</span><span class="n">pythonPPTXPresentationObject</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PresentationParser.parse_slides"><a class="viewcode-back" href="../../../exide.pptx_element_parsers.html#exide.pptx_element_parsers.PresentationParser.PresentationParser.parse_slides">[docs]</a>    <span class="k">def</span> <span class="nf">parse_slides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pythonPPTXPresentationObject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Create |SlideParser| object of each slide of the presentation.</span>
+
+<span class="sd">       :param XMLPresentationObject:</span>
+<span class="sd">       :return:</span>
+<span class="sd">       &quot;&quot;&quot;</span>
         <span class="n">slides</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">slide_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">slide</span> <span class="ow">in</span> <span class="n">pythonPPTXPresentationObject</span><span class="o">.</span><span class="n">slides</span><span class="p">:</span>
@@ -101,7 +107,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

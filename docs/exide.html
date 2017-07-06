@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide package &#8212; exipe2  documentation</title>
+    <title>exide package &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,7 +27,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="exide.datatypes package" href="exide.datatypes.html" />
-    <link rel="prev" title="Welcome to exipe2’s documentation!" href="index.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -74,7 +74,6 @@
 <li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.ShapeParser">exide.pptx_element_parsers.ShapeParser module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.SlideParser">exide.pptx_element_parsers.SlideParser module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.TextParser">exide.pptx_element_parsers.TextParser module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers.utils">exide.pptx_element_parsers.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exide.pptx_element_parsers.html#module-exide.pptx_element_parsers">Module contents</a></li>
 </ul>
 </li>
@@ -102,32 +101,113 @@ Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-
 <dl class="function">
 <dt id="exide.beamer_parser.get_emphasized_terms">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">get_emphasized_terms</code><span class="sig-paren">(</span><em>latex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#get_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.get_emphasized_terms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return emphasized terms of the given latex string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>latex</strong> – String</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of Strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.beamer_parser.get_frame_title">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">get_frame_title</code><span class="sig-paren">(</span><em>latex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#get_frame_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.get_frame_title" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Extract the title from slide tex source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>latex</strong> – string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.beamer_parser.parse_beamer">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_beamer</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_beamer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_beamer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Transform a beamer tex file into a <a href="#id1"><span class="problematic" id="id2">|Presentation|</span></a> object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>string</em>) – Path of the beamer file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a href="#id3"><span class="problematic" id="id4">|Presentation|</span></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.beamer_parser.parse_sections">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_sections</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_sections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_sections" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Parse sections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>latex</strong> – string</li>
+<li><strong>starting_index</strong> – int</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <a href="#id5"><span class="problematic" id="id6">|Section|</span></a> objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.beamer_parser.parse_slides">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_slides</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_slides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_slides" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Extract slides from tex file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>latex</strong> – </li>
+<li><strong>starting_index</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.beamer_parser.parse_subsections">
 <code class="descclassname">exide.beamer_parser.</code><code class="descname">parse_subsections</code><span class="sig-paren">(</span><em>latex</em>, <em>starting_index=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/beamer_parser.html#parse_subsections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.beamer_parser.parse_subsections" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Parse subsections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>latex</strong> – </li>
+<li><strong>starting_index</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <a href="#id7"><span class="problematic" id="id8">|Section|</span></a> objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-exide.exipe">
@@ -151,7 +231,18 @@ Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-
 <dl class="function">
 <dt id="exide.parse.parse">
 <code class="descclassname">exide.parse.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parse.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parse.parse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Transform a presentation file (PPTX, ODP or Beamer) into a <a href="#id9"><span class="problematic" id="id10">|Presentation|</span></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> – File path</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a href="#id11"><span class="problematic" id="id12">|Presentation|</span></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-exide.parser_utils">
@@ -159,117 +250,399 @@ Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-
 <dl class="function">
 <dt id="exide.parser_utils.get_case">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_case</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_case"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_case" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gives the case of the given word.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>word</strong> – String</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_case_emphasized_terms">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_case_emphasized_terms</code><span class="sig-paren">(</span><em>text</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_case_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_case_emphasized_terms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the words that have a different case than the average text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> – </li>
+<li><strong>statistics</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_continuous_chunks">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_continuous_chunks</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_continuous_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_continuous_chunks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the list of proper nouns of the given string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of proper nouns</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_emphasized_terms">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_emphasized_terms</code><span class="sig-paren">(</span><em>list_of_text_parsers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_emphasized_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_emphasized_terms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a list of emphasized terms within the given <a href="#id13"><span class="problematic" id="id14">|TextParser|</span></a> objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>list_of_text_parsers</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of Strings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_named_entities">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_named_entities</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_named_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_named_entities" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the list af the named entities of the given text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_slide_parser_type">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_slide_parser_type</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_slide_parser_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_slide_parser_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns a string with the matching slide type for the given <a href="#id15"><span class="problematic" id="id16">|SlideParser|</span></a> or “notype” if no type was found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slide</strong> – <a href="#id17"><span class="problematic" id="id18">|SlideParser|</span></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_slide_type">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_slide_type</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_slide_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_slide_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns a string with the matching slide type for the given slide or “notype” if no type was found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slide</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_text_statistics">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_text_statistics</code><span class="sig-paren">(</span><em>list_of_text_parsers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_text_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_text_statistics" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a dictionary of dictionaries each corresponding to a statistic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>list_of_text_parsers</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary of dictionaries</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_title">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_title</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_title" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the title of a given slide, return “Untitled” if no title was found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slide</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.get_urls">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">get_urls</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#get_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.get_urls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="exide.parser_utils.group_slides_by_title">
-<code class="descclassname">exide.parser_utils.</code><code class="descname">group_slides_by_title</code><span class="sig-paren">(</span><em>section</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#group_slides_by_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.group_slides_by_title" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a list of the urls of the given text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – String</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.is_section_header">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">is_section_header</code><span class="sig-paren">(</span><em>slide</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#is_section_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.is_section_header" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return True if the given side is a section header and false if it isn’t.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slide</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.levenshtein">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">levenshtein</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#levenshtein"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.levenshtein" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the levensthein distance between two strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s1</strong> – </li>
+<li><strong>s2</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.matches_case_statistics">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">matches_case_statistics</code><span class="sig-paren">(</span><em>word</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#matches_case_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.matches_case_statistics" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return True if the given text’s characteristics matches average characteristics given by the statistics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>word</strong> – String</li>
+<li><strong>statistics</strong> – Dictionary</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.matches_statistics">
-<code class="descclassname">exide.parser_utils.</code><code class="descname">matches_statistics</code><span class="sig-paren">(</span><em>tp</em>, <em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#matches_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.matches_statistics" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">exide.parser_utils.</code><code class="descname">matches_statistics</code><span class="sig-paren">(</span><em>tp</em>, <em>statistics</em>, <em>underlining_threshold=0.5</em>, <em>boldness_threshold=0.9</em>, <em>font_family_threshold=0.5</em>, <em>color_threshold=0.5</em>, <em>font_size_threshold=0.3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#matches_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.matches_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the given TextParser object matches the given text statistics or False if ut doesn’t</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tp</strong> – TextParser</li>
+<li><strong>statistics</strong> – </li>
+<li><strong>underlining_threshold</strong> – </li>
+<li><strong>boldness_threshold</strong> – </li>
+<li><strong>font_family_threshold</strong> – </li>
+<li><strong>color_threshold</strong> – </li>
+<li><strong>font_size_threshold</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.parse">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>presentation_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.parse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Parse a <a href="#id19"><span class="problematic" id="id20">|PresentationParser|</span></a> object into a <a href="#id21"><span class="problematic" id="id22">|Presentation|</span></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>presentation_parser</strong> – <a href="#id23"><span class="problematic" id="id24">|PresentationParser|</span></a> object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a href="#id25"><span class="problematic" id="id26">|Presentation|</span></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.relative_uncertainty">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">relative_uncertainty</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#relative_uncertainty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.relative_uncertainty" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the relative uncertainty between two numbers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> – </li>
+<li><strong>b</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">relative uncertainty between a and b</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.section_level">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">section_level</code><span class="sig-paren">(</span><em>slide_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#section_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.section_level" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a string corresponding to the indentation level of the slide</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slide_parser</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.statistics_noise_reduction">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">statistics_noise_reduction</code><span class="sig-paren">(</span><em>statistics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#statistics_noise_reduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.statistics_noise_reduction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a text statistic dictionary denoised (similar characteristics has been merged) [this function doesn’t work yet].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>statistics</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a text statistic dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.stopwords_removal">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">stopwords_removal</code><span class="sig-paren">(</span><em>string</em>, <em>language</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#stopwords_removal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.stopwords_removal" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes the stopwords of the string of the given language. If no stopwords dictionary exist for the given language, the function raises an exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>string</strong> – </li>
+<li><strong>language</strong> – language of the given string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">String</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.structure_extraction">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">structure_extraction</code><span class="sig-paren">(</span><em>section</em>, <em>presentation_parser</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#structure_extraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.structure_extraction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a structured <a href="#id27"><span class="problematic" id="id28">|Section|</span></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>section</strong> – </li>
+<li><strong>presentation_parser</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a href="#id29"><span class="problematic" id="id30">|Sectionbject|</span></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.title_similarity">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">title_similarity</code><span class="sig-paren">(</span><em>title_1</em>, <em>title_2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#title_similarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.title_similarity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a similarity index between two strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>title_1</strong> – </li>
+<li><strong>title_2</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="exide.parser_utils.total_text_parser_count">
 <code class="descclassname">exide.parser_utils.</code><code class="descname">total_text_parser_count</code><span class="sig-paren">(</span><em>statistic</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/parser_utils.html#total_text_parser_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.parser_utils.total_text_parser_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Count the <a href="#id31"><span class="problematic" id="id32">|TextParser|</span></a> object included in the given statistics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>statistic</strong> – dictionary</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-exide.pptx_parser">
@@ -319,7 +692,7 @@ Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to exipe2’s documentation!</a></li>
+      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
       <li>Next: <a href="exide.datatypes.html" title="next chapter">exide.datatypes package</a></li>
   </ul></li>
 </ul>
@@ -346,7 +719,7 @@ Credits : Gilles Bertrand <a class="reference external" href="http://www.gilles-
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

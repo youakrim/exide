@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.datatypes.Presentation &#8212; exipe2  documentation</title>
+    <title>exide.datatypes.Presentation &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -48,6 +48,20 @@
 
 
 <div class="viewcode-block" id="Presentation"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Presentation.Presentation">[docs]</a><span class="k">class</span> <span class="nc">Presentation</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A |Presentation| object has the following attributes :</span>
+<span class="sd">        - root_section (Section): Root of the elements (Slides and Sections) tree of the Presentation</span>
+<span class="sd">        - initial_format (String): gives the file format of the original file.</span>
+<span class="sd">        - title (String) : title of the presentation</span>
+<span class="sd">        - author (String): name of the author of the presentation</span>
+<span class="sd">        - category (String) : category of the presentation if filled</span>
+<span class="sd">        - comments (String) : comments of the presentation if filled</span>
+<span class="sd">        - keyword (list of strings) : keyword of the presentation if filled</span>
+<span class="sd">        - language (string): language of the presentation if filled</span>
+<span class="sd">        - created (string) : date of creation if filled</span>
+<span class="sd">        - last_modified (string): date of the last modification</span>
+<span class="sd">        - subject (string) : subject of the presentation if filled</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root_section</span> <span class="o">=</span> <span class="n">section</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -64,6 +78,7 @@
 <div class="viewcode-block" id="Presentation.get_slide_by_id"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Presentation.Presentation.get_slide_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_slide_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        The ID of a slide corresponds to its page number. The first slide of a presentation will have 1 as its ID.</span>
+
 <span class="sd">        :param id: slide number</span>
 <span class="sd">        :return: Slide -- if no slide matches the given id, None is returned</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -75,12 +90,18 @@
 <div class="viewcode-block" id="Presentation.export_to_JSON"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Presentation.Presentation.export_to_JSON">[docs]</a>    <span class="k">def</span> <span class="nf">export_to_JSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Serialize the presentation to a JSON string.</span>
+
 <span class="sd">        :return: str. -- JSON string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonpickle</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">outline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string of several lines giving the outline of the presentation</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_section</span><span class="o">.</span><span class="n">outline</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
@@ -114,7 +135,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

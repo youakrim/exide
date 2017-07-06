@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.odp_element_parsers.SlideParser &#8212; exipe2  documentation</title>
+    <title>exide.odp_element_parsers.SlideParser &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -59,9 +59,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SlideParser.get_style_by_id"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.SlideParser.SlideParser.get_style_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_style_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a |StyleParser| matching the given id.</span>
+
+<span class="sd">        :param style_id:</span>
+<span class="sd">        :return: |StyleParser| object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">presentation</span><span class="o">.</span><span class="n">get_style_by_id</span><span class="p">(</span><span class="n">style_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SlideParser.parseText"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.SlideParser.SlideParser.parseText">[docs]</a>    <span class="k">def</span> <span class="nf">parseText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XMLSlideObject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create |TextParser| object for each text of the given XML slide object.</span>
+
+<span class="sd">        :param XMLSlideObject: LXML slide object</span>
+<span class="sd">        :return: List of |TextParser| object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">text</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//draw:frame&quot;</span><span class="p">,</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//draw:frame[@presentation:class=&#39;title&#39;]&quot;</span><span class="p">,</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">nsmap</span><span class="p">):</span>
@@ -95,6 +107,12 @@
         <span class="k">return</span> <span class="n">text</span></div>
 
 <div class="viewcode-block" id="SlideParser.parseTitle"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.SlideParser.SlideParser.parseTitle">[docs]</a>    <span class="k">def</span> <span class="nf">parseTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XMLSlideObject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Look up for the XML title object within the given XML Slide Object and creates a list of |TextParser| objects for each text within the title.</span>
+
+<span class="sd">        :param XMLSlideObject:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">title</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># On cheche la zone de texte correspondant au titre de la diapositive</span>
         <span class="n">titleFrame</span> <span class="o">=</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//draw:frame[@presentation:class=&#39;title&#39;]&quot;</span><span class="p">,</span> <span class="n">XMLSlideObject</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span>
@@ -120,6 +138,12 @@
 
     <span class="c1"># On cherche à extraire les textes d&#39;un certain style</span>
 <div class="viewcode-block" id="SlideParser.getTextsByStyleId"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.SlideParser.SlideParser.getTextsByStyleId">[docs]</a>    <span class="k">def</span> <span class="nf">getTextsByStyleId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">styleID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of |TextParser| objects whose style matches the given style ID.</span>
+
+<span class="sd">        :param styleID: ID of a |StyleParser|</span>
+<span class="sd">        :return: List of |TextParser| objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># On parcourt les textes et pour chaque texte, on vérifie si il a le style recherché</span>
         <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_parsers</span><span class="p">:</span>
@@ -127,20 +151,13 @@
                 <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">texts</span></div>
 
-<div class="viewcode-block" id="SlideParser.mergeSameLineTexts"><a class="viewcode-back" href="../../../exide.odp_element_parsers.html#exide.odp_element_parsers.SlideParser.SlideParser.mergeSameLineTexts">[docs]</a>    <span class="k">def</span> <span class="nf">mergeSameLineTexts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">input_texts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_parsers</span>
-        <span class="n">output_text</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">input_texts</span><span class="p">:</span>
-            <span class="n">input_texts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">text2</span> <span class="ow">in</span> <span class="n">input_texts</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">top</span> <span class="o">==</span> <span class="n">text2</span><span class="o">.</span><span class="n">top</span> <span class="ow">and</span> <span class="n">text</span><span class="o">.</span><span class="n">style_id</span> <span class="o">==</span> <span class="n">text2</span><span class="o">.</span><span class="n">style_id</span><span class="p">:</span>
-                    <span class="n">input_texts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">text2</span><span class="p">)</span>
-                    <span class="n">text</span><span class="o">.</span><span class="n">text</span><span class="o">+=</span><span class="n">text2</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">output_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">output_text</span></div>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string containing all the body text of the slide.</span>
+
+<span class="sd">        :return: Strinf</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">tp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_parsers</span><span class="p">:</span>
             <span class="n">text</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">tp</span><span class="o">.</span><span class="n">text</span>
@@ -148,6 +165,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrun a string containing the title of the slide.</span>
+
+<span class="sd">        :return: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
             <span class="k">for</span> <span class="n">tp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">title_parsers</span><span class="p">:</span>
@@ -183,7 +205,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

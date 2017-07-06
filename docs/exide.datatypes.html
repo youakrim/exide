@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.datatypes package &#8212; exipe2  documentation</title>
+    <title>exide.datatypes package &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -53,25 +53,66 @@
 <dl class="class">
 <dt id="exide.datatypes.Presentation.Presentation">
 <em class="property">class </em><code class="descclassname">exide.datatypes.Presentation.</code><code class="descname">Presentation</code><span class="sig-paren">(</span><em>section=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><dl class="docutils">
+<dt>A <a href="#id1"><span class="problematic" id="id2">|Presentation|</span></a> object has the following attributes :</dt>
+<dd><ul class="first last simple">
+<li>root_section (Section): Root of the elements (Slides and Sections) tree of the Presentation</li>
+<li>initial_format (String): gives the file format of the original file.</li>
+<li>title (String) : title of the presentation</li>
+<li>author (String): name of the author of the presentation</li>
+<li>category (String) : category of the presentation if filled</li>
+<li>comments (String) : comments of the presentation if filled</li>
+<li>keyword (list of strings) : keyword of the presentation if filled</li>
+<li>language (string): language of the presentation if filled</li>
+<li>created (string) : date of creation if filled</li>
+<li>last_modified (string): date of the last modification</li>
+<li>subject (string) : subject of the presentation if filled</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
 <dt id="exide.datatypes.Presentation.Presentation.export_to_JSON">
 <code class="descname">export_to_JSON</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation.export_to_JSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.export_to_JSON" title="Permalink to this definition">¶</a></dt>
-<dd><p>Serialize the presentation to a JSON string.
-:return: str. – JSON string</p>
+<dd><p>Serialize the presentation to a JSON string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">str. – JSON string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="exide.datatypes.Presentation.Presentation.get_slide_by_id">
 <code class="descname">get_slide_by_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Presentation.html#Presentation.get_slide_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.get_slide_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ID of a slide corresponds to its page number. The first slide of a presentation will have 1 as its ID.
-:param id: slide number
-:return: Slide – if no slide matches the given id, None is returned</p>
+<dd><p>The ID of a slide corresponds to its page number. The first slide of a presentation will have 1 as its ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> – slide number</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Slide – if no slide matches the given id, None is returned</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="exide.datatypes.Presentation.Presentation.outline">
 <code class="descname">outline</code><a class="headerlink" href="#exide.datatypes.Presentation.Presentation.outline" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return a string of several lines giving the outline of the presentation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -81,7 +122,17 @@
 <dl class="class">
 <dt id="exide.datatypes.Section.Section">
 <em class="property">class </em><code class="descclassname">exide.datatypes.Section.</code><code class="descname">Section</code><span class="sig-paren">(</span><em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
+<dd><dl class="docutils">
+<dt>A Section object has the following attributes :</dt>
+<dd><ul class="first last simple">
+<li>subelements (list of Slide and Section objects): list of the element within the Section</li>
+<li>level (int) : depth of the Section in the presentation element tree</li>
+<li>toc_slide_id (int) : id of the table of content slide of the Section</li>
+<li>title (string): title of the Section</li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
 <dt id="exide.datatypes.Section.Section.emphasized_terms">
 <code class="descname">emphasized_terms</code><a class="headerlink" href="#exide.datatypes.Section.Section.emphasized_terms" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of the emphasized terms of the Section’s slides</p>
@@ -96,33 +147,61 @@
 <dl class="method">
 <dt id="exide.datatypes.Section.Section.get_slides_by_keyword">
 <code class="descname">get_slides_by_keyword</code><span class="sig-paren">(</span><em>keyword</em>, <em>search_title=True</em>, <em>search_body_text=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_by_keyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_by_keyword" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the list of <a href="#id1"><span class="problematic" id="id2">|Slide|</span></a> objects that contain a given keyword
-:param keyword: The word or string to look for.
-:param search_title: Indicates if the search should consider the title string or not
-:param search_body_text: Indicates if the search should consider the body text string or not
-:return: list of <a href="#id3"><span class="problematic" id="id4">|Slide|</span></a> objects</p>
+<dd><p>Returns the list of <a href="#id3"><span class="problematic" id="id4">|Slide|</span></a> objects that contain a given keyword</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>keyword</strong> – The word or string to look for.</li>
+<li><strong>search_title</strong> – Indicates if the search should consider the title string or not</li>
+<li><strong>search_body_text</strong> – Indicates if the search should consider the body text string or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <a href="#id5"><span class="problematic" id="id6">|Slide|</span></a> objects</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="exide.datatypes.Section.Section.get_slides_by_title">
 <code class="descname">get_slides_by_title</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_by_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_by_title" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the list of the slides whose title matches the given title
-:param title: The title string to look for
-:return: list of <a href="#id5"><span class="problematic" id="id6">|Slide|</span></a> objects</p>
+<dd><p>Returns the list of the slides whose title matches the given title</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> – The title string to look for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of <a href="#id7"><span class="problematic" id="id8">|Slide|</span></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="exide.datatypes.Section.Section.get_slides_of_type">
 <code class="descname">get_slides_of_type</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exide/datatypes/Section.html#Section.get_slides_of_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Section.Section.get_slides_of_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the list of the <a href="#id7"><span class="problematic" id="id8">|Slide|</span></a> objects of the given type
-:param type: str. – type of slides
-:return: list of <a href="#id9"><span class="problematic" id="id10">|Slide|</span></a> objects</p>
+<dd><p>Returns the list of the <a href="#id9"><span class="problematic" id="id10">|Slide|</span></a> objects of the given type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type</strong> – str. – type of slides</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of <a href="#id11"><span class="problematic" id="id12">|Slide|</span></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="exide.datatypes.Section.Section.id">
 <code class="descname">id</code><a class="headerlink" href="#exide.datatypes.Section.Section.id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <a href="#id11"><span class="problematic" id="id12">|id|</span></a> of the first <a href="#id13"><span class="problematic" id="id14">|Slide|</span></a> of the <a href="#id15"><span class="problematic" id="id16">|Section|</span></a></p>
+<dd><p>Return the <a href="#id13"><span class="problematic" id="id14">|id|</span></a> of the first <a href="#id15"><span class="problematic" id="id16">|Slide|</span></a> of the <a href="#id17"><span class="problematic" id="id18">|Section|</span></a></p>
 </dd></dl>
 
 <dl class="attribute">
@@ -169,7 +248,20 @@
 <dl class="class">
 <dt id="exide.datatypes.Slide.Slide">
 <em class="property">class </em><code class="descclassname">exide.datatypes.Slide.</code><code class="descname">Slide</code><a class="reference internal" href="_modules/exide/datatypes/Slide.html#Slide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exide.datatypes.Slide.Slide" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="docutils">
+<dt>A Slide object has the following attributes :</dt>
+<dd><ul class="first last simple">
+<li>title (String) : the slide’s title or “Untitled” if the slide has no title.</li>
+<li>text (String) : the slide’s body text</li>
+<li>type (String) : the slide’s type ot “notype” if the slide has no type.</li>
+<li>emphasized terms (list of strings) : the slide’s emphasized terms</li>
+<li>urls (list of strings) : the slide’s urls</li>
+<li>named_entities (list of strings): the slide’s named entities</li>
+<li>id (int) : slide’s number.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-exide.datatypes.SlideTypes">
@@ -261,7 +353,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

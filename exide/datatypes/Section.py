@@ -76,6 +76,8 @@ class Section:
         for element in self.subelements:
             if isinstance(element, Slide):
                 slides.append(element)
+            if isinstance(element, Section):
+                slides += element.slides
         return slides
 
     @property

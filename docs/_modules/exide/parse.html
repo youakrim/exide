@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.parse &#8212; exipe2  documentation</title>
+    <title>exide.parse &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -52,6 +52,12 @@
 
 
 <div class="viewcode-block" id="parse"><a class="viewcode-back" href="../../exide.html#exide.parse.parse">[docs]</a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a presentation file (PPTX, ODP or Beamer) into a |Presentation| object.</span>
+
+<span class="sd">    :param file: File path</span>
+<span class="sd">    :return: |Presentation| object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">file_extension</span> <span class="o">==</span> <span class="s2">&quot;.pptx&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">parse_pptx</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -91,7 +97,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>

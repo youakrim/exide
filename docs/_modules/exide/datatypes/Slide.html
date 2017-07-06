@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>exide.datatypes.Slide &#8212; exipe2  documentation</title>
+    <title>exide.datatypes.Slide &#8212; exide  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -47,6 +47,17 @@
 
 
 <div class="viewcode-block" id="Slide"><a class="viewcode-back" href="../../../exide.datatypes.html#exide.datatypes.Slide.Slide">[docs]</a><span class="k">class</span> <span class="nc">Slide</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Slide object has the following attributes :</span>
+<span class="sd">        - title (String) : the slide&#39;s title or &quot;Untitled&quot; if the slide has no title.</span>
+<span class="sd">        - text (String) : the slide&#39;s body text</span>
+<span class="sd">        - type (String) : the slide&#39;s type ot &quot;notype&quot; if the slide has no type.</span>
+<span class="sd">        - emphasized terms (list of strings) : the slide&#39;s emphasized terms</span>
+<span class="sd">        - urls (list of strings) : the slide&#39;s urls</span>
+<span class="sd">        - named_entities (list of strings): the slide&#39;s named entities</span>
+<span class="sd">        - id (int) : slide&#39;s number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -85,7 +96,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Yanis Ouakrim.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
