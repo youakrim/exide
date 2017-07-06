@@ -1,5 +1,17 @@
 setup module
 ============
+Download the repository, cd to the root of the exide package directory and then type the following :
+
+.. code-block:: bash
+
+  sudo su
+  pip install .
+  python
+  import nltk
+  nltk.download("all")
+
+then press enter. 
+Exide is now installed on your system.
 
 .. automodule:: setup
     :members:

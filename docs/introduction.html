@@ -46,10 +46,32 @@
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Exide is an information extraction tool for presentation documents (ODP, PPTX, Beamer).</p>
-<p>Note : All the presentation files used in this tutorial are provided in the tests folder.</p>
+<div class="section" id="implemented-features">
+<h2>Implemented features<a class="headerlink" href="#implemented-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Slide title extraction</li>
+<li>Slide body text extraction</li>
+<li>Named-entities recognition (unaccurate)</li>
+<li>Emphasized text recognition</li>
+<li>URLs recognition</li>
+<li>Structure detection and outline generation</li>
+<li>Recognition of the following silde types :<ul>
+<li>Introduction</li>
+<li>Conclusion</li>
+<li>Definition</li>
+<li>Example</li>
+<li>Table of contents</li>
+<li>References</li>
+<li>Section header</li>
+</ul>
+</li>
+</ul>
+<p>Note : slide types can be added by editing the datatypes/types file.</p>
+</div>
 <div class="section" id="the-parse-function">
 <h2>The parse function<a class="headerlink" href="#the-parse-function" title="Permalink to this headline">¶</a></h2>
 <p>The parse function is the basis of the functioning of Exide : it returns a <a href="#id1"><span class="problematic" id="id2">|Presentation|</span></a> object that contains all the extracted and recognized data.</p>
+<p>Note : All the presentation files used in this tutorial are provided in the tests folder.</p>
 </div>
 <div class="section" id="a-simple-example">
 <h2>A simple example<a class="headerlink" href="#a-simple-example" title="Permalink to this headline">¶</a></h2>
@@ -147,6 +169,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#implemented-features">Implemented features</a></li>
 <li><a class="reference internal" href="#the-parse-function">The parse function</a></li>
 <li><a class="reference internal" href="#a-simple-example">A simple example</a></li>
 <li><a class="reference internal" href="#extracting-the-metadata">Extracting the metadata</a></li>
