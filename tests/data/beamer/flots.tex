@@ -1,0 +1,769 @@
+%\documentclass[french,10pt,t]{beamer}
+\documentclass[french,10pt,t,handout]{beamer}
+
+%	\usepackage{xcolor}
+\definecolor{jaunePale}{rgb}{1,1,0.9}
+\colorlet{bleuPale}{blue!60!green!10}
+\colorlet{bleuTresPale}{blue!60!green!5}
+\definecolor{saumonClair}{rgb}{1,0.9,0.8}
+
+% caractéristiques générales du mode présentation : thème, couleurs...
+\mode<presentation> {
+%       \setbeamercolor{itemize subitem}[black]
+%  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+  \usetheme{Boadilla}  
+%  \usetheme{Warsaw} 
+%  \usefonttheme[onlysmall]{structurebold}
+  
+%  \usecolortheme{beaver}
+%  \usecolortheme{seahorse}
+%  \useinnertheme{default}
+%  \useoutertheme{so}
+  %\useoutertheme{infolines}
+  
+ % \setbeamertemplate{headline}{\vspace{0.1cm}}
+  
+  %pour enlever les symboles de navigation en pied de page
+  \setbeamertemplate{navigation symbols}{}
+  
+  
+% %  \setbeamertemplate{footline}[frame number]
+%   \setbeamertemplate{footline}{\hfill\color{black!50}{\begin{tabular}{c}
+% 	\insertframenumber\\[0.1cm]
+% 	\end{tabular} \hspace{0em}}\null}
+  
+%  \setbeamercolor{normal text}{bg=}
+
+%  \setbeamercolor{frametitle}{bg=red, fg=green}
+%  \setbeamercolor{section in head/foot}{bg=red, fg=green}
+%  \setbeamercolor{subsection in head/foot}{bg=red, fg=green}
+%  
+
+%   \setbeamercolor{block title}{bg=green!35!blue}
+%   \setbeamercolor{block body}{bg=bleuTresPale}
+%   \setbeamercolor{block body alerted}{bg=red!8}
+  
+  %\setbeamertemplate{itemize items}[square]
+  %\setbeamercolor{itemize subitem}{fg=orange}
+  %\setbeamercolor{itemize subsubitem}{fg=black}
+  
+  %\setbeamertemplate{enumerate items}[default]
+  %\setbeamercolor{enumerate subitem}{fg=orange}
+  %\setbeamercolor{enumerate subsubitem}{fg=black}
+  
+
+%  \usetheme{Warsaw}
+  % or ...
+
+%  \setbeamercovered{dynamic}
+  % or whatever (possibly just delete it)
+  
+%  \useoutertheme[footline=authortitle]{miniframes}
+%  \usecolortheme{orchid}
+%  \usecolortheme{whale}
+%  \usefonttheme{structurebold}
+  }
+
+% caractéristiques générales du mode impression
+%\mode<handout>{
+%       \usepackage{pgfpages}
+        
+%       \setbeamercolor{background canvas}{bg=black!=5}
+        % pour imprimer plusieurs transparents par page
+%       \pgfpagelayout{2 on 1}[a4paper, border shrink=5mm]      
+%}
+
+
+% packages
+\usepackage{pgf} 
+\usepackage{xmpmulti} 
+\usepackage[algoruled]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{url}
+
+\usepackage[frenchb]{babel}
+%\usepackage[latin1]{inputenc} %pour windows
+%\usepackage[applemac]{inputenc} %pour mac
+\usepackage{times}
+\usepackage[T1]{fontenc}
+%\usepackage{algorithm2e}%[ruled]
+%\usepackage[tbtags]{amsmath}
+
+\usepackage{ifthen}
+
+
+
+
+% pour augmenter l'espace entre les lignes des tableaux
+\renewcommand{\arraystretch}{1.3}
+
+% pour choisir l'épaisseur des lignes dans un tableau
+%%%% debut macro %%%%
+\makeatletter
+\def\hlinewd#1{%
+\noalign{\ifnum0=`}\fi\hrule \@height #1 %
+\futurelet\reserved@a\@xhline}
+\makeatother
+%%%% fin macro %%%%
+
+
+\setlength\itemsep{0pt plus1filll} 
+%\setlength\itemsep{0pt plus1fill} 
+
+
+% définition de couleurs
+\colorlet{darkgreen}{green!60!black}
+
+
+\newcommand{\structurebf}[1]{\structure{\textbf{#1}}}
+
+\newcommand{\colorbf}[2]{{\color{#1}\textbf{#2}}}
+\newcommand{\orangebf}[1]{\colorbf{orange}{#1}}
+\newcommand{\darkgreenbf}[1]{\colorbf{darkgreen}{#1}}
+
+\newcommand{\colorange}[1]{{\color{orange}#1}}
+\newcommand{\coldarkgreen}[1]{{\color{darkgreen}#1}}
+
+
+
+
+% pour inclure certaines parties seulement dans la version enseignant
+\newboolean{polyEnseignant}
+%\setboolean{polyEnseignant}{true}%version enseignant
+\setboolean{polyEnseignant}{false}%version étudiant
+
+
+%pour avoir 4 slides par page
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{4 on 1}[a4paper,landscape,border shrink=5mm]
+
+
+
+
+% infos pour la page de titre (surtout)
+\title[R\'esolution de probl\`emes]
+{Recherche op\'erationnelle et aide \`a la d\'ecision}
+\subtitle{2. Flot dans un r\'eseau de transport}
+
+\author[S. Quiniou]
+{Solen Quiniou\\ \texttt{\footnotesize solen.quiniou@univ-nantes.fr}}
+
+\institute[IUT de Nantes]
+{IUT de Nantes}
+
+\date[] % (optional, should be abbreviation of conference name)
+{Ann\'ee 2016-2017 -- Info 2 (Semestre 4)}
+
+%éventuel logo à afficher 
+%\pgfdeclareimage[height=0.3cm]{logoIUT}{figures/logoIUT-Q-GF}
+%\logo{\pgfuseimage{logoIUT}}
+
+
+
+
+% d\'ebut du document et des transparents
+\begin{document}
+
+% pour afficher le plan à chaque changement de section et sous-section
+\AtBeginSection[]{
+
+%  \begin{frame}[t]
+%    \frametitle{Plan du cours}
+%    \vspace{-0.3cm}
+% 
+%  	%\footnotesize
+% 
+% 	\begin{columns}[t]
+% 	  \begin{column}{0.47\textwidth}
+% 	  	\tableofcontents[sections={1-3}, currentsection, hideothersubsections]
+% 	  \end{column}
+% 	  \begin{column}{0.47\textwidth}
+% 	  	\vspace{-0.35cm}
+% 	  	\tableofcontents[sections={4-8}, currentsection, hideothersubsections]
+% 	  \end{column}
+% 	\end{columns}
+%  \end{frame}
+
+
+ \begin{frame}%<beamer>
+   \frametitle{Plan du cours}
+   \vspace{-0.3cm}
+ 	%\footnotesize
+
+   \tableofcontents[currentsection, hideothersubsections]
+ \end{frame}
+
+}% \AtBeginSection
+
+ 
+
+%%%%% page de titre %%%%%
+\begin{frame}[plain]
+  \titlepage
+  
+  \begin{center}
+	\includegraphics[height=1.5cm]{../Logos/Logo-INFO-GF}
+  \end{center}
+\end{frame}
+
+
+
+%%%%% plan de la présentation %%%%%
+
+%  \begin{frame}[t]
+%    \frametitle{Plan du cours}
+%    \vspace{-0.3cm}
+% 
+%  	%\footnotesize
+% 
+% 	\begin{columns}[t]
+% 	  \begin{column}{0.47\textwidth}
+% 	  	\tableofcontents[sections={1-3}, hideothersubsections]
+% 	  \end{column}
+% 	  \begin{column}{0.47\textwidth}
+% 	  	\vspace{-0.35cm}
+% 	  	\tableofcontents[sections={4-8}, hideothersubsections]
+% 	  \end{column}
+% 	\end{columns}
+%  \end{frame}
+
+
+ \begin{frame}[t]
+   \frametitle{Plan du cours}
+   \vspace{-0.3cm}
+ 	%\footnotesize
+
+   \tableofcontents[hideallsubsections]
+ \end{frame}
+
+
+
+
+%%%%% Introduction %%%%%
+
+\section{Introduction}
+
+\begin{frame} 
+	\frametitle{Introduction}
+%	\vspace{-0.3cm}
+	
+	\begin{itemize}
+		\item Les \textbf{r\'eseaux de transport} peuvent \^etre de natures vari\'ees :
+			\begin{itemize}
+				\item r\'eseau \'electrique ; 
+				\item r\'eseau routier ou ferroviaire, pour le transport de marchandises ;
+				\item r\'eseau de gaz ou d'hydrocarbures, pour le transport de mati\`eres ;
+				\item r\'eseau informatique, pour le transport de donn\'ees.
+			\end{itemize}
+	\end{itemize}
+
+	\vspace{1cm}
+	$\rightarrow$ La probl\'ematique \`a r\'esoudre est g\'en\'eralement la
+				  m\^eme : comment \structure{maximiser le flux traversant le r\'eseau},
+				  de son entr\'ee \`a sa sortie, \structure{sans exc\'eder la capacit\'e
+				  des canaux de transport}.
+\end{frame}
+
+
+
+%%%%% R\'eseau de transport %%%%%
+\section{R\'eseau de transport}
+
+\begin{frame}%[t]
+	\frametitle{R\'eseau de transport}
+	%\vspace{-0.2cm}
+	
+	\begin{block}{D\'efinition}
+ 		\begin{itemize}
+ 		  \item Un \textbf{r\'eseau de transport} est un graphe simple valu\'e positivement $G=(S,A,c)$
+ 		  qui comporte un unique sommet \emph{source}, $s \in S$, et un unique sommet \emph{puits},
+ 		  $p \in S \setminus \{s\}$.
+ 		  %\vspace{0.3cm}
+		  \item On appelle $c(u)$ la \textbf{capacit\'e maximale} de l'arc $u$.
+ 		\end{itemize}
+	\end{block}
+	
+	\begin{block}{Remarque}
+		Dans la pratique, on peut introduire l'\textbf{arc retour} fictif $(p,s)$ de capacit\'e infinie, cet arc 
+		ne faisant pas partie de $A$ dans la suite.
+	\end{block}
+	
+	\vfill
+	
+	\begin{exampleblock}{Exemples de repr\'esentation de probl\`emes par des flots}
+		\begin{itemize}
+		  \item $G$ peut repr\'esenter un \textbf{r\'eseau \'electrique}, dans lequel $c(u)$ donne l'amp\'erage maximal que
+		  peut supporter la composante \'electrique $u$ ;
+		  \item $G$ peut repr\'esenter le \textbf{r\'eseau de transport} de bus d'une agglom\'eration, dans lequel $c(u)$
+		  donne le nombre maximal de voyageurs que l'on peut transporter par heure\ldots
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+
+
+%%%%% Flot sur un r\'eseau %%%%%
+\section{Flot sur un r\'eseau}
+
+\begin{frame}
+	\frametitle{Flot sur un r\'eseau}
+	%\vspace{-0.2cm}
+
+	\begin{block}{D\'efinitions}
+		Soit $G=(S,A,c)$ un r\'eseau de transport. 
+		\begin{itemize}
+		  \item Un \textbf{flot}, $\varphi$, sur ce r\'eseau est une application de $A$
+		  dans $\mathbb{R}^+$ v\'erifiant :
+		  	\begin{itemize}
+		  		\item pour tout arc $u \in A$ : $0 \leq \varphi(u) \leq c(u)$
+		  		\item[$\rightarrow$] la \structure{capacit\'e r\'esiduelle} de l'arc $u$
+		  							 est d\'efinie par $\delta(u) = c(u) - \varphi(u)$ 
+		  		\item[]
+		  		\item pour tout sommet $x \in S$ : $\varphi^-(x) = \varphi^+(x)$
+			\end{itemize}
+		  \vspace{0.3cm}
+		  \item Le \textbf{flot entrant} d'un sommet $x$ est la somme des flots arrivant en $x$ et 
+		  est d\'efini par : $$\varphi^-(x) = \sum_{y \in \Gamma^-(x)}\varphi(y,x)$$
+		  \item Le \textbf{flot sortant} d'un sommet $x$ est la somme des flots partant de $x$ et 
+		  est d\'efini par : $$\varphi^+(x) = \sum_{y \in \Gamma^+(x)} \varphi(x,y)$$
+		\end{itemize}	
+	\end{block}
+	
+	%Par exemple, dans un r\'eseau \'electrique, le flot peut repr\'esenter
+	% l'\'electricit\'e qui traverse le r\'eseau.
+\end{frame}
+	
+	
+
+\begin{frame}[t]
+	\frametitle{Exemple}
+	\vspace{-0.8cm}
+
+	\begin{center}
+		\includegraphics[width=12cm]{figures/exempleReseauFlot}
+	\end{center}
+	
+	\begin{itemize}
+	  \item Sur chaque arc $u$, la premi\`ere valeur correspond \`a la valeur du
+	  flot sur cet arc, $\varphi(u)$, et la deuxi\`eme valeur (entre crochets) \`a
+	  sa capacit\'e, $c(u)$.
+	  \item La valeur du flot est \'egale \`a celle sur l'arc retour, soit
+	  $\varphi(p, s) = 10$.
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	Dans les probl\`emes pos\'es, on cherche plus particuli\`erement \`a trouver un
+	\textbf{flot de capacit\'e maximale}.
+\end{frame}
+
+
+
+%%%%% Recherche de flot de valeur maximale %%%%%
+\section{Recherche de flot de valeur maximale}
+
+% \begin{frame}
+% 	\frametitle{Coupe sur un r\'eseau}
+% 	%\vspace{-0.2cm}
+% 	
+% 	\begin{block}{D\'efinitions}
+% 	Soit $G=(S,A,c)$ un r\'eseau de transport.
+% 		\begin{itemize}
+% 		  \item Une \textbf{coupe} $C=(T,\bar{T})$ dans $G$ est une partition des sommets de $G$
+% 		  en deux sous-ensembles $T$ et $\bar{T}$ tel que $T$ contient $s$ et $\bar{T}$ contient $p$.
+% 		  %\vspace{0.3cm}
+% 		  \item La \textbf{capacit\'e d'une coupe} $C=(T,\bar{T})$ est \'egale \`a
+% la somme des valeurs des 		  arcs ayant leur origine dans $T$ et leur extr\'emit\'e finale dans $\bar{T}$.
+% 		\end{itemize}
+% 	\end{block}
+% 	
+% 	\vfill 
+% 	
+% 	\begin{block}{Th\'eor\`eme}
+% 		La valeur maximale d'un flot quelconque (de $s$ \`a $p$) dans un r\'eseau
+% $G$ est toujours 		inf\'erieure ou \'egale \`a la capacit\'e de toute coupe
+% dans $G$.
+%  	\end{block}
+% 	
+% 	\begin{block}{Th\'eor\`eme (Ford-Fulkerson)}
+% 		La valeur maximale d'un flot quelconque de $s$ \`a $p$ est \'egale \`a la
+% capacit\'e d'une coupe 		de capacit\'e minimale.
+%  	\end{block}
+% \end{frame}
+
+
+% \begin{frame}[t]
+% 	\frametitle{Exemple}
+% 	\vspace{-0.4cm}
+% 	
+% 	\begin{center}
+% 		\includegraphics[width=12cm]{figures/exempleReseauCoupe-enseignant}
+% 	\end{center}
+% 		
+% 	\begin{itemize}
+% 	  \item \structure{Capacit\'e de cette coupe} : \ifthenelse{\boolean{polyEnseignant}}{1 + 5 + 3 + 2 + 1 = 12.}{}
+% 	  \item[]
+% 	\end{itemize}
+% 	
+% 	\structure{Remarque} : tout chemin de $s$ \`a $p$ passe par un des arcs en
+% rouge.
+% \end{frame}
+
+
+\begin{frame}%[t]
+	\frametitle{Flots complets et flots maximaux}
+	%\vspace{-0.2cm}
+	
+ 	\begin{block}{D\'efinitions}
+	Soit $G=(S,A,c)$ un r\'eseau de transport et $\varphi$ un flot sur ce r\'eseau.
+		\begin{itemize}
+		  \item Un arc $u \in A$ est dit \textbf{satur\'e} si $\varphi(u) = c(u)$.
+		  %\vspace{0.3cm}
+		  \item Un flot est dit \textbf{complet} si tout chemin de $s$ \`a $p$ passe
+		  par au moins un arc satur\'e.
+		  \item Un \textbf{chemin augmentant} est un chemin de $s$ \`a $p$ qui ne
+		  passe que par des arcs non satur\'es.
+		  \item Une \textbf{cha\^ine augmentante} est une cha\^ine de $s$ \`a $p$ dont les
+		  arcs $u$ v\'erifient :
+		  	\begin{itemize}
+		  	  \item $\varphi(u) < c(u)$ si l'arc est orient\'e dans le sens $s \to p$ ;
+		  	  \item $\varphi > 0$ si l'arc est orient\'e dans le sens $s \gets p$.
+		  	\end{itemize}
+		\end{itemize}
+ 	\end{block}
+ 	
+ 	\vfill 
+
+	\begin{block}{Th\'eor\`eme}
+		Un flot est alors
+		\begin{itemize}
+		  \item \textbf{complet} s'il n'admet pas de chemin augmentant ;
+		  \item \textbf{maximal} s'il n'admet pas de cha\^ine augmentante.
+		\end{itemize}
+ 	\end{block}
+\end{frame}
+
+
+\begin{frame}%[t]
+	\frametitle{Algorithme de Ford-Fulkerson (1)}
+	\vspace{-0.2cm}
+	
+	\begin{block}{Premi\`ere \'etape de l'algorithme : recherche d'un flot complet}
+		La \textbf{premi\`ere \'etape} consiste \`a d\'eterminer un \textbf{flot
+		complet}, c'est-\`a-dire un flot tel que tout chemin de $s$ \`a $p$ comporte
+		au moins un arc satur\'e. \\
+		Pour en d\'eterminer un, il suffit de se donner un flot quelconque (le flot nul si besoin),
+		$\varphi_0$, et d'appliquer l'algorithme suivant :
+		\small
+		\begin{enumerate}
+		  \item $k = 1$ ;
+		  \item Recherche d'un \structure{chemin augmentant} de $s$ \`a $p$ dans
+		  		$G$ : %, en partant, par exemple, des chemins les plus bas (m\'ethode
+		  		%bas-haut) ;
+		  		\begin{itemize}
+		  			\item[$\rightarrow$] Si ce chemin n'existe pas, c'est que le 
+		  					   			 flot $\varphi_{k-1}$ est complet et 
+		  					   			 l'algorithme est termin\'e ; 
+		  					   			 sinon, on passe \`a l'\'etape 3 ;
+		  		\end{itemize}
+		  \item Mise \`a jour du \structure{flot courant, $\varphi_k$,} \`a partir du
+		  chemin augmentant choisi :
+		  \item[] Si $s,x_1,x_2,\ldots,p$ est le chemin augmentant choisi, de $s$ \`a
+		  		  $p$, on pose :
+		  	$$\varepsilon_k = \min_{0\leq i \leq n-1} \{\delta(x_i,x_{i+1})\} 
+		  					= \min_{0\leq i \leq n-1} \{c(x_i,x_{i+1}) - \varphi(x_i,x_{i+1})\}$$ 
+		  	 et il est s\^ur que $\varepsilon_k > 0$ puisqu'aucun arc de ce chemin
+		  	 n'est satur\'e ;
+			\begin{itemize}
+			  \item[$\rightarrow$] La valeur du flot est alors $\varphi_k = \varphi_{k-1} + \varepsilon_k$ 
+			  					   (au moins un arc de $A_k$ est satur\'e) ;
+			  \item[$\rightarrow$] On augmente de $\varepsilon_k$ le flot de chaque arc
+			  					   du chemin augmentant ;
+			\end{itemize}
+		  \item $k = k+1$ et on retourne \`a l'\'etape 2.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}[c]
+	\frametitle{Exemple : recherche d'un flot complet (1) - flot initial}
+	%\vspace{-0.5cm}
+
+	\begin{center}
+		\includegraphics[width=13cm]{figures/reseauFlotInitial}
+	\end{center}
+\end{frame}
+	
+	
+\begin{frame}
+	\frametitle{Exemple : recherche d'un flot complet (2)}
+	%\vspace{-0.5cm}
+
+	\ifthenelse{\boolean{polyEnseignant}}{		
+		\begin{enumerate}
+		  \item \structure{Flot initial nul :} $\varphi_0 = 0$ 
+		  \item \structure{Chemin augmentant} : $s \overset{+6}{\longrightarrow} 4 \overset{+2}{\longrightarrow} 5
+	  											 \overset{+10}{\longrightarrow} 8 \overset{+7}{\longrightarrow} p$
+		  	\begin{itemize}
+		  	  \item $\varepsilon_1 = \min (6, 2, 10, 7) = 2$ 
+		  	  \item $\varphi_1 = \varphi_0 + \varepsilon_1 = 0 + 2 = 2 \rightarrow $ arc $(4,5)$ satur\'e
+		  	\end{itemize} 
+		  \item \structure{Chemin augmentant :} $s \overset{+4}{\longrightarrow} 4 \overset{+6}{\longrightarrow} 6
+	  											 \overset{+8}{\longrightarrow} 9 \overset{+15}{\longrightarrow} p$
+		  	\begin{itemize}
+		  	  \item $\varepsilon_2 = \min (4, 6, 8, 15) = 4$ 
+		  	  \item $\varphi_2 = 2 + 4 = 6 \rightarrow $ arc $(s,4)$ satur\'e
+		  	\end{itemize} 
+		  \item \structure{Chemin augmentant :} $s \overset{+4}{\longrightarrow} 2 \overset{+3}{\longrightarrow} 5
+	  											 \overset{+8}{\longrightarrow} 8 \overset{+5}{\longrightarrow} p$
+		  	\begin{itemize}
+		  	  \item $\varepsilon_3 = \min (4, 3, 8, 5) = 3$ 
+		  	  \item $\varphi_3 = 6 + 3 = 9 \rightarrow $ arc $(2,5)$ satur\'e
+		  	\end{itemize}
+		  \item \structure{Chemin augmentant :} $s \overset{+5}{\longrightarrow} 3 \overset{+5}{\longrightarrow} 6
+	  											 \overset{+4}{\longrightarrow} 9 \overset{+11}{\longrightarrow} p$
+		  	\begin{itemize}
+		  	  \item $\varepsilon_4 = \min (5, 5, 4, 11) = 4$ 
+		  	  \item $\varphi_4 = 9 + 4 = 13 \rightarrow $ arcs $(6,9)$ satur\'e
+		  	\end{itemize}
+		  \item[]	
+		  \item[$\rightarrow$] Il n'y a plus d'autre chemin augmentant : le flot $\varphi_4$ est complet.
+		\end{enumerate}
+	}{
+		\begin{enumerate}
+		  \item \structure{Flot initial :} $\varphi_0 = $
+		  \item[]
+		  \item \structure{Chemin augmentant :}  
+		  \item[]
+		  \item[]
+		  \item \structure{Chemin augmentant :}  
+		  \item[]
+		  \item[]
+		  \item \structure{Chemin augmentant :}  
+		  \item[]
+		  \item[]
+		  \item \structure{Chemin augmentant :}  
+		  \item[]
+		  \item[]
+		\end{enumerate}	
+	}
+\end{frame}
+
+
+\begin{frame}[c]
+	\frametitle{Exemple : recherche d'un flot complet (3) - flot complet}
+	%\vspace{-0.5cm}
+
+	\begin{center}
+		\ifthenelse{\boolean{polyEnseignant}}{
+			\includegraphics[width=13cm]{figures/reseauFlotComplet}
+		}{
+			\includegraphics[width=13cm]{figures/reseauFlotInitial}
+		}
+	\end{center}
+\end{frame}
+	
+
+
+\begin{frame}%[t]
+	\frametitle{Algorithme de Ford-Fulkerson (2)}
+	%\vspace{-0.2cm}
+
+	\begin{block}{Deuxi\`eme \'etape de l'algorithme : recherche d'un flot maximal}
+		La \textbf{deuxi\`eme \'etape} consiste \`a obtenir un \textbf{flot maximal}
+		\`a partir d'un flot complet qui est peut-\^etre d\'ej\`a maximal, en
+		appliquant l'algorithme suivant :
+		\small
+		\begin{enumerate}
+		  \item $k = 1$ ;
+		  \item Recherche d'une \structure{cha\^ine augmentante} de $s$ \`a $p$ dans
+		  $G$ :
+		  	\begin{itemize}
+		  		\item[$\rightarrow$] Si cette cha\^ine n'existe pas, c'est que le flot
+		  		$\varphi_k$ est maximal et l'algorithme est termin\'e ; 
+		  		sinon, on passe \`a l'\'etape 3 ;
+		  	\end{itemize}
+		  \item Mise \`a jour du \structure{flot courant, $\varphi_k$,} \`a partir de
+		  		la cha\^ine augmentante choisie :
+		  \item[] Comme pr\'ec\'edemment, on d\'etermine $\varepsilon_k$, la plus petite valuation des arcs de cette cha\^ine,
+		  		et il est s\^ur que $\varepsilon_k > 0$ ;
+		  	\begin{itemize}
+		  	  	\item[$\rightarrow$] La valeur du flot dans le r\'eseau est maintenant
+		  	  						$\varphi_k = \varphi_{k-1} + \varepsilon_k$ ;
+		  		\item[$\rightarrow$] Pour chaque arc $(i,j)$ dans le bon sens du chemin
+		  							correspondant \`a la cha\^ine, on augmente le flot de l'arc $(i,j)$
+		  							du r\'eseau de $\varepsilon_k$ ;
+		  		\item[$\rightarrow$] Pour chaque arc $(j,i)$ dans le mauvais sens du
+		  							chemin, on diminue le flot de l'arc $(i,j)$ du r\'eseau de
+		  							$\varepsilon_k$ ;
+		  	\end{itemize}		  
+		  \item $k = k+1$ et on retourne \`a l'\'etape 2.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Exemple : recherche d'un flot maximal}
+	%\vspace{-0.5cm}
+			
+	\ifthenelse{\boolean{polyEnseignant}}{	
+		\begin{enumerate}
+		  \item \structure{Cha\^ine augmentante} : $s \overset{+1}{\longrightarrow} 3 \overset{+1}{\longrightarrow} 6
+	  											 \overset{-4}{\longleftarrow} 4 \overset{+3}{\longrightarrow} 7 
+	  											 \overset{+8}{\longrightarrow} 9 \overset{+7}{\longrightarrow} p$
+		  	\begin{itemize}
+		  	  \item $\varepsilon_5 = \min (1,1,4,3,8,7) = 1$ 
+		  	  \item $\varphi_5 = \varphi_4 + \varepsilon_5 = 14 \rightarrow $ arcs $(s,3)$ et $(3,6)$ satur\'es
+		  	\end{itemize} 
+		  \item[]
+		  \item[$\rightarrow$] Il n'y a plus d'autre cha\^ine augmentante : le flot $\varphi_5$ est maximal.
+		\end{enumerate}
+	}{
+		\begin{enumerate}
+		  \item \structure{Cha\^ine augmentante} : 
+		  \item[]
+		  \item[]
+		  \item[]
+		  \item[]
+		\end{enumerate}	
+	}
+
+	\vfill	
+	\begin{center}
+		\ifthenelse{\boolean{polyEnseignant}}{
+			\includegraphics[width=12cm]{figures/reseauFlotMaximal}
+		}{
+			\includegraphics[width=12cm]{figures/reseauFlotInitial}
+		}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Commentaires sur la recherche de flots maximaux}
+	
+	\begin{itemize}
+% 	  \item Une \emph{coupe minimale} est en fait un ensemble de sommets tel que
+% 	  		\begin{itemize}
+% 	  		  \item le flot est nul sur les arcs entrants de la coupe ;
+% 	  		  \item les arcs sortants de la coupe sont satur\'es.
+% 	  		\end{itemize}
+% 	  \item[]
+	  \item Pour choisir le chemin augmentant (ou la cha\^ine augmentante), on peut utiliser la
+	  		\structure{m\'ethode \og{}bas en haut\fg{}}, \`a chaque \'etape de
+	  		l'algorithme :
+	  		\begin{itemize}
+	  		  \item On consid\`ere le chemin augmentant partant de la source du
+	  		  r\'eseau et empruntant, en chaque sommet, l'arc disponible le plus bas
+	  		  sur le r\'eseau.
+	  		  \item[$\rightarrow$] On peut appliquer le m\^eme raisonnement pour le
+	  		  choix des cha\^ines augmentantes.
+	  		\end{itemize}
+	  \item[]		
+	  \item De mani\`ere similaire, on peut utiliser la \structure{m\'ethode
+	  		\og{}haut en bas\fg{}}, en choisissant l'arc disponible le plus haut sur le
+	  		r\'eseau, \`a chaque \'etape.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Exercice 1 : flot de capacit\'e maximale}
+	\vspace{-0.5cm}
+	
+	\begin{center}
+   		\includegraphics[height=5.5cm]{figures/reseauRechercheFlot1} 
+	\end{center}
+	\vspace{-0.5cm}
+	
+	\begin{exampleblock}{Question}
+		\begin{enumerate}
+			\item Dans le r\'eseau ci-dessus, d\'eterminez un \structure{flot de
+				  capacit\'e maximale} entre les sommets $s$ et $p$, en utilisant
+				  l'algorithme de Ford-Fulkerson.
+			\item[$\rightarrow$] Pour choisir le chemin augmentant ou la cha\^ine
+								 augmentante \`a chaque it\'eration, on utilisera la m\'ethode \og{}bas
+								 en haut\fg{} qui consiste \`a toujours choisir l'arc disponible le plus
+								 bas sur le graphe.
+		\end{enumerate}
+	\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Exercice 2 : flot de capacit\'e maximale}
+	\vspace{-0.5cm}
+	
+	\begin{center}
+   		\includegraphics[height=4cm]{figures/reseauRechercheFlot2} 
+	\end{center}
+	\vspace{-0.5cm}
+	
+	\begin{exampleblock}{Question}
+		\begin{enumerate}
+			\item Dans le r\'eseau ci-dessus, d\'eterminez un \structure{flot de
+				  capacit\'e maximale} entre les sommets $s$ et $p$, en utilisant
+				  l'algorithme de Ford-Fulkerson.
+			\item[$\rightarrow$] Pour choisir le chemin augmentant ou la cha\^ine
+								 augmentante \`a chaque it\'eration, on utilisera la m\'ethode \og{}haut
+								 en bas\fg{}.
+		\end{enumerate}
+	\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Exercice 3 : transmission de donn\'ees}
+	\vspace{-1cm}
+	
+	\begin{center}
+   		\includegraphics[height=4.3cm]{figures/reseauTransmissionDonnees} 
+	\end{center}
+	\vspace{-0.5cm}
+	
+	\begin{itemize}
+	  	\item Un serveur $S$ souhaite envoyer des donn\'ees \`a un client $P$. On
+	  		  suppose que les deux postes sont connect\'es par le r\'eseau
+	  		  donn\'e ci-dessus.
+		\item Les valuations des arcs repr\'esentent un d\'ebit en Mo/s. Les sommets
+			  sont des routeurs.
+			  On suppose qu'un routeur est capable de recevoir plusieurs parties d'un
+			  m\^eme message par des voisins diff\'erents et de les red\'ecouper pour
+			  l'envoyer \`a plusieurs voisins \`a la fois.
+	\end{itemize}
+	
+	\begin{exampleblock}{Question}
+		\begin{enumerate}
+			\item Quelle \structure{quantit\'e d'information} peut circuler de $s$ \`a
+				  $p$ en une seconde ?
+			%\item[$\rightarrow$] Pour choisir le chemin augmentant ou la cha\^ine
+			%					 augmentante \`a chaque it\'eration, on utilisera la m\'ethode \og{}bas
+			%					 en haut\fg{} qui consiste \`a toujours choisir l'arc disponible le
+			%					 % plus bas sur le graphe.
+		\end{enumerate}
+	\end{exampleblock}
+
+\end{frame}
+
+
+
+%%%%% Conclusion %%%%%
+
+% \section{Conclusion}
+% 
+% \begin{frame}
+% 	\frametitle{Conclusion}
+% %	\vspace{-0.3cm}
+% 	
+% 	\begin{itemize}
+% 		\item 
+% 	\end{itemize}
+% \end{frame}
+
+
+
+\end{document}
+	

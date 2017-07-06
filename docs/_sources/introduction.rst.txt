@@ -1,0 +1,99 @@
+Introduction
+============
+Exide is an information extraction tool for presentation documents (ODP, PPTX, Beamer).
+
+Note : All the presentation files used in this tutorial are provided in the tests folder.
+
+The parse function
+-----------------
+
+The parse function is the basis of the functioning of Exide : it returns a |Presentation| object that contains all the extracted and recognized data.
+
+A simple example
+----------------
+The following code enables to print the recognized outline of a presentation file (ODP, PPTX or Tex).
+
+.. code-block:: python
+
+  from exide.parse import parse
+
+  exide_presentation = parse("my_folder/presentation-test-sections.pptx")
+  print(exide_presentation.outline)
+
+The result is the following::
+
+  - Test du découpage
+  * Test du découpage [sl. 1]
+  - Le matériel pour le découpage
+    * Le matériel pour le découpage [sl. 2]
+
+  - Les ciseaux
+    * Les ciseaux [sl. 3]
+
+  - La scie
+    * La scie [sl. 4]
+
+  - La scie circulaire
+    * La scie circulaire [sl. 5]
+
+  - Le cutter (1/2)
+    * Le cutter (1/2) [sl. 6]
+    * Le cutter (2/2) [sl. 7]
+
+  - Le collage
+    * Le collage [sl. 8]
+
+  - La colle en tube
+    * La colle en tube [sl. 9]
+
+  - La colle en pot
+    * La colle en pot [sl. 10]
+
+  * Le ruban adhésif [sl. 11]
+
+Extracting the metadata
+-----------------------
+The following example shows you how to extract metadata from a presentation file:
+
+.. code-block:: python
+
+  from exide.parse import parse
+
+  exide_presentation = parse("my_folder/presentation-test-sections.pptx")
+  print(exide_presentation.outline)
+
+The result is the following::
+
+    The presentation "Test du découpage" was created by Yanis Ouakrim on the 2017-05-31 10:00:15
+
+List slide titles
+-----------------
+The following code enables to print the titles of the presentation slides.
+
+.. code-block:: python
+
+  from exide.parse import parse
+
+  exide_presentation = parse("my_folder/presentation-test-sections.pptx")
+
+  for slide in exide_presentation.root_section.slides:
+    print(slide.title)
+
+The result is the following::
+
+  Test du découpage
+  Le matériel pour le découpage
+  Les ciseaux
+  La scie
+  La scie circulaire
+  Le cutter (1/2)
+  Le cutter (2/2)
+  Le collage
+  La colle en tube
+  La colle en pot
+  Le ruban adhésif
+
+More features
+-------------
+
+To discover more features, please go through the exide.datatypes.Presentation class' documentation.

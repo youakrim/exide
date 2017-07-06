@@ -5,7 +5,7 @@
 
 Welcome to exide's documentation!
 =================================
-The following code enables to print the titles of the presentation slides.
+Exide is an information extraction tool for presentation documents (ODP, PPTX, Beamer).
 
 .. toctree::
    :maxdepth: 4
