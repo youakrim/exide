@@ -313,8 +313,11 @@ def get_title(slide):
                 return line.replace('\t', '')
     return "Untitled"
 
-"""
+
 def group_slides_by_title(section):
+    """
+    Group slides that have similar title
+    """
     # We start by regrouping slides with similar titles
     current_section = None
     new_tree = Section(section.title)
@@ -335,7 +338,7 @@ def group_slides_by_title(section):
     else:
         new_tree.subelements.append(section.slides[len(section.slides) - 1])
     return new_tree
-"""
+
 
 def structure_extraction(section, presentation_parser):
     """

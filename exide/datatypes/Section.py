@@ -18,6 +18,7 @@ class Section:
         self.type = "section"
         self.title = title
 
+    @property
     def first_slide_title(self):
         """
             Title of the fist slide of the section, returns None if the Section has no slide
