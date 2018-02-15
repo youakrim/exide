@@ -5,7 +5,7 @@ Exide is a Python API for information extraction from presentation documents.
 The API is currently in developement and bugs are likely to occur.
 
 ### Install exide
-Download the repository, cd to the root of the exide package directory and then type the following : 
+Download the repository, cd to the root of the exide package directory and then type the following: 
 ```bash
 sudo su
 pip install .
